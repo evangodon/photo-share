@@ -1,0 +1,32 @@
+{
+  "name": "nextjs-template",
+  "version": "1.0.0",
+  "description": "Template used for build a nextjs application",
+  "main": "index.js",
+  "author": "Evan Godon",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "test": "jest --watchAll",
+    "start": "next start",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "next": "^9.0.6",
+    "polished": "^3.4.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-feather": "^2.0.3",
+    "styled-components": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "@types/react": "^16.9.2",
+    "@types/styled-components": "^4.1.19",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-styled-components": "^1.10.6",
+    "typescript": "^3.6.3"
+  }
+}

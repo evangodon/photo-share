@@ -1,0 +1,9 @@
+node_modules/
+artifacts/
+.netlify/
+dist/
+tmp/
+yarn-error.log
+todo.md
+.next/
+out/
