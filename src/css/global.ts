@@ -14,7 +14,8 @@ const GlobalStyle = createGlobalStyle`
   } 
 
   body {
-    font-family: 'interUI', monospace;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,
+      'Lucida Grande', sans-serif;
     font-weight: 400;
     font-size: var(--fs-base);
     letter-spacing: 0.3px;

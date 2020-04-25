@@ -1,0 +1,14 @@
+type Photo {
+  title: String!
+  url: String!
+  album: Album!
+}
+
+type Album {
+  title: String!
+  photos: [Photo!] @relation
+}
+
+type Query {
+  allAlbums: [Album!]
+}

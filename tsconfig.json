@@ -12,18 +12,20 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
-  },
-  "paths": {
-    "pages": ["./pages"],
-    "components/*": ["./src/components/*"],
-    "css": ["./src/css"],
-    "constants/*": ["./src/constants/*"],
-    "context": ["./src/context"],
-    "hooks/*": ["./src/hooks/*"],
-    "api/*": ["./src/pages/api/*"],
-    "interfaces": ["./src/interfaces"],
-    "utils/*": ["./src/utils/*"]
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "pages": ["./pages"],
+      "@components/*": ["./src/components/*"],
+      "@lib/*": ["./src/lib/*"],
+      "css": ["./src/css"],
+      "constants/*": ["./src/constants/*"],
+      "context": ["./src/context"],
+      "hooks/*": ["./src/hooks/*"],
+      "api/*": ["./src/pages/api/*"],
+      "interfaces": ["./src/interfaces"],
+      "utils/*": ["./src/utils/*"]
+    }
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]

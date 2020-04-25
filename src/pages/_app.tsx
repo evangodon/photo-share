@@ -1,8 +1,9 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { GlobalStyles, variables as theme } from 'css';
+import { Template } from '@components/layout';
 
 export default class MyApp extends App {
   render() {
@@ -11,11 +12,17 @@ export default class MyApp extends App {
     return (
       <>
         <Head>
-          <title>NextJS Template</title>
-          <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+          <title>Photo Share</title>
+          <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="/static/favicon.ico"
+          />
         </Head>
         <ThemeProvider theme={theme}>
-          <Component {...pageProps} data-testid="hello" />
+          <Template>
+            <Component {...pageProps} />
+          </Template>
         </ThemeProvider>
         <GlobalStyles />
       </>

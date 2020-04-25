@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-export const variables = {
+export const variables: { [key: string]: string } = {
   /* Colors */
   __color_primary_light: '#90cdf4',
   __color_primary: '#4299e1',
@@ -37,22 +37,19 @@ export const customProperties = Object.keys(variables).map(
   (key) => `${[key.replace(/_/g, '-')]}: ${variables[key]};`
 );
 
-const sizes = {
+const sizes: { [key: string]: number } = {
   desktop: 1920,
   tablet: 900,
   mobile: 700,
 };
 
 /* Iterate through the sizes and create a media template */
-export const media = Object.keys(sizes).reduce(
-  (acc, label) => {
-    acc[label] = (literals: TemplateStringsArray, ...placeholders: any[]) =>
-      css`
-        @media (max-width: ${sizes[label]}px) {
-          ${css(literals, ...placeholders)};
-        }
-      `.join('');
-    return acc;
-  },
-  {} as Record<keyof typeof sizes, (l: TemplateStringsArray, ...p: any[]) => string>
-);
+export const media = Object.keys(sizes).reduce((acc, label) => {
+  acc[label] = (literals: TemplateStringsArray, ...placeholders: any[]) =>
+    css`
+      @media (max-width: ${sizes[label]}px) {
+        ${css(literals, ...placeholders)};
+      }
+    `.join('');
+  return acc;
+}, {} as Record<keyof typeof sizes, (l: TemplateStringsArray, ...p: any[]) => string>);
