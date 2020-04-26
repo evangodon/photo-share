@@ -5,12 +5,15 @@ import Link from 'next/link';
 import Image from '@components/Image';
 import { H1 } from '@components/typography';
 import { faunadb } from '@lib/faundb';
+import { getTitleFromSlug } from 'utils';
+import { getIdFromSlug } from '../../utils/index';
 
 type Props = NextPage & { album: any };
 
 const AlbumPage = ({ album }: Props) => {
   const router = useRouter();
-  const header = router.query['album-slug'];
+  const slug = router.query['album-slug'] as string;
+  const header = getTitleFromSlug(slug);
 
   const photos = album.photos.data;
 
@@ -18,20 +21,24 @@ const AlbumPage = ({ album }: Props) => {
     <>
       <H1>{header}</H1>
       <ImageContainer>
-        {photos.map((photo, index) => (
-          <Link href="/photo/photo-slug" key={photo._id}>
-            <a>
-              <Image src={`https://source.unsplash.com/random?${index}`} />
-            </a>
-          </Link>
-        ))}
+        <>
+          {photos.map((photo, index) => (
+            <Link href="/photo/photo-slug" key={photo._id}>
+              <a>
+                <Image src={`https://source.unsplash.com/random?${index}`} />
+              </a>
+            </Link>
+          ))}
+          <a className="last-row" />
+        </>
       </ImageContainer>
     </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const albumID = (context.params['album-slug'] as string).split('-').pop();
+  const slug = context.params['album-slug'] as string;
+  const albumID = getIdFromSlug(slug);
 
   const query = /* GraphQL */ `
     query GetAlbum {
@@ -85,6 +92,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-content: stretch;
+
+  a {
+    height: 40vh;
+    display: inline-flex;
+    margin: 2px;
+    flex-grow: 1;
+  }
+
+  .last-row {
+    flex-grow: 10;
+  }
 `;
 
 export default AlbumPage;
