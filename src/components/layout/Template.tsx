@@ -12,6 +12,7 @@ const Template = ({ children }: Props) => {
 const AppContainer = styled.div`
   margin: 0 auto;
   max-width: 120rem;
+  padding: 10rem 0;
 `;
 
 export default Template;

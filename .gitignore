@@ -7,4 +7,5 @@ yarn-error.log
 todo.md
 .next/
 out/
+.graphqlconfig.yml
 .env

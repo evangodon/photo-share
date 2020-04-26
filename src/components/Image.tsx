@@ -9,7 +9,7 @@ const Image = ({ src }: Props) => {
 };
 
 const Container = styled.img`
-  max-width: 60rem;
+  max-width: 100%;
   height: 30rem;
   margin: 2px;
 `;
