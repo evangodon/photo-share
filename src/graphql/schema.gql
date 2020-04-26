@@ -6,6 +6,7 @@ type Photo {
 
 type Album {
   title: String!
+  coverPhoto: String
   photos: [Photo!] @relation
 }
 

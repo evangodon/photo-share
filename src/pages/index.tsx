@@ -3,6 +3,7 @@ import { NextPage, GetStaticProps } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { H1 } from '@components/typography';
+import AlbumCard from '@components/AlbumCard';
 import { faunadb } from '@lib/faundb';
 
 type Props = NextPage & {
@@ -22,15 +23,11 @@ const IndexPage = ({ albums, errors }: Props) => {
   return (
     <Container>
       <H1>Photo Share</H1>
-      <ul>
+      <Albums>
         {albums.map((album: any) => (
-          <AlbumItem key={album._id}>
-            <Link href={`/album/${album.title}-${album._id}`}>
-              <a>{album.title}</a>
-            </Link>
-          </AlbumItem>
+          <AlbumCard album={album} key={album._id} />
         ))}
-      </ul>
+      </Albums>
     </Container>
   );
 };
@@ -41,6 +38,7 @@ export const getStaticProps: GetStaticProps = async () => {
       allAlbums {
         data {
           title
+          coverPhoto
           _id
         }
       }
@@ -71,9 +69,10 @@ const Container = styled.div`
   padding: 6rem;
 `;
 
-const AlbumItem = styled.li`
-  margin-bottom: 1rem;
-  font-size: var(--fs-large);
+const Albums = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 3.6rem;
 `;
 
 export default IndexPage;

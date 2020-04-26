@@ -10,6 +10,7 @@ const Image = ({ src }: Props) => {
 
 const Container = styled.img`
   min-width: 100%;
+  max-width: 100%;
   max-height: 100%;
   object-fit: cover;
   vertical-align: bottom;
