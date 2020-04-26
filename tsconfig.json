@@ -24,7 +24,7 @@
       "hooks/*": ["./src/hooks/*"],
       "api/*": ["./src/pages/api/*"],
       "interfaces": ["./src/interfaces"],
-      "utils/*": ["./src/utils/*"]
+      "utils": ["./src/utils"]
     }
   },
   "exclude": ["node_modules"],

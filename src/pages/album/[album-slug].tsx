@@ -4,6 +4,7 @@ import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import Link from 'next/link';
 import Image from '@components/Image';
 import { H1 } from '@components/typography';
+import { ImageContainer } from '@components/layout';
 import { faunadb } from '@lib/faundb';
 import { getTitleFromSlug } from 'utils';
 import { getIdFromSlug } from '../../utils/index';
@@ -88,22 +89,5 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: false,
   };
 };
-
-const ImageContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-content: stretch;
-
-  a {
-    height: 40vh;
-    display: inline-flex;
-    margin: 2px;
-    flex-grow: 1;
-  }
-
-  .last-row {
-    flex-grow: 10;
-  }
-`;
 
 export default AlbumPage;
