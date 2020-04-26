@@ -5,14 +5,14 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Template = ({ children }: Props) => {
-  return <AppContainer>{children}</AppContainer>;
+const AppContainer = ({ children }: Props) => {
+  return <Container>{children}</Container>;
 };
 
-const AppContainer = styled.div`
+const Container = styled.div`
   margin: 0 auto;
-  max-width: 120rem;
+  max-width: 144rem;
   padding: 10rem 0;
 `;
 
-export default Template;
+export default AppContainer;

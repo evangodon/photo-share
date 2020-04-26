@@ -1,3 +1,4 @@
-import Template from './Template';
+import AppContainer from './AppContainer';
+import ImageContainer from './ImageContainer';
 
-export { Template };
+export { AppContainer, ImageContainer };

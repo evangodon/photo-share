@@ -1,9 +1,9 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider, StyleSheetManager } from 'styled-components';
 import { GlobalStyles, variables as theme } from 'css';
-import { Template } from '@components/layout';
+import { AppContainer } from '@components/layout';
 
 export default class MyApp extends App {
   render() {
@@ -19,12 +19,16 @@ export default class MyApp extends App {
             href="/static/favicon.ico"
           />
         </Head>
-        <ThemeProvider theme={theme}>
-          <Template>
-            <Component {...pageProps} />
-          </Template>
-        </ThemeProvider>
-        <GlobalStyles />
+        <StyleSheetManager disableVendorPrefixes>
+          <>
+            <ThemeProvider theme={theme}>
+              <AppContainer>
+                <Component {...pageProps} />
+              </AppContainer>
+            </ThemeProvider>
+            <GlobalStyles />
+          </>
+        </StyleSheetManager>
       </>
     );
   }
