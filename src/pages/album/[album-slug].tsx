@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import Link from 'next/link';
@@ -6,8 +5,8 @@ import Image from '@components/Image';
 import { H1 } from '@components/typography';
 import { ImageContainer } from '@components/layout';
 import { faunadb } from '@lib/faundb';
-import { getTitleFromSlug } from 'utils';
-import { getIdFromSlug } from '../../utils/index';
+import { getTitleFromSlug, getIdFromSlug } from 'utils';
+import { FindAlbumByIdQuery, GetAlbumsQuery } from '../../graphql/generated';
 
 type Props = NextPage & { album: any };
 
@@ -42,8 +41,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const albumID = getIdFromSlug(slug);
 
   const query = /* GraphQL */ `
-    query GetAlbum {
-      findAlbumByID(id: ${albumID}) {
+    query FindAlbumByID($albumID: ID!) {
+      findAlbumByID(id: $albumID) {
         title
         photos {
           data {
@@ -55,7 +54,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
   `;
 
-  const { data, errors } = await faunadb.query(query);
+  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(query, {
+    variables: { albumID },
+  });
 
   if (errors) {
     throw new Error(errors[0].message);
@@ -78,7 +79,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   `;
 
-  const { data, errors } = await faunadb.query(query);
+  const { data, errors } = await faunadb.query<GetAlbumsQuery>(query);
 
   const paths = data.allAlbums.data.map((album) => ({
     params: { ['album-slug']: `${album.title}-${album._id}` },

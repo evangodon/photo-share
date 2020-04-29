@@ -8,4 +8,5 @@ todo.md
 .next/
 out/
 .graphqlconfig.yml
+codegen.yml
 .env

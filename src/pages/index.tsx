@@ -1,13 +1,12 @@
-import * as React from 'react';
 import { NextPage, GetStaticProps } from 'next';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { H1 } from '@components/typography';
 import AlbumCard from '@components/AlbumCard';
 import { faunadb } from '@lib/faundb';
+import { GetAlbumsHomeQuery } from '../graphql/generated';
 
 type Props = NextPage & {
-  albums: { title: string; id: number }[];
+  albums: GetAlbumsHomeQuery['allAlbums']['data'];
   errors: any;
 };
 
@@ -34,7 +33,7 @@ const IndexPage = ({ albums, errors }: Props) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const query = /* GraphQL */ `
-    query GetAlbums {
+    query GetAlbumsHome {
       allAlbums {
         data {
           title
@@ -45,7 +44,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   `;
 
-  const { data, errors } = await faunadb.query(query);
+  const { data, errors } = await faunadb.query<GetAlbumsHomeQuery>(query);
 
   if (errors) {
     return {
@@ -57,7 +56,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 
   return {
-    props: { albums: data?.allAlbums?.data, errors: null },
+    props: { albums: data.allAlbums.data, errors: null },
   };
 };
 

@@ -1,5 +1,4 @@
 import got from 'got';
-import { DocumentNode } from 'graphql';
 
 const FAUNA_SECRET = 'fnADqFwk58ACEx9g9IuAb0WCSQNURcu8FtfPgcPo';
 
@@ -11,12 +10,12 @@ const custom = got.extend({
   },
 });
 
-/**
- * @todo: clean up the types here
- */
+type FaunaDbError = { message: string }[];
+type FailedRequest = { data: null; errors: FaunaDbError };
+
 export const faunadb = {
-  query: async (query: string, { variables = {} } = {}) => {
-    const response: any = await custom
+  query: async <Query>(query: string, { variables = {} } = {}) => {
+    const response: { data: Query; errors: null } | FailedRequest = await custom
       .post('graphql', {
         body: JSON.stringify({
           query: query,
