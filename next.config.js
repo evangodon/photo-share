@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
   experimental: {
     reactRefresh: false,
@@ -10,4 +12,5 @@ module.exports = {
     });
     return config;
   },
+  env: { FAUNADB_SECRET: process.env.FAUNADB_SECRET },
 };

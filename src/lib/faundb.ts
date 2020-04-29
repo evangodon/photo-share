@@ -1,6 +1,6 @@
 import got from 'got';
 
-const FAUNA_SECRET = 'fnADqFwk58ACEx9g9IuAb0WCSQNURcu8FtfPgcPo';
+const FAUNA_SECRET = process.env.FAUNADB_SECRET;
 
 const custom = got.extend({
   prefixUrl: 'https://graphql.fauna.com',
