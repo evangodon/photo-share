@@ -11,8 +11,7 @@ type Props = NextPage & {
 };
 
 /**
- *
- * @todo: Add types
+ * The Home Page
  */
 const IndexPage = ({ albums, errors }: Props) => {
   if (errors) {
