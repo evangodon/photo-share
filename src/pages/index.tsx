@@ -1,9 +1,9 @@
 import { NextPage, GetStaticProps } from 'next';
 import styled from 'styled-components';
-import { H1 } from '@components/typography';
-import AlbumCard from '@components/AlbumCard';
-import { faunadb } from '@lib/faundb';
-import { GetAlbumsHomeQuery } from '../graphql/generated';
+import { H1 } from '@/components/typography';
+import AlbumCard from '@/components/AlbumCard';
+import { faunadb } from '@/lib/faundb';
+import { GetAlbumsHomeQuery } from '@/graphql/generated';
 
 type Props = NextPage & {
   albums: GetAlbumsHomeQuery['allAlbums']['data'];

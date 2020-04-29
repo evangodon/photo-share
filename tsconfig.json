@@ -15,16 +15,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "pages": ["./pages"],
-      "@components/*": ["./src/components/*"],
-      "@lib/*": ["./src/lib/*"],
-      "css": ["./src/css"],
-      "constants/*": ["./src/constants/*"],
-      "context": ["./src/context"],
-      "hooks/*": ["./src/hooks/*"],
-      "api/*": ["./src/pages/api/*"],
-      "interfaces": ["./src/interfaces"],
-      "utils": ["./src/utils"]
+      "@/*": ["./src/*"]
     }
   },
   "exclude": ["node_modules"],

@@ -9,13 +9,7 @@ module.exports = {
       {
         root: ['./'],
         alias: {
-          '@components': './src/components',
-          '@lib': './src/lib',
-          css: './src/css',
-          constants: './src/constants',
-          style: './src/style',
-          utils: './src/utils',
-          hooks: './src/hooks',
+          '@': './src',
         },
       },
     ],

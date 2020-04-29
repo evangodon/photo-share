@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import Image from '@components/Image';
+import Image from '@/components/Image';
 
 type Props = {
   album: any;
