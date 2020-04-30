@@ -15,11 +15,14 @@ const custom = got.extend({
 });
 
 type FaunaDbError = { message: string }[];
-type FailedRequest = { data: null; errors: FaunaDbError };
+
+type Response<T> =
+  | { data: T; errors: null }
+  | { data: null; errors: FaunaDbError };
 
 export const faunadb = {
   query: async <Query>(query: string, { variables = {} } = {}) => {
-    const response: { data: Query; errors: null } | FailedRequest = await custom
+    const response: Response<Query> = await custom
       .post('graphql', {
         body: JSON.stringify({
           query: query,

@@ -3,7 +3,7 @@ import { css } from 'styled-components';
 export const variables: { [key: string]: string } = {
   /* Colors */
   __color_primary_light: '#90cdf4',
-  __color_primary: '#4299e1',
+  __color_primary: '#319795',
   __color_primary_dark: '#2b6cb0',
   __color_secondary_light: '#d6bcfa',
   __color_secondary: '#9f7aea',
@@ -29,7 +29,9 @@ export const variables: { [key: string]: string } = {
   __fs_large: '2.8rem',
   __fs_xlarge: '3.6rem',
 
-  __border_radius: '3px',
+  __border_radius: '5px',
+
+  __app_max_width: '144rem',
 };
 
 /* Turn js keys into valid css custom properties */

@@ -1,9 +1,11 @@
 import { NextPage, GetStaticProps } from 'next';
 import styled from 'styled-components';
-import { H1 } from '@/components/typography';
-import AlbumCard from '@/components/AlbumCard';
+import { Header, AlbumCard } from '@/components';
+import { H2 } from '@/components/typography';
+import { Button } from '@/components';
 import { faunadb } from '@/lib/faundb';
 import { GetAlbumsHomeQuery } from '@/graphql/generated';
+import { Plus as PlusIcon } from 'react-feather';
 
 type Props = NextPage & {
   albums: GetAlbumsHomeQuery['allAlbums']['data'];
@@ -19,14 +21,23 @@ const IndexPage = ({ albums, errors }: Props) => {
   }
 
   return (
-    <Container>
-      <H1>Photo Share</H1>
-      <Albums>
-        {albums.map((album: any) => (
-          <AlbumCard album={album} key={album._id} />
-        ))}
-      </Albums>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <ActionBar>
+          <H2>Albums</H2>
+          <Button>
+            <PlusIcon />
+            Create
+          </Button>
+        </ActionBar>
+        <Albums>
+          {albums.map((album) => (
+            <AlbumCard album={album} key={album._id} />
+          ))}
+        </Albums>
+      </Container>
+    </>
   );
 };
 
@@ -62,15 +73,22 @@ export const getStaticProps: GetStaticProps = async () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   height: 100vh;
-  padding: 6rem;
+  margin: 0 auto;
+  max-width: var(--app-max-width);
 `;
 
 const Albums = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 3.6rem;
+`;
+
+const ActionBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3rem;
 `;
 
 export default IndexPage;

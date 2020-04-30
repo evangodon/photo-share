@@ -9,10 +9,6 @@ const AppContainer = ({ children }: Props) => {
   return <Container>{children}</Container>;
 };
 
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 144rem;
-  padding: 10rem 0;
-`;
+const Container = styled.div``;
 
 export default AppContainer;

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import Image from '@/components/Image';
+import { Album } from '@/graphql/generated';
 
 type Props = {
-  album: any;
+  album: Pick<Album, 'title' | '_id' | 'coverPhoto'>;
 };
 
 const AlbumCard = ({ album }: Props) => (
@@ -15,7 +16,6 @@ const AlbumCard = ({ album }: Props) => (
           <Header>{album.title}</Header>
         </AlbumLink>
       </Link>
-      <Content></Content>
     </>
   </Container>
 );
@@ -31,7 +31,6 @@ const Container = styled.figure`
 `;
 
 const AlbumLink = styled.a`
-  max-width: 40rem;
   height: 30rem;
   display: inline-block;
   cursor: pointer;
@@ -54,7 +53,7 @@ const AlbumLink = styled.a`
 
   img {
     object-fit: cover;
-    height: 100%;
+    min-height: 100%;
   }
 `;
 
