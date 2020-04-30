@@ -2,7 +2,7 @@ import { css } from 'styled-components';
 
 export const variables: { [key: string]: string } = {
   /* Colors */
-  __color_primary_light: '#90cdf4',
+  __color_primary_light: '#B2F5EA',
   __color_primary: '#319795',
   __color_primary_dark: '#2b6cb0',
   __color_secondary_light: '#d6bcfa',
