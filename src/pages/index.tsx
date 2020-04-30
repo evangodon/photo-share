@@ -1,4 +1,5 @@
 import { NextPage, GetStaticProps } from 'next';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { Header, AlbumCard } from '@/components';
 import { H2 } from '@/components/typography';
@@ -26,10 +27,12 @@ const IndexPage = ({ albums, errors }: Props) => {
       <Container>
         <ActionBar>
           <H2>Albums</H2>
-          <Button>
-            <PlusIcon />
-            Create
-          </Button>
+          <Link href="/abc" passHref>
+            <Button>
+              <PlusIcon />
+              Create
+            </Button>
+          </Link>
         </ActionBar>
         <Albums>
           {albums.map((album) => (

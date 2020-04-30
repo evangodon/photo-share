@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import Ripples from 'react-ripples';
 
-import { transparentize } from 'polished';
-
-const StyledButton = styled.button<{ color?: string }>`
+const StyledButton = styled.button`
   text-transform: uppercase;
   border: 0;
   background-color: ${(props) =>
@@ -38,19 +36,19 @@ const StyledButton = styled.button<{ color?: string }>`
   }
 `;
 
-// const Ripples = createRipples({
-//   color: 'red',
-// });
-
 type Props = {
   color?: string;
   children: React.ReactNode;
+  href?: string;
 };
 
-const Button = ({ children }: Props) => (
-  <Ripples color="var(--color-primary-light)">
-    <StyledButton>{children}</StyledButton>
-  </Ripples>
-);
+const Button = ({ children, color, href }: Props) => {
+  const linkProps = href ? ({ href, as: 'a' } as const) : {};
+  return (
+    <Ripples color="var(--grey-200)">
+      <StyledButton {...linkProps}>{children}</StyledButton>
+    </Ripples>
+  );
+};
 
 export default Button;
