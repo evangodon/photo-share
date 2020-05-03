@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-export const variables: { [key: string]: string } = {
+export const variables: { [key: string]: any } = {
   /* Colors */
   __color_primary_light: '#B2F5EA',
   __color_primary: '#319795',
@@ -26,18 +26,27 @@ export const variables: { [key: string]: string } = {
   __fs_small: '1.2rem',
   __fs_medium: '1.4rem',
   __fs_base: '1.6rem',
-  __fs_large: '2.8rem',
+  __fs_large: '2.4rem',
   __fs_xlarge: '3.6rem',
 
   __border_radius: '5px',
 
   __app_max_width: '144rem',
+
+  forms: {
+    label: {
+      marginBottom: 1,
+    },
+    input: {
+      borderRadius: 3,
+    },
+  },
 };
 
 /* Turn js keys into valid css custom properties */
-export const customProperties = Object.keys(variables).map(
-  (key) => `${[key.replace(/_/g, '-')]}: ${variables[key]};`
-);
+export const customProperties = Object.keys(variables)
+  .filter((key) => typeof variables[key] === 'string')
+  .map((key) => `${[key.replace(/_/g, '-')]}: ${variables[key]};`);
 
 const sizes: { [key: string]: number } = {
   desktop: 1920,

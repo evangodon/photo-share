@@ -44,8 +44,9 @@ type Props = {
 
 const Button = ({ children, color, href }: Props) => {
   const linkProps = href ? ({ href, as: 'a' } as const) : {};
+
   return (
-    <Ripples color="var(--grey-200)">
+    <Ripples color="var(--grey-200)" during={100}>
       <StyledButton {...linkProps}>{children}</StyledButton>
     </Ripples>
   );

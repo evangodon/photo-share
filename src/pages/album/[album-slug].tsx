@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from '@/components/Image';
 import { H1 } from '@/components/typography';
 import { ImageContainer } from '@/components/layout';
+import withPageLayout from '@/components/layout/withPageLayout';
 import { faunadb } from '@/lib/faundb';
 import { getTitleFromSlug, getIdFromSlug } from '@/utils';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
@@ -91,4 +92,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default AlbumPage;
+export default withPageLayout(AlbumPage);
