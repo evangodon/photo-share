@@ -40,14 +40,17 @@ type Props = {
   color?: string;
   children: React.ReactNode;
   href?: string;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
 
-const Button = ({ children, color, href }: Props) => {
+const Button = ({ children, color, onClick, href }: Props) => {
   const linkProps = href ? ({ href, as: 'a' } as const) : {};
 
   return (
-    <Ripples color="var(--grey-200)" during={100}>
-      <StyledButton {...linkProps}>{children}</StyledButton>
+    <Ripples>
+      <StyledButton {...linkProps} onClick={onClick}>
+        {children}
+      </StyledButton>
     </Ripples>
   );
 };

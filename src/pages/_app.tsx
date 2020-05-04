@@ -4,6 +4,9 @@ import Head from 'next/head';
 import { ThemeProvider, StyleSheetManager } from 'styled-components';
 import { GlobalStyles, variables as theme } from '@/css';
 
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond/dist/filepond.min.css';
+
 export default class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
@@ -22,8 +25,8 @@ export default class MyApp extends App {
           <>
             <ThemeProvider theme={theme}>
               <Component {...pageProps} />
+              <GlobalStyles />
             </ThemeProvider>
-            <GlobalStyles />
           </>
         </StyleSheetManager>
       </>

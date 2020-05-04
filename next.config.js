@@ -1,9 +1,6 @@
 require('dotenv').config();
 
 module.exports = {
-  experimental: {
-    reactRefresh: false,
-  },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.push({
       test: /\.(graphql|gql)$/,
