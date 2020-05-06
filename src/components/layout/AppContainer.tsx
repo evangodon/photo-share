@@ -11,7 +11,7 @@ const AppContainer = ({ children }: Props) => {
 
 const Container = styled.div`
   max-width: 144rem;
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
 `;
 
 export default AppContainer;

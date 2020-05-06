@@ -18,7 +18,7 @@ const ImageUpload = () => {
       <FilePond
         files={files}
         allowMultiple={true}
-        maxFiles={3}
+        maxFiles={20}
         onupdatefiles={(fileItems) => {
           ref.current = fileItems[0]?.file;
 

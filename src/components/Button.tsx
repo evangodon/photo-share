@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Link from 'next/link';
 import Ripples from 'react-ripples';
 
 const StyledButton = styled.button`
@@ -10,7 +11,7 @@ const StyledButton = styled.button`
   padding: 0 2.4rem;
   cursor: pointer;
   transition: all 0.1s;
-  font-size: var(--fs-small);
+  font-size: var(--fs-medium);
   --height: 4.2rem;
   font-weight: 600;
   line-height: var(--height);
@@ -25,14 +26,9 @@ const StyledButton = styled.button`
     background-color: var(--grey-100);
   }
 
-  &:active {
-  }
-
   svg {
-    stroke-width: 1;
     color: currentColor;
-    width: 1.6rem;
-    margin-right: 1rem;
+    margin-right: 0.4rem;
   }
 `;
 

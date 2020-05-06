@@ -50,6 +50,12 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
 
+  button {
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+  }
+
 `;
 
 export default GlobalStyle;

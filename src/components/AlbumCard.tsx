@@ -5,35 +5,40 @@ import { Album } from '@/graphql/generated';
 
 type Props = {
   album: Pick<Album, 'title' | '_id' | 'coverPhoto'>;
+  editable?: boolean;
 };
 
-const AlbumCard = ({ album }: Props) => (
+const AlbumCard = ({ album, editable }: Props) => (
   <Container>
-    <>
+    {editable ? (
+      <AlbumCover>
+        <Image src={album.coverPhoto} />
+        <Header>{album.title}</Header>
+      </AlbumCover>
+    ) : (
       <Link href={`/album/${album.title}-${album._id}`}>
-        <AlbumLink>
+        <AlbumCoverLink as="a">
           <Image src={album.coverPhoto} />
           <Header>{album.title}</Header>
-        </AlbumLink>
+        </AlbumCoverLink>
       </Link>
-    </>
+    )}
   </Container>
 );
 
-const Container = styled.figure`
+export const Container = styled.figure`
   display: flex;
   flex-direction: column;
-  min-width: 30rem;
+  min-width: 45.6rem;
   overflow: hidden;
   border-radius: var(--border-radius);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
 `;
 
-const AlbumLink = styled.a`
+const AlbumCover = styled.div`
   height: 30rem;
   display: inline-block;
-  cursor: pointer;
   position: relative;
 
   &:before {
@@ -46,14 +51,13 @@ const AlbumLink = styled.a`
     background-color: rgba(0, 0, 0, 0.3);
     transition: background-color 0.2s ease;
   }
+`;
+
+const AlbumCoverLink = styled(AlbumCover)`
+  cursor: pointer;
 
   &:hover:before {
     background-color: transparent;
-  }
-
-  img {
-    object-fit: cover;
-    min-height: 100%;
   }
 `;
 
