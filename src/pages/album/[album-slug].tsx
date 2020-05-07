@@ -26,7 +26,11 @@ const AlbumPage = ({ album }: Props) => {
           {photos.map((photo, index) => (
             <Link href="/photo/photo-slug" key={photo._id}>
               <a>
-                <Image src={`https://source.unsplash.com/random?${index}`} />
+                <Image
+                  src={
+                    photo.url ?? `https://source.unsplash.com/random?${index}`
+                  }
+                />
               </a>
             </Link>
           ))}

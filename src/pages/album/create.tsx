@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Label, Input } from '@rebass/forms/styled-components';
 import { Box, Flex } from 'rebass';
 import {
   Upload as UploadIcon,
@@ -13,10 +12,21 @@ import withPageLayout from '@/components/layout/withPageLayout';
 import ImageUpload from '@/components/ImageUpload';
 import { H2 } from '@/components/typography';
 import { Button, AlbumCard } from '@/components';
+import { ContentEditableEvent } from '@/components/ContentEditable';
 
 const CreateAlbum = /* GraphQL */ `
-  mutation CreateAlbum($title: String!, $coverPhoto: String, $photos: {url: String!}[] ) {
-    createAlbum(data: {title: $title, photos: {create: $photos } }) {
+  mutation CreateAlbum(
+    $title: String!
+    $coverPhoto: String
+    $photos: [PhotoInput!]!
+  ) {
+    createAlbum(
+      data: {
+        title: $title
+        coverPhoto: $coverPhoto
+        photos: { create: $photos }
+      }
+    ) {
       _id
       title
     }
@@ -28,13 +38,15 @@ type Tab = 'upload' | 'layout';
 /**
  * Page for creating an album.
  *
- * @TODO: Finish the create Album mutation
- *
+ * @todo: Make intuitive on how to change title
+ * @todo: Generate mutation hook with codegen
+ * @todo: Handle successful create
+ * @todo: Handle error during create
  */
 const Create = () => {
   const [tab, setTab] = useState<Tab>('upload');
   const [createAlbumResult, createAlbum] = useMutation(CreateAlbum);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('Add a Title');
   const [coverPhoto, setCoverPhoto] = useState(
     'https://source.unsplash.com/random'
   );
@@ -42,11 +54,21 @@ const Create = () => {
 
   function handleCreateAlbum() {
     const variables = { title, coverPhoto, photos };
-    createAlbum(variables).then((result) => {});
+    createAlbum(variables).then((result) => {
+      console.log({ result });
+    });
   }
 
   function handleTabChange(tab: Tab) {
     return () => setTab(tab);
+  }
+
+  function handlePhotoUpload(photo: { url: string }) {
+    setPhotos([...photos, photo]);
+  }
+
+  function handleTitleChange(title: string) {
+    setTitle(title);
   }
 
   const album = {
@@ -64,21 +86,21 @@ const Create = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Flex width={100} alignItems="center">
+          <Flex width={200} alignItems="center">
             <Link href="/" passHref>
               <Button>
                 <ArrowLeftIcon size={15} />
-                back
+                Back
               </Button>
             </Link>
           </Flex>
           <H2>Create an album</H2>
-          <Flex width={100}>
-            <Button>Create</Button>
+          <Flex width={200}>
+            <Button onClick={handleCreateAlbum}>Create Album</Button>
           </Flex>
         </Flex>
         <Box mb={40}>
-          <AlbumCard editable album={album} />
+          <AlbumCard editable handleInput={handleTitleChange} album={album} />
         </Box>
 
         <Tabs>
@@ -98,40 +120,15 @@ const Create = () => {
           </TabItem>
         </Tabs>
 
-        {
+        <Box width="100%" mt="3rem">
           {
-            upload: (
-              <ImageUploadContainer>
-                <ImageUpload />
-              </ImageUploadContainer>
-            ),
-            layout: <span>photo layout</span>,
-          }[tab]
-        }
+            {
+              upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
+              layout: <span>photo layout</span>,
+            }[tab]
+          }
+        </Box>
       </Container>
-
-      <style global jsx>{`
-        .filepond--item {
-          width: calc(25% - 0.5rem);
-        }
-
-        .filepond--root {
-          min-height: 80em;
-        }
-
-        .filepond--panel-root {
-          min-height: 30rem;
-        }
-
-        .filepond--drop-label {
-          margin-top: 3rem;
-        }
-
-        .filepond--drop-label label {
-          color: #555;
-          font-size: 18px;
-        }
-      `}</style>
     </>
   );
 };
@@ -141,15 +138,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  form {
-    margin-bottom: 8rem;
-  }
-`;
-
-const ImageUploadContainer = styled.div`
-  width: 100%;
-  margin-top: 3rem;
 `;
 
 const Tabs = styled.div`

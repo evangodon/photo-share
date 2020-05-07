@@ -1,9 +1,9 @@
+import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Ripples from 'react-ripples';
 
-const StyledButton = styled.button`
-  text-transform: uppercase;
+const StyledButton = styled.button<{ ref: any }>`
   border: 0;
   background-color: ${(props) =>
     props.color ? props.theme.__color_primary : 'transparent'};
@@ -39,16 +39,18 @@ type Props = {
   onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
 
-const Button = ({ children, color, onClick, href }: Props) => {
-  const linkProps = href ? ({ href, as: 'a' } as const) : {};
+const Button = React.forwardRef(
+  ({ children, color, onClick, href }: Props, ref) => {
+    const linkProps = href ? ({ href, as: 'a' } as const) : {};
 
-  return (
-    <Ripples>
-      <StyledButton {...linkProps} onClick={onClick}>
-        {children}
-      </StyledButton>
-    </Ripples>
-  );
-};
+    return (
+      <Ripples>
+        <StyledButton ref={ref} {...linkProps} onClick={onClick}>
+          {children}
+        </StyledButton>
+      </Ripples>
+    );
+  }
+);
 
 export default Button;

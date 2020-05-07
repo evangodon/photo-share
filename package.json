@@ -17,6 +17,7 @@
     "@rebass/forms": "^4.0.6",
     "@types/rebass": "^4.0.5",
     "dotenv": "^8.2.0",
+    "fast-deep-equal": "^3.1.1",
     "faunadb": "^2.13.1",
     "filepond": "^4.13.5",
     "filepond-plugin-image-preview": "^4.6.2",
