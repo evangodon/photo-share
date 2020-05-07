@@ -1,30 +1,54 @@
-import styled from 'styled-components';
+import { useRef } from 'react';
+import styled, { css } from 'styled-components';
 import Link from 'next/link';
-import Image from '@/components/Image';
 import { Album } from '@/graphql/generated';
+import Image from '@/components/Image';
+import { createClient } from 'urql';
+import ContentEditable, {
+  ContentEditableEvent,
+} from '@/components/ContentEditable';
 
 type Props = {
   album: Pick<Album, 'title' | '_id' | 'coverPhoto'>;
   editable?: boolean;
+  handleInput?: (title: string) => void;
 };
 
-const AlbumCard = ({ album, editable }: Props) => (
-  <Container>
-    {editable ? (
-      <AlbumCover>
-        <Image src={album.coverPhoto} />
-        <Header>{album.title}</Header>
-      </AlbumCover>
-    ) : (
-      <Link href={`/album/${album.title}-${album._id}`}>
-        <AlbumCoverLink as="a">
+/**
+ * Shows an album cover and title
+ *
+ * @todo: Add focus style to editable title
+ */
+const AlbumCard = ({ album, editable, handleInput }: Props) => {
+  const text = useRef('');
+
+  function handleChange(e: ContentEditableEvent) {
+    text.current = e.target.value;
+    handleInput(e.target.value);
+  }
+
+  return (
+    <Container>
+      {editable ? (
+        <AlbumCover>
           <Image src={album.coverPhoto} />
-          <Header>{album.title}</Header>
-        </AlbumCoverLink>
-      </Link>
-    )}
-  </Container>
-);
+          <EditableHeader
+            html={`${album.title}`}
+            onChange={handleChange}
+            tagName="h2"
+          />
+        </AlbumCover>
+      ) : (
+        <Link href={`/album/${album.title}-${album._id}`}>
+          <AlbumCoverLink as="a">
+            <Image src={album.coverPhoto} />
+            <Header>{album.title}</Header>
+          </AlbumCoverLink>
+        </Link>
+      )}
+    </Container>
+  );
+};
 
 export const Container = styled.figure`
   display: flex;
@@ -61,12 +85,25 @@ const AlbumCoverLink = styled(AlbumCover)`
   }
 `;
 
-const Header = styled.h2`
+const headerStyles = css`
   color: #fff;
   text-shadow: 1px 1px 2px #000;
   position: absolute;
-  bottom: 2rem;
-  left: 2rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 2rem;
+`;
+
+const EditableHeader = styled(ContentEditable)`
+  ${headerStyles};
+
+  &:focus {
+  }
+`;
+
+const Header = styled.h2`
+  ${headerStyles};
 `;
 
 const Content = styled.div``;
