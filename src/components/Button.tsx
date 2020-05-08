@@ -1,14 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
 import Ripples from 'react-ripples';
 
-const StyledButton = styled.button<{ ref: any }>`
+type Variant = 'contained' | 'outlined' | 'default';
+
+const backgroundColor = ({ colors }) => ({
+  contained: `transparent`,
+  outlined: 'transparent',
+  default: 'transparent',
+});
+
+const color = ({ colors }) => ({
+  contained: colors.white,
+  outlined: colors.secondary,
+  default: colors.secondary,
+});
+
+const border = ({ colors }) => ({
+  outlined: `2px solid ${colors.secondary}`,
+});
+
+const bgImage = ({ colors }) => ({
+  contained: `linear-gradient(to right, ${colors.primary} 0%, #4AD0D1 99%)`,
+});
+
+const boxShadow = ({ colors }) => ({
+  contained: `0 12px 12px -11px ${colors.primary}`,
+});
+
+const StyledButton = styled.button<{ ref: any; variant: Variant }>`
   border: 0;
-  background-color: ${(props) =>
-    props.color ? props.theme.__color_primary : 'transparent'};
-  color: var(--color-primary);
   padding: 0 2.4rem;
+  color: ${(props) => color(props.theme)[props.variant]};
+  background-color: ${(props) => backgroundColor(props.theme)[props.variant]};
+  border: ${(props) => border(props.theme)[props.variant]};
+  background-image: ${(props) => bgImage(props.theme)[props.variant]};
   cursor: pointer;
   transition: all 0.1s;
   font-size: var(--fs-medium);
@@ -20,10 +46,15 @@ const StyledButton = styled.button<{ ref: any }>`
   justify-content: center;
   align-items: center;
   opacity: 1;
-  border-radius: var(--border-radius);
+  border-radius: 4px;
 
   &:hover {
-    background-color: var(--grey-100);
+    background-color: ${(props) => props.theme.colors.primary_light};
+  }
+
+  .react-ripples {
+    box-shadow: ${(props) => boxShadow(props.theme)[props.variant]};
+    box-shadow: 2px 2px red;
   }
 
   svg {
@@ -32,23 +63,37 @@ const StyledButton = styled.button<{ ref: any }>`
   }
 `;
 
+const StyledRipples = styled(Ripples)<{ variant: Variant }>`
+  box-shadow: ${(props) => boxShadow(props.theme)[props.variant]};
+`;
+
 type Props = {
   color?: string;
   children: React.ReactNode;
   href?: string;
-  onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  variant?: Variant;
+  onClick?: (
+    event:
+      | React.MouseEvent<HTMLAnchorElement, MouseEvent>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
 };
 
 const Button = React.forwardRef(
-  ({ children, color, onClick, href }: Props, ref) => {
+  ({ children, color, onClick, href, variant = 'default' }: Props, ref) => {
     const linkProps = href ? ({ href, as: 'a' } as const) : {};
 
     return (
-      <Ripples>
-        <StyledButton ref={ref} {...linkProps} onClick={onClick}>
+      <StyledRipples variant={variant}>
+        <StyledButton
+          ref={ref}
+          {...linkProps}
+          variant={variant}
+          onClick={onClick}
+        >
           {children}
         </StyledButton>
-      </Ripples>
+      </StyledRipples>
     );
   }
 );

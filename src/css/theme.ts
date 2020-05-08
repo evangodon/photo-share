@@ -1,6 +1,6 @@
-import { css } from 'styled-components';
+import { css, DefaultTheme } from 'styled-components';
 
-export const variables: { [key: string]: any } = {
+export const variables = {
   /* Colors */
   __color_primary_light: '#B2F5EA',
   __color_primary: '#319795',
@@ -32,15 +32,18 @@ export const variables: { [key: string]: any } = {
   __border_radius: '5px',
 
   __app_max_width: '144rem',
+};
 
-  forms: {
-    label: {
-      marginBottom: 1,
-    },
-    input: {
-      borderRadius: 3,
-    },
-  },
+export const colors = {
+  primary: '#68E4BC',
+  primary_light: '#f5fffc',
+  primary_dark: '#389678',
+  secondary: '#4AD0D1',
+  white: '#fff',
+};
+
+export const theme: DefaultTheme = {
+  colors,
 };
 
 /* Turn js keys into valid css custom properties */

@@ -1,4 +1,4 @@
 import GlobalStyles from './global';
-import { variables } from './variables';
+import { theme } from './theme';
 
-export { variables, GlobalStyles };
+export { theme, GlobalStyles };

@@ -2,7 +2,7 @@ import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider, StyleSheetManager } from 'styled-components';
-import { GlobalStyles, variables as theme } from '@/css';
+import { GlobalStyles, theme } from '@/css';
 import { createClient, Provider as UrqlProvider } from 'urql';
 
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';

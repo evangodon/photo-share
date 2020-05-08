@@ -95,8 +95,10 @@ const Create = () => {
             </Link>
           </Flex>
           <H2>Create an album</H2>
-          <Flex width={200}>
-            <Button onClick={handleCreateAlbum}>Create Album</Button>
+          <Flex width={200} justifyContent="flex-end">
+            <Button variant="contained" onClick={handleCreateAlbum}>
+              Create
+            </Button>
           </Flex>
         </Flex>
         <Box mb={40}>
