@@ -8,11 +8,10 @@ import {
   ArrowLeft as ArrowLeftIcon,
 } from 'react-feather';
 import { useMutation } from 'urql';
-import withPageLayout from '@/components/layout/withPageLayout';
+import { withPageLayout, ImageGrid } from '@/components/layout';
 import ImageUpload from '@/components/ImageUpload';
 import { H2 } from '@/components/typography';
 import { Button, AlbumCard } from '@/components';
-import { ContentEditableEvent } from '@/components/ContentEditable';
 
 const CreateAlbum = /* GraphQL */ `
   mutation CreateAlbum(
@@ -42,6 +41,7 @@ type Tab = 'upload' | 'layout';
  * @todo: Generate mutation hook with codegen
  * @todo: Handle successful create
  * @todo: Handle error during create
+ * @todo: Persist photos that were just uploaded
  */
 const Create = () => {
   const [tab, setTab] = useState<Tab>('upload');
@@ -51,6 +51,7 @@ const Create = () => {
     'https://source.unsplash.com/random'
   );
   const [photos, setPhotos] = useState([]);
+  const [files, setFiles] = useState([]);
 
   function handleCreateAlbum() {
     const variables = { title, coverPhoto, photos };
@@ -125,8 +126,14 @@ const Create = () => {
         <Box width="100%" mt="3rem">
           {
             {
-              upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
-              layout: <span>photo layout</span>,
+              upload: (
+                <ImageUpload
+                  files={files}
+                  setFiles={setFiles}
+                  handlePhotoUpload={handlePhotoUpload}
+                />
+              ),
+              layout: <ImageGrid photos={photos} />,
             }[tab]
           }
         </Box>
@@ -154,7 +161,7 @@ const TabItem = styled.button<{ isActive }>`
   cursor: pointer;
 
   color: ${(props) =>
-    props.isActive ? props.theme.__color_primary : 'default'};
+    props.isActive ? props.theme.colors.primary : 'default'};
   border-bottom: 2px solid
     ${(props) => (props.isActive ? 'currentColor' : 'transparent')};
 
