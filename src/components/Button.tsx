@@ -50,11 +50,7 @@ const StyledButton = styled.button<{ ref: any; variant: Variant }>`
 
   &:hover {
     background-color: ${(props) => props.theme.colors.primary_light};
-  }
-
-  .react-ripples {
-    box-shadow: ${(props) => boxShadow(props.theme)[props.variant]};
-    box-shadow: 2px 2px red;
+    background-position: right center;
   }
 
   svg {
