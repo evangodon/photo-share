@@ -6,6 +6,8 @@ registerPlugin(FilePondPluginImagePreview);
 
 type Props = {
   handlePhotoUpload: (photo: { url: string }) => void;
+  files: File[];
+  setFiles: (files: File[]) => void;
 };
 
 /**
@@ -13,18 +15,16 @@ type Props = {
  * @todo: Handle Delete
  * @todo: Resize image before uploading to cloudinary
  */
-const ImageUpload = ({ handlePhotoUpload }: Props) => {
-  const ref = useRef();
-  const [files, setFiles] = useState([]);
+const ImageUpload = ({ handlePhotoUpload, setFiles, files }: Props) => {
+  const filesRef = useRef([]);
 
   return (
     <>
       <FilePond
-        files={files}
         allowMultiple={true}
         maxFiles={20}
         onupdatefiles={(fileItems) => {
-          ref.current = fileItems[0]?.file;
+          fileItems.forEach((item) => filesRef.current.push(item.file));
 
           setFiles(fileItems.map((fileItem) => fileItem.file));
         }}
@@ -34,7 +34,7 @@ const ImageUpload = ({ handlePhotoUpload }: Props) => {
             method: 'POST',
             ondata: (formData) => {
               formData.append('upload_preset', 'hws3enju');
-              formData.append('file', ref.current);
+              formData.append('file', filesRef.current.pop());
               formData.delete('filepond');
 
               return formData;
