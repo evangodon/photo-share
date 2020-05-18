@@ -1,9 +1,10 @@
 import { useRef } from 'react';
+import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import Link from 'next/link';
 import { Album } from '@/graphql/generated';
 import Image from '@/components/Image';
-import { createClient } from 'urql';
+import Options from '@/components/Options';
 import ContentEditable, {
   ContentEditableEvent,
 } from '@/components/ContentEditable';
@@ -21,6 +22,7 @@ type Props = {
  */
 const AlbumCard = ({ album, editable, handleInput }: Props) => {
   const text = useRef('');
+  const router = useRouter();
 
   function handleChange(e: ContentEditableEvent) {
     text.current = e.target.value;
@@ -43,6 +45,15 @@ const AlbumCard = ({ album, editable, handleInput }: Props) => {
           <AlbumCoverLink as="a">
             <Image src={album.coverPhoto} />
             <Header>{album.title}</Header>
+            <AlbumOptions
+              options={[
+                {
+                  label: 'Edit Album',
+                  onClick: () =>
+                    router.push(`/album/${album.title}-${album._id}/edit`),
+                },
+              ]}
+            />
           </AlbumCoverLink>
         </Link>
       )}
@@ -50,7 +61,12 @@ const AlbumCard = ({ album, editable, handleInput }: Props) => {
   );
 };
 
+const AlbumOptions = styled(Options)`
+  opacity: 0;
+`;
+
 export const Container = styled.figure`
+  position: relative;
   display: flex;
   flex-direction: column;
   min-width: 45.6rem;
@@ -58,6 +74,10 @@ export const Container = styled.figure`
   border-radius: var(--border-radius);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  &:hover ${AlbumOptions} {
+    opacity: 1;
+  }
 `;
 
 const AlbumCover = styled.div`

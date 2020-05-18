@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Box, Flex } from 'rebass';
 import {
   Upload as UploadIcon,
   Layout as LayoutIcon,
+  Image as ImageIcon,
   ArrowLeft as ArrowLeftIcon,
 } from 'react-feather';
 import { useMutation } from 'urql';
@@ -32,7 +34,7 @@ const CreateAlbum = /* GraphQL */ `
   }
 `;
 
-type Tab = 'upload' | 'layout';
+type Tab = 'cover' | 'upload' | 'layout';
 
 /**
  * Page for creating an album.
@@ -44,19 +46,25 @@ type Tab = 'upload' | 'layout';
  * @todo: Persist photos that were just uploaded
  */
 const Create = () => {
-  const [tab, setTab] = useState<Tab>('upload');
-  const [createAlbumResult, createAlbum] = useMutation(CreateAlbum);
+  const [tab, setTab] = useState<Tab>('cover');
+  const [_createAlbumResult, createAlbum] = useMutation(CreateAlbum);
   const [title, setTitle] = useState('Add a Title');
-  const [coverPhoto, setCoverPhoto] = useState(
-    'https://source.unsplash.com/random'
-  );
-  const [photos, setPhotos] = useState([]);
-  const [files, setFiles] = useState([]);
+  const [coverPhoto, setCoverPhoto] = useState('');
+  const [photos, setPhotos] = useState<{ url: string }[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!coverPhoto && photos.length > 0) {
+      setCoverPhoto(photos[0].url);
+    }
+  }, [photos]);
 
   function handleCreateAlbum() {
     const variables = { title, coverPhoto, photos };
+
     createAlbum(variables).then((result) => {
-      console.log({ result });
+      router.push('/');
     });
   }
 
@@ -64,9 +72,9 @@ const Create = () => {
     return () => setTab(tab);
   }
 
-  function handlePhotoUpload(photo: { url: string }) {
-    setPhotos([...photos, photo]);
-  }
+  const handlePhotoUpload = (photo: { url: string }) => {
+    setPhotos((photos) => [...photos, photo]);
+  };
 
   function handleTitleChange(title: string) {
     setTitle(title);
@@ -102,11 +110,15 @@ const Create = () => {
             </Button>
           </Flex>
         </Flex>
-        <Box mb={40}>
-          <AlbumCard editable handleInput={handleTitleChange} album={album} />
-        </Box>
 
         <Tabs>
+          <TabItem
+            isActive={tab === 'cover'}
+            onClick={handleTabChange('cover')}
+          >
+            <ImageIcon />
+            Cover
+          </TabItem>
           <TabItem
             isActive={tab === 'upload'}
             onClick={handleTabChange('upload')}
@@ -126,6 +138,15 @@ const Create = () => {
         <Box width="100%" mt="3rem">
           {
             {
+              cover: (
+                <Box maxWidth="50rem" m={[0, 'auto']}>
+                  <AlbumCard
+                    editable
+                    handleInput={handleTitleChange}
+                    album={album}
+                  />
+                </Box>
+              ),
               upload: (
                 <ImageUpload
                   files={files}
@@ -166,7 +187,7 @@ const TabItem = styled.button<{ isActive }>`
     ${(props) => (props.isActive ? 'currentColor' : 'transparent')};
 
   svg {
-    margin-right: 0.4rem;
+    margin-right: 0.6rem;
   }
 `;
 

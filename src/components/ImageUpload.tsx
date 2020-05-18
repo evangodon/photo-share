@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import { kIsNormalizedAlready } from 'got/dist/source/core';
 
 registerPlugin(FilePondPluginImagePreview);
 
@@ -11,11 +12,10 @@ type Props = {
 };
 
 /**
- * @todo: Clean up code
  * @todo: Handle Delete
  * @todo: Resize image before uploading to cloudinary
  */
-const ImageUpload = ({ handlePhotoUpload, setFiles, files }: Props) => {
+const ImageUpload = ({ handlePhotoUpload, setFiles }: Props) => {
   const filesRef = useRef([]);
 
   return (
@@ -42,9 +42,7 @@ const ImageUpload = ({ handlePhotoUpload, setFiles, files }: Props) => {
             onload: (response) => {
               const json = JSON.parse(response);
 
-              handlePhotoUpload({
-                url: json.secure_url,
-              });
+              handlePhotoUpload({ url: json.secure_url });
             },
           },
         }}

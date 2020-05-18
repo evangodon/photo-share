@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import Header from '@/components/layout/Header';
 import { AppContainer } from '@/components/layout';
 
 const withPageLayout = (PageComponent) => (props) => (

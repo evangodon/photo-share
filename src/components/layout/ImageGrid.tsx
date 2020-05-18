@@ -8,11 +8,8 @@ type Props = {
 };
 
 const photosWithoutLinks = (photo) => (
-  <div>
-    <Image
-      key={photo._id}
-      src={photo.url ?? `https://source.unsplash.com/random`}
-    />
+  <div key={photo._id}>
+    <Image src={photo.url ?? `https://source.unsplash.com/random`} />
   </div>
 );
 
