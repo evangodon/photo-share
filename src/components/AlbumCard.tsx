@@ -21,12 +21,13 @@ type Props = {
  * @todo: Add focus style to editable title
  */
 const AlbumCard = ({ album, editable, handleInput }: Props) => {
-  const text = useRef('');
+  const text = useRef(album.title);
   const router = useRouter();
 
   function handleChange(e: ContentEditableEvent) {
+    console.log(e.target);
     text.current = e.target.value;
-    handleInput(e.target.value);
+    handleInput(e.target.value.trim());
   }
 
   return (
@@ -35,7 +36,7 @@ const AlbumCard = ({ album, editable, handleInput }: Props) => {
         <AlbumCover>
           <Image src={album.coverPhoto} />
           <EditableHeader
-            html={`${album.title}`}
+            html={text.current}
             onChange={handleChange}
             tagName="h2"
           />

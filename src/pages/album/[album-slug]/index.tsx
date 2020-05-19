@@ -8,6 +8,7 @@ import withPageLayout from '@/components/layout/withPageLayout';
 import { faunadb } from '@/lib/faundb';
 import { getTitleFromSlug, getIdFromSlug } from '@/utils';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
+import { FindAlbumById } from '@/graphql/queries';
 
 type Props = NextPage & { album: any };
 
@@ -45,23 +46,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const slug = context.params['album-slug'] as string;
   const albumID = getIdFromSlug(slug);
 
-  const query = /* GraphQL */ `
-    query FindAlbumByID($albumID: ID!) {
-      findAlbumByID(id: $albumID) {
-        title
-        photos {
-          data {
-            _id
-            url
-          }
-        }
-      }
+  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(
+    FindAlbumById,
+    {
+      variables: { albumID },
     }
-  `;
-
-  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(query, {
-    variables: { albumID },
-  });
+  );
 
   if (errors) {
     throw new Error(errors[0].message);

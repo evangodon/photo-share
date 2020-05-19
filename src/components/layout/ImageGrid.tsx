@@ -1,31 +1,36 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Image } from '@/components';
+import { Flex } from 'rebass';
 
 type Props = {
   photos: any[];
   editable?: boolean;
 };
 
-const photosWithoutLinks = (photo) => (
-  <div key={photo._id}>
-    <Image src={photo.url ?? `https://source.unsplash.com/random`} />
-  </div>
-);
-
-const photosWithLinks = (photo) => (
-  <Link href="/photo/photo-slug" key={photo._id}>
-    <a>
-      <Image src={photo.url ?? `https://source.unsplash.com/random`} />
-    </a>
-  </Link>
-);
-
 const ImageGrid = ({ photos, editable }: Props) => {
+  if (photos.length === 0) {
+    return <Flex justifyContent="center">No photos yet!</Flex>;
+  }
+
+  const photosWithoutLinks = (photo) => (
+    <div key={photo._id}>
+      <Image src={photo.url ?? `https://source.unsplash.com/random`} />
+    </div>
+  );
+
+  const photosWithLinks = (photo) => (
+    <Link href="/photo/photo-slug" key={photo._id}>
+      <a>
+        <Image src={photo.url ?? `https://source.unsplash.com/random`} />
+      </a>
+    </Link>
+  );
+
   return (
     <ImageContainer>
       <>
-        {photos.map(editable ? photosWithLinks : photosWithoutLinks)}
+        {photos.map(editable ? photosWithoutLinks : photosWithLinks)}
         <a className="last-row" />
       </>
     </ImageContainer>

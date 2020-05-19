@@ -2,8 +2,8 @@ import { css, DefaultTheme } from 'styled-components';
 
 export const variables = {
   /* Colors */
-  __color_primary_light: '#B2F5EA',
-  __color_primary: '#319795',
+  __color_primary_light: '#82b1ff',
+  __color_primary: '#448aff',
   __color_primary_dark: '#2b6cb0',
   __color_secondary_light: '#d6bcfa',
   __color_secondary: '#9f7aea',
@@ -35,10 +35,10 @@ export const variables = {
 };
 
 export const colors = {
-  primary: '#68E4BC',
-  primary_light: '#f5fffc',
-  primary_dark: '#389678',
-  secondary: '#4AD0D1',
+  primary: '#448aff',
+  primary_light: '#82b1ff',
+  primary_dark: '#2979ff',
+  secondary: '#2979ff',
   white: '#fff',
 };
 

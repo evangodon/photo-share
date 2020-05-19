@@ -33,9 +33,9 @@ const Options = ({ className, options }: Props) => {
       {isOpen && (
         <Menu>
           {options.map((option) => (
-            <span onClick={(e) => [e.stopPropagation(), option.onClick()]}>
+            <MenuItem onClick={(e) => [e.stopPropagation(), option.onClick()]}>
               {option.label}
-            </span>
+            </MenuItem>
           ))}
         </Menu>
       )}
@@ -50,7 +50,7 @@ const Container = styled.div`
 `;
 
 const OptionsButton = styled.div`
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 50%;
   --size: 4rem;
   height: var(--size);
@@ -58,15 +58,24 @@ const OptionsButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
 `;
 
 const Menu = styled.div`
   background-color: #fff;
-  padding: 1rem;
+  border: 1px solid #ccc;
   border-radius: var(--border-radius);
   position: absolute;
   top: 4.5rem;
   right: 1rem;
+`;
+
+const MenuItem = styled.span`
+  display: inline-block;
+  padding: 1rem;
   white-space: nowrap;
 `;
 

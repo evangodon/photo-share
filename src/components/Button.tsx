@@ -21,7 +21,7 @@ const border = ({ colors }) => ({
 });
 
 const bgImage = ({ colors }) => ({
-  contained: `linear-gradient(to right, ${colors.primary} 0%, #4AD0D1 99%)`,
+  contained: `linear-gradient(to right, ${colors.primary} 0%, ${colors.primary_light} 99%)`,
 });
 
 const boxShadow = ({ colors }) => ({

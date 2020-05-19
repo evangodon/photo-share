@@ -3,17 +3,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Box, Flex } from 'rebass';
-import {
-  Upload as UploadIcon,
-  Layout as LayoutIcon,
-  Image as ImageIcon,
-  ArrowLeft as ArrowLeftIcon,
-} from 'react-feather';
+import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { useMutation } from 'urql';
 import { withPageLayout, ImageGrid } from '@/components/layout';
-import ImageUpload from '@/components/ImageUpload';
 import { H2 } from '@/components/typography';
-import { Button, AlbumCard } from '@/components';
+import { Button } from '@/components';
+import AlbumTabs from './_components/AlbumTabs';
+import { Photo } from '@/types/index';
 
 const CreateAlbum = /* GraphQL */ `
   mutation CreateAlbum(
@@ -34,8 +30,6 @@ const CreateAlbum = /* GraphQL */ `
   }
 `;
 
-type Tab = 'cover' | 'upload' | 'layout';
-
 /**
  * Page for creating an album.
  *
@@ -46,12 +40,10 @@ type Tab = 'cover' | 'upload' | 'layout';
  * @todo: Persist photos that were just uploaded
  */
 const Create = () => {
-  const [tab, setTab] = useState<Tab>('cover');
   const [_createAlbumResult, createAlbum] = useMutation(CreateAlbum);
   const [title, setTitle] = useState('Add a Title');
   const [coverPhoto, setCoverPhoto] = useState('');
-  const [photos, setPhotos] = useState<{ url: string }[]>([]);
-  const [files, setFiles] = useState<File[]>([]);
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -68,11 +60,7 @@ const Create = () => {
     });
   }
 
-  function handleTabChange(tab: Tab) {
-    return () => setTab(tab);
-  }
-
-  const handlePhotoUpload = (photo: { url: string }) => {
+  const handlePhotoUpload = (photo: Photo) => {
     setPhotos((photos) => [...photos, photo]);
   };
 
@@ -110,54 +98,12 @@ const Create = () => {
             </Button>
           </Flex>
         </Flex>
-
-        <Tabs>
-          <TabItem
-            isActive={tab === 'cover'}
-            onClick={handleTabChange('cover')}
-          >
-            <ImageIcon />
-            Cover
-          </TabItem>
-          <TabItem
-            isActive={tab === 'upload'}
-            onClick={handleTabChange('upload')}
-          >
-            <UploadIcon />
-            Upload
-          </TabItem>
-          <TabItem
-            isActive={tab === 'layout'}
-            onClick={handleTabChange('layout')}
-          >
-            <LayoutIcon />
-            Layout
-          </TabItem>
-        </Tabs>
-
-        <Box width="100%" mt="3rem">
-          {
-            {
-              cover: (
-                <Box maxWidth="50rem" m={[0, 'auto']}>
-                  <AlbumCard
-                    editable
-                    handleInput={handleTitleChange}
-                    album={album}
-                  />
-                </Box>
-              ),
-              upload: (
-                <ImageUpload
-                  files={files}
-                  setFiles={setFiles}
-                  handlePhotoUpload={handlePhotoUpload}
-                />
-              ),
-              layout: <ImageGrid photos={photos} />,
-            }[tab]
-          }
-        </Box>
+        <AlbumTabs
+          handlePhotoUpload={handlePhotoUpload}
+          handleTitleChange={handleTitleChange}
+          photos={photos}
+          album={album}
+        />
       </Container>
     </>
   );
@@ -168,27 +114,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
-const Tabs = styled.div`
-  margin-top: 3rem;
-`;
-
-const TabItem = styled.button<{ isActive }>`
-  display: inline-flex;
-  align-items: center;
-  margin: 0 2rem;
-  padding: 1rem 0;
-  cursor: pointer;
-
-  color: ${(props) =>
-    props.isActive ? props.theme.colors.primary : 'default'};
-  border-bottom: 2px solid
-    ${(props) => (props.isActive ? 'currentColor' : 'transparent')};
-
-  svg {
-    margin-right: 0.6rem;
-  }
 `;
 
 export default withPageLayout(Create);

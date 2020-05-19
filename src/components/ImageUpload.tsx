@@ -7,8 +7,7 @@ registerPlugin(FilePondPluginImagePreview);
 
 type Props = {
   handlePhotoUpload: (photo: { url: string }) => void;
-  files: File[];
-  setFiles: (files: File[]) => void;
+  setFiles?: (files: File[]) => void;
 };
 
 /**
@@ -25,8 +24,6 @@ const ImageUpload = ({ handlePhotoUpload, setFiles }: Props) => {
         maxFiles={20}
         onupdatefiles={(fileItems) => {
           fileItems.forEach((item) => filesRef.current.push(item.file));
-
-          setFiles(fileItems.map((fileItem) => fileItem.file));
         }}
         server={{
           url: `https://api.cloudinary.com/v1_1/dnlc9ln3m/upload`,
