@@ -6,7 +6,7 @@ if (!FAUNA_SECRET) {
   throw new Error('Missing fauna_db secret.');
 }
 
-const custom = got.extend({
+const request = got.extend({
   prefixUrl: 'https://graphql.fauna.com',
   responseType: 'json',
   headers: {
@@ -22,7 +22,7 @@ type Response<T> =
 
 export const faunadb = {
   query: async <Query>(query: string, { variables = {} } = {}) => {
-    const response: Response<Query> = await custom
+    const response: Response<Query> = await request
       .post('graphql', {
         body: JSON.stringify({
           query: query,
