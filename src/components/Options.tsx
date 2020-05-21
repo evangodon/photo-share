@@ -32,8 +32,11 @@ const Options = ({ className, options }: Props) => {
       </OptionsButton>
       {isOpen && (
         <Menu>
-          {options.map((option) => (
-            <MenuItem onClick={(e) => [e.stopPropagation(), option.onClick()]}>
+          {options.map((option, index) => (
+            <MenuItem
+              key={index}
+              onClick={(e) => [e.stopPropagation(), option.onClick()]}
+            >
               {option.label}
             </MenuItem>
           ))}

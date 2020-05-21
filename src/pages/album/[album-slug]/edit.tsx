@@ -66,6 +66,8 @@ type Props = NextPage & { album: any };
 
 /**
  * Page for editing an album
+ *
+ * @todo: handle errors when clicking save
  */
 const Edit = ({ album }: Props) => {
   const [title, setTitle] = useState(album.title);
@@ -87,6 +89,11 @@ const Edit = ({ album }: Props) => {
     const variables = { id, title, coverPhoto, photos: newPhotos };
 
     editAlbum(variables).then((result) => {
+      if (result.error) {
+        console.error(result.error);
+        return;
+      }
+
       router.push('/');
     });
   }
@@ -98,6 +105,13 @@ const Edit = ({ album }: Props) => {
   function handleTitleChange(title: string) {
     setTitle(title);
   }
+
+  const editedAlbum = {
+    _id: album._id,
+    title,
+    coverPhoto,
+    photos: album.photos.data,
+  };
 
   return (
     <Container>
@@ -126,7 +140,7 @@ const Edit = ({ album }: Props) => {
         handleTitleChange={handleTitleChange}
         handlePhotoUpload={handlePhotoUpload}
         photos={newPhotos}
-        album={{ _id: album._id, title, coverPhoto, photos: album.photos.data }}
+        album={editedAlbum}
       />
     </Container>
   );

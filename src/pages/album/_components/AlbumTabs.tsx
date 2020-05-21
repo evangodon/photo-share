@@ -69,10 +69,7 @@ const AlbumTabs = ({
             ),
             upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
             layout: (
-              <ImageGrid
-                photos={[...(album.photos?.data ?? []), ...photos]}
-                editable
-              />
+              <ImageGrid photos={[...album.photos, ...photos]} editable />
             ),
           }[tab]
         }

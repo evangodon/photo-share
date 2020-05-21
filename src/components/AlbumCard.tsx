@@ -25,7 +25,6 @@ const AlbumCard = ({ album, editable, handleInput }: Props) => {
   const router = useRouter();
 
   function handleChange(e: ContentEditableEvent) {
-    console.log(e.target);
     text.current = e.target.value;
     handleInput(e.target.value.trim());
   }

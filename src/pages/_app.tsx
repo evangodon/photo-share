@@ -10,13 +10,7 @@ import 'filepond/dist/filepond.min.css';
 
 // TODO: Update this before pushing to repo
 const client = createClient({
-  url: 'https://graphql.fauna.com/graphql',
-  fetchOptions: () => ({
-    headers: {
-      authorization:
-        'Basic Zm5BRHEtSm1lUkFDRWhnYk5hWTN6Mjh3MUNDZnVVWXZzM3RueEVQejpwaG90b3M6c2VydmVy',
-    },
-  }),
+  url: '/api/graphql',
 });
 
 export default class MyApp extends App {
