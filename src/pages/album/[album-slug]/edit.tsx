@@ -126,7 +126,7 @@ const Edit = ({ album }: Props) => {
         handleTitleChange={handleTitleChange}
         handlePhotoUpload={handlePhotoUpload}
         photos={newPhotos}
-        album={{ _id: album._id, title, coverPhoto, photos: album.photos }}
+        album={{ _id: album._id, title, coverPhoto, photos: album.photos.data }}
       />
     </Container>
   );

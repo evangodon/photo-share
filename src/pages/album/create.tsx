@@ -9,7 +9,7 @@ import { withPageLayout, ImageGrid } from '@/components/layout';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components';
 import AlbumTabs from './_components/AlbumTabs';
-import { Photo } from '@/types/index';
+import { Photo } from '@/types';
 
 const CreateAlbum = /* GraphQL */ `
   mutation CreateAlbum(
@@ -72,6 +72,7 @@ const Create = () => {
     _id: '-1',
     title,
     coverPhoto,
+    photos,
   };
 
   return (
