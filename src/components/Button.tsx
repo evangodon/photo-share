@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Ripples from 'react-ripples';
+import { transparentize } from 'polished';
 
 type Variant = 'contained' | 'outlined' | 'default';
 
@@ -49,7 +50,8 @@ const StyledButton = styled.button<{ ref: any; variant: Variant }>`
   border-radius: 4px;
 
   &:hover {
-    background-color: ${(props) => props.theme.colors.primary_light};
+    background-color: ${(props) =>
+      transparentize(0.8, String(props.theme.colors.primary_light))};
     background-position: right center;
   }
 
