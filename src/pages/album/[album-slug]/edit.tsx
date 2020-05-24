@@ -43,26 +43,50 @@ const EditAlbum = /* GraphQL */ `
 `;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { url } = context.req;
-  const albumID = getIdFromSlug(url.replace('/edit', '').split('/').pop());
+  // const { url } = context.req;
+  // const albumID = getIdFromSlug(url.replace('/edit', '').split('/').pop());
 
-  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(
-    FindAlbumById,
-    {
-      variables: { albumID },
-    }
-  );
+  // const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(
+  //   FindAlbumById,
+  //   {
+  //     variables: { albumID },
+  //   }
+  // );
 
-  if (errors) {
-    throw new Error(errors[0].message);
-  }
+  // if (errors) {
+  //   throw new Error(errors[0].message);
+  // }
 
   return {
-    props: { album: data.findAlbumByID },
+    props: {
+      album: {
+        title: 'hello',
+        coverPhoto: '',
+        photos: {
+          data: [
+            {
+              _id: '1',
+              url: 'https://source.unsplash.com/random?1',
+            },
+            {
+              _id: '2',
+              url: 'https://source.unsplash.com/random?2',
+            },
+            {
+              _id: '3',
+              url: 'https://source.unsplash.com/random?3',
+            },
+          ],
+        },
+      },
+    },
   };
 };
 
-type Props = NextPage & { album: any };
+type Props = NextPage & { album: Album };
+
+// TODO: change back to db data
+// TODO: Refactor the reordering of photos
 
 /**
  * Page for editing an album
@@ -72,21 +96,21 @@ type Props = NextPage & { album: any };
 const Edit = ({ album }: Props) => {
   const [title, setTitle] = useState(album.title);
   const [coverPhoto, setCoverPhoto] = useState(album.coverPhoto);
-  const [newPhotos, setNewPhotos] = useState<Photo[]>([]);
+  const [photos, setPhotos] = useState<Photo[]>(album.photos.data);
   const [_, editAlbum] = useMutation(EditAlbum);
   const router = useRouter();
 
   useEffect(() => {
-    if (!coverPhoto && newPhotos.length > 0) {
-      setCoverPhoto(newPhotos[0].url);
+    if (!coverPhoto && photos.length > 0) {
+      setCoverPhoto(photos[0].url);
     }
-  }, [newPhotos]);
+  }, [photos]);
 
   function handleSave() {
     const slug = router.query['album-slug'] as string;
     const id = getIdFromSlug(slug);
 
-    const variables = { id, title, coverPhoto, photos: newPhotos };
+    const variables = { id, title, coverPhoto, photos: photos };
 
     editAlbum(variables).then((result) => {
       if (result.error) {
@@ -99,7 +123,7 @@ const Edit = ({ album }: Props) => {
   }
 
   const handlePhotoUpload = (photo: { url: string }) => {
-    setNewPhotos((photos) => [...photos, photo]);
+    setPhotos((photos) => [...photos, photo]);
   };
 
   function handleTitleChange(title: string) {
@@ -110,7 +134,7 @@ const Edit = ({ album }: Props) => {
     _id: album._id,
     title,
     coverPhoto,
-    photos: album.photos.data,
+    photos: { data: album.photos.data },
   };
 
   return (
@@ -139,7 +163,8 @@ const Edit = ({ album }: Props) => {
       <AlbumTabs
         handleTitleChange={handleTitleChange}
         handlePhotoUpload={handlePhotoUpload}
-        photos={newPhotos}
+        photos={photos}
+        setPhotos={setPhotos}
         album={editedAlbum}
       />
     </Container>

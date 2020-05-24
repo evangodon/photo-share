@@ -1,23 +1,35 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { Image } from '@/components';
 import { Flex } from 'rebass';
+import { arrayMove } from '@/utils/arrayMove';
 
 type Props = {
   photos: any[];
+  setPhotos?: any;
   editable?: boolean;
 };
 
-const ImageGrid = ({ photos, editable }: Props) => {
+const SortablePhoto = SortableElement((photo) => (
+  <div key={photo._id}>
+    <Image src={photo.url ?? `https://source.unsplash.com/random`} />
+  </div>
+));
+
+const Gallery = SortableContainer(({ items: photos }) => (
+  <ImageContainer>
+    {photos.map((photo, index) => (
+      <SortablePhoto {...photo} index={index} key={photo._id} />
+    ))}
+    <span className="last-row" />
+  </ImageContainer>
+));
+
+const ImageGrid = ({ photos, setPhotos, editable }: Props) => {
   if (photos.length === 0) {
     return <Flex justifyContent="center">No photos yet!</Flex>;
   }
-
-  const photosWithoutLinks = (photo) => (
-    <div key={photo._id}>
-      <Image src={photo.url ?? `https://source.unsplash.com/random`} />
-    </div>
-  );
 
   const photosWithLinks = (photo) => (
     <Link href="/photo/photo-slug" key={photo._id}>
@@ -27,11 +39,19 @@ const ImageGrid = ({ photos, editable }: Props) => {
     </Link>
   );
 
-  return (
+  function onSortEnd({ oldIndex, newIndex }) {
+    console.log(oldIndex, newIndex);
+    console.log('sort end');
+    setPhotos(arrayMove(photos, oldIndex, newIndex));
+  }
+
+  return editable ? (
+    <Gallery items={photos} onSortEnd={onSortEnd} axis="xy" />
+  ) : (
     <ImageContainer>
       <>
-        {photos.map(editable ? photosWithoutLinks : photosWithLinks)}
-        <a className="last-row" />
+        {photos.map(photosWithLinks)}
+        <span className="last-row" />
       </>
     </ImageContainer>
   );

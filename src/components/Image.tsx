@@ -18,6 +18,7 @@ const Container = styled.img`
   min-height: 100%;
   object-fit: cover;
   vertical-align: bottom;
+  max-width: 45rem;
 `;
 
 export default Image;

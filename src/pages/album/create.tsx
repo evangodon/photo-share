@@ -43,7 +43,7 @@ const Create = () => {
   const [_createAlbumResult, createAlbum] = useMutation(CreateAlbum);
   const [title, setTitle] = useState('Add a Title');
   const [coverPhoto, setCoverPhoto] = useState('');
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [photos, setPhotos] = useState<any[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const Create = () => {
     _id: '-1',
     title,
     coverPhoto,
-    photos,
+    photos: { data: photos },
   };
 
   return (

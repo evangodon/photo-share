@@ -16,6 +16,7 @@ type Tab = 'cover' | 'upload' | 'layout';
 type Props = {
   handleTitleChange: (title: string) => void;
   handlePhotoUpload: (photo: Photo) => void;
+  setPhotos?: (photos: any[]) => void;
   photos: Photo[];
   album: Album;
 };
@@ -23,6 +24,7 @@ type Props = {
 const AlbumTabs = ({
   handleTitleChange,
   handlePhotoUpload,
+  setPhotos,
   photos,
   album,
 }: Props) => {
@@ -69,7 +71,7 @@ const AlbumTabs = ({
             ),
             upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
             layout: (
-              <ImageGrid photos={[...album.photos, ...photos]} editable />
+              <ImageGrid photos={photos} setPhotos={setPhotos} editable />
             ),
           }[tab]
         }
