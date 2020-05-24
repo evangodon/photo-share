@@ -3,5 +3,11 @@ export const getTitleFromSlug = (slug: string) => {
 };
 
 export const getIdFromSlug = (slug: string) => {
-  return slug.split('-')[1];
+  return slug.split('-').pop();
+};
+
+export const createSlug = (entity: { _id: string; title: string }) => {
+  const { _id, title } = entity;
+
+  return `${title.replace(/\s/g, '-').toLowerCase()}-${_id}`;
 };

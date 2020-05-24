@@ -43,49 +43,29 @@ const EditAlbum = /* GraphQL */ `
 `;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // const { url } = context.req;
-  // const albumID = getIdFromSlug(url.replace('/edit', '').split('/').pop());
+  const { url } = context.req;
+  const albumID = getIdFromSlug(url.replace('/edit', '').split('/').pop());
 
-  // const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(
-  //   FindAlbumById,
-  //   {
-  //     variables: { albumID },
-  //   }
-  // );
+  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(
+    FindAlbumById,
+    {
+      variables: { albumID },
+    }
+  );
 
-  // if (errors) {
-  //   throw new Error(errors[0].message);
-  // }
+  if (errors) {
+    throw new Error(errors[0].message);
+  }
 
   return {
     props: {
-      album: {
-        title: 'hello',
-        coverPhoto: '',
-        photos: {
-          data: [
-            {
-              _id: '1',
-              url: 'https://source.unsplash.com/random?1',
-            },
-            {
-              _id: '2',
-              url: 'https://source.unsplash.com/random?2',
-            },
-            {
-              _id: '3',
-              url: 'https://source.unsplash.com/random?3',
-            },
-          ],
-        },
-      },
+      album: data.findAlbumByID,
     },
   };
 };
 
 type Props = NextPage & { album: Album };
 
-// TODO: change back to db data
 // TODO: Refactor the reordering of photos
 
 /**

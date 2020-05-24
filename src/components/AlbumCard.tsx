@@ -8,6 +8,7 @@ import Options from '@/components/Options';
 import ContentEditable, {
   ContentEditableEvent,
 } from '@/components/ContentEditable';
+import { createSlug } from '@/utils';
 
 type Props = {
   album: Pick<Album, 'title' | '_id' | 'coverPhoto'>;
@@ -50,7 +51,7 @@ const AlbumCard = ({ album, editable, handleInput }: Props) => {
                 {
                   label: 'Edit Album',
                   onClick: () =>
-                    router.push(`/album/${album.title}-${album._id}/edit`),
+                    router.push(`/album/${createSlug(album)}/edit`),
                 },
               ]}
             />
