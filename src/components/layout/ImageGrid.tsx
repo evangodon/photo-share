@@ -13,7 +13,10 @@ type Props = {
 
 const SortablePhoto = SortableElement((photo) => (
   <div key={photo._id}>
-    <Image src={photo.url ?? `https://source.unsplash.com/random`} />
+    <Image
+      src={photo.url ?? `https://source.unsplash.com/random`}
+      cursor="grab"
+    />
   </div>
 ));
 
@@ -40,13 +43,16 @@ const ImageGrid = ({ photos, setPhotos, editable }: Props) => {
   );
 
   function onSortEnd({ oldIndex, newIndex }) {
-    console.log(oldIndex, newIndex);
-    console.log('sort end');
     setPhotos(arrayMove(photos, oldIndex, newIndex));
   }
 
   return editable ? (
-    <Gallery items={photos} onSortEnd={onSortEnd} axis="xy" />
+    <Gallery
+      items={photos}
+      onSortEnd={onSortEnd}
+      helperClass="is-dragged"
+      axis="xy"
+    />
   ) : (
     <ImageContainer>
       <>
@@ -68,6 +74,7 @@ const ImageContainer = styled.div`
     display: inline-flex;
     margin: 2px;
     flex-grow: 1;
+    transition: transform;
   }
 
   .last-row {
