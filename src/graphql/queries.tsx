@@ -12,3 +12,11 @@ export const FindAlbumById = /* GraphQL */ `
     }
   }
 `;
+
+export const DeletePhoto = /* GraphQL */ `
+  mutation DeletePhoto($id: ID!) {
+    deletePhoto(id: $id) {
+      _id
+    }
+  }
+`;

@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { Image } from '@/components';
 import { Flex } from 'rebass';
-import { arrayMove } from '@/utils/arrayMove';
+import Options from '@/components/Options';
 
 type Props = {
   photos: any[];
@@ -11,52 +10,21 @@ type Props = {
   editable?: boolean;
 };
 
-const SortablePhoto = SortableElement((photo) => (
-  <div key={photo._id}>
-    <Image
-      src={photo.url ?? `https://source.unsplash.com/random`}
-      cursor="grab"
-    />
-  </div>
-));
-
-const Gallery = SortableContainer(({ items: photos }) => (
-  <ImageContainer>
-    {photos.map((photo, index) => (
-      <SortablePhoto {...photo} index={index} key={photo._id} />
-    ))}
-    <span className="last-row" />
-  </ImageContainer>
-));
-
 const ImageGrid = ({ photos, setPhotos, editable }: Props) => {
   if (photos.length === 0) {
     return <Flex justifyContent="center">No photos yet!</Flex>;
   }
 
-  const photosWithLinks = (photo) => (
-    <Link href="/photo/photo-slug" key={photo._id}>
-      <a>
-        <Image src={photo.url ?? `https://source.unsplash.com/random`} />
-      </a>
-    </Link>
-  );
-
-  function onSortEnd({ oldIndex, newIndex }) {
-    setPhotos(arrayMove(photos, oldIndex, newIndex));
-  }
-
-  return editable ? (
-    <Gallery
-      items={photos}
-      onSortEnd={onSortEnd}
-      helperClass="is-dragged"
-      axis="xy"
-    />
-  ) : (
+  return (
     <ImageContainer>
       <>
-        {photos.map(photosWithLinks)}
+        {photos.map((photo) => (
+          <Link href="/photo/photo-slug" key={photo._id}>
+            <a>
+              <Image src={photo.url ?? `https://source.unsplash.com/random`} />
+            </a>
+          </Link>
+        ))}
         <span className="last-row" />
       </>
     </ImageContainer>
@@ -68,8 +36,7 @@ const ImageContainer = styled.div`
   flex-wrap: wrap;
   align-content: stretch;
 
-  a,
-  div {
+  a {
     height: 40vh;
     display: inline-flex;
     margin: 2px;
@@ -79,6 +46,23 @@ const ImageContainer = styled.div`
 
   .last-row {
     flex-grow: 10;
+  }
+`;
+
+const PhotoOptions = styled(Options)`
+  opacity: 0;
+`;
+
+const DraggableImage = styled.div`
+  position: relative;
+  height: 40vh;
+  display: inline-flex;
+  margin: 2px;
+  flex-grow: 1;
+  transition: transform;
+
+  &:hover ${PhotoOptions} {
+    opacity: 1;
   }
 `;
 

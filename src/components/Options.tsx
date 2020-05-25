@@ -50,6 +50,7 @@ const Container = styled.div`
   position: absolute;
   right: 1rem;
   top: 1rem;
+  cursor: pointer;
 `;
 
 const OptionsButton = styled.div`

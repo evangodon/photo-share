@@ -3,12 +3,7 @@ import styled from 'styled-components';
 import { Box, Flex } from 'rebass';
 import { useRouter } from 'next/router';
 import { GetServerSideProps, NextPage } from 'next';
-import {
-  Upload as UploadIcon,
-  Layout as LayoutIcon,
-  Image as ImageIcon,
-  ArrowLeft as ArrowLeftIcon,
-} from 'react-feather';
+import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { useMutation } from 'urql';
 import Link from 'next/link';
 import { withPageLayout } from '@/components/layout';
@@ -66,17 +61,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 type Props = NextPage & { album: Album };
 
-// TODO: Refactor the reordering of photos
-
 /**
  * Page for editing an album
  *
+ * @TODO: Create album context for editing
  * @todo: handle errors when clicking save
  */
 const Edit = ({ album }: Props) => {
   const [title, setTitle] = useState(album.title);
   const [coverPhoto, setCoverPhoto] = useState(album.coverPhoto);
   const [photos, setPhotos] = useState<Photo[]>(album.photos.data);
+
   const [_, editAlbum] = useMutation(EditAlbum);
   const router = useRouter();
 
@@ -90,7 +85,14 @@ const Edit = ({ album }: Props) => {
     const slug = router.query['album-slug'] as string;
     const id = getIdFromSlug(slug);
 
-    const variables = { id, title, coverPhoto, photos: photos };
+    const variables = {
+      id,
+      title,
+      coverPhoto,
+      photos: photos
+        .filter((photo) => photo._id.includes('temp'))
+        .map(({ _id, ...rest }) => ({ ...rest })),
+    };
 
     editAlbum(variables).then((result) => {
       if (result.error) {
@@ -103,7 +105,11 @@ const Edit = ({ album }: Props) => {
   }
 
   const handlePhotoUpload = (photo: { url: string }) => {
-    setPhotos((photos) => [...photos, photo]);
+    const photoWithTempId = {
+      url: photo.url,
+      _id: `temp-${Math.random().toString(10).substr(2, 12)}`,
+    };
+    setPhotos((photos) => [...photos, photoWithTempId]);
   };
 
   function handleTitleChange(title: string) {
@@ -114,7 +120,7 @@ const Edit = ({ album }: Props) => {
     _id: album._id,
     title,
     coverPhoto,
-    photos: { data: album.photos.data },
+    photos: { data: photos },
   };
 
   return (

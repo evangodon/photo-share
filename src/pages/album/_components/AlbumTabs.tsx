@@ -9,6 +9,7 @@ import { Photo, Album } from '@/types';
 import { ImageGrid } from '@/components/layout';
 import { Box, Flex } from 'rebass';
 import ImageUpload from '@/components/ImageUpload';
+import ImageGridEditable from '@/components/ImageGridEditable';
 import { Button, AlbumCard } from '@/components';
 
 type Tab = 'cover' | 'upload' | 'layout';
@@ -71,7 +72,11 @@ const AlbumTabs = ({
             ),
             upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
             layout: (
-              <ImageGrid photos={photos} setPhotos={setPhotos} editable />
+              <ImageGridEditable
+                photos={photos}
+                setPhotos={setPhotos}
+                editable
+              />
             ),
           }[tab]
         }
