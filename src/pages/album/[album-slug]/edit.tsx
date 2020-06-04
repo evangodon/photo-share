@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps, NextPage } from 'next';
 import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { useMutation } from 'urql';
+import { nanoid } from 'nanoid';
 import Link from 'next/link';
 import { withPageLayout } from '@/components/layout';
 import { Button, AlbumCard } from '@/components';
@@ -15,12 +16,14 @@ import { getIdFromSlug } from '@/utils/index';
 import { FindAlbumById } from '@/graphql/queries';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
 import { faunadb } from '@/lib/faundb';
+import { useAlbumReducer } from '@/hooks';
 
 const EditAlbum = /* GraphQL */ `
   mutation UpdateAlbum(
     $id: ID!
     $title: String!
     $coverPhoto: String
+    $photoOrder: [String]!
     $photos: [PhotoInput!]!
   ) {
     updateAlbum(
@@ -28,6 +31,7 @@ const EditAlbum = /* GraphQL */ `
       data: {
         title: $title
         coverPhoto: $coverPhoto
+        photoOrder: $photoOrder
         photos: { create: $photos }
       }
     ) {
@@ -64,22 +68,24 @@ type Props = NextPage & { album: Album };
 /**
  * Page for editing an album
  *
- * @TODO: Create album context for editing
  * @todo: handle errors when clicking save
  */
 const Edit = ({ album }: Props) => {
   const [title, setTitle] = useState(album.title);
   const [coverPhoto, setCoverPhoto] = useState(album.coverPhoto);
   const [photos, setPhotos] = useState<Photo[]>(album.photos.data);
+  const { album: editedAlbum, albumDispatch } = useAlbumReducer(album);
 
   const [_, editAlbum] = useMutation(EditAlbum);
   const router = useRouter();
 
   useEffect(() => {
+    const photos = album.photos.data;
+
     if (!coverPhoto && photos.length > 0) {
       setCoverPhoto(photos[0].url);
     }
-  }, [photos]);
+  }, [album.photos.data]);
 
   function handleSave() {
     const slug = router.query['album-slug'] as string;
@@ -89,9 +95,8 @@ const Edit = ({ album }: Props) => {
       id,
       title,
       coverPhoto,
-      photos: photos
-        .filter((photo) => photo._id.includes('temp'))
-        .map(({ _id, ...rest }) => ({ ...rest })),
+      photoOrder: [],
+      photos,
     };
 
     editAlbum(variables).then((result) => {
@@ -104,23 +109,13 @@ const Edit = ({ album }: Props) => {
     });
   }
 
-  const handlePhotoUpload = (photo: { url: string }) => {
-    const photoWithTempId = {
-      url: photo.url,
-      _id: `temp-${Math.random().toString(10).substr(2, 12)}`,
+  const handlePhotoUpload = (url: string) => {
+    const photo = {
+      url,
+      id: nanoid(),
     };
-    setPhotos((photos) => [...photos, photoWithTempId]);
-  };
 
-  function handleTitleChange(title: string) {
-    setTitle(title);
-  }
-
-  const editedAlbum = {
-    _id: album._id,
-    title,
-    coverPhoto,
-    photos: { data: photos },
+    albumDispatch({ type: 'create:photo', payload: { photo } });
   };
 
   return (
@@ -147,11 +142,9 @@ const Edit = ({ album }: Props) => {
         </Flex>
       </Flex>
       <AlbumTabs
-        handleTitleChange={handleTitleChange}
-        handlePhotoUpload={handlePhotoUpload}
-        photos={photos}
-        setPhotos={setPhotos}
         album={editedAlbum}
+        albumDispatch={albumDispatch}
+        handlePhotoUpload={handlePhotoUpload}
       />
     </Container>
   );

@@ -3,8 +3,10 @@ import { Image } from '@/components';
 import { useMutation } from 'urql';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { DeletePhoto } from '@/graphql/queries';
+import { Photo } from '@/types/index';
 import { arrayMove } from '@/utils/arrayMove';
 import Options from '@/components/Options';
+import { AlbumDispatch } from '@/hooks';
 
 const SortablePhoto = SortableElement(({ photo, onDelete }) => (
   <DraggableImage key={photo._id}>
@@ -36,14 +38,20 @@ const Gallery = SortableContainer(({ items: photos }) => {
   );
 });
 
+type Props = {
+  photos: Photo[];
+  albumDispatch: AlbumDispatch;
+};
+
 /**
  * Renders photos in a grid which can be reordered.
  *
  * @TODO: handle delete of images that haven't been saved in Fauna
  */
-const ImageGridEditable = ({ photos, setPhotos }) => {
+const ImageGridEditable = ({ photos, albumDispatch }: Props) => {
   function onSortEnd({ oldIndex, newIndex }) {
-    setPhotos(arrayMove(photos, oldIndex, newIndex));
+    const newOrder = arrayMove(photos, oldIndex, newIndex);
+    albumDispatch({ type: 'update:photo_order', payload: { order: newOrder } });
   }
 
   return (

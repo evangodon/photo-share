@@ -6,7 +6,7 @@ import { kIsNormalizedAlready } from 'got/dist/source/core';
 registerPlugin(FilePondPluginImagePreview);
 
 type Props = {
-  handlePhotoUpload: (photo: { url: string }) => void;
+  handlePhotoUpload: (url: string) => void;
   setFiles?: (files: File[]) => void;
 };
 
@@ -37,9 +37,9 @@ const ImageUpload = ({ handlePhotoUpload, setFiles }: Props) => {
               return formData;
             },
             onload: (response) => {
-              const json = JSON.parse(response);
+              const json: { secure_url: string } = JSON.parse(response);
 
-              handlePhotoUpload({ url: json.secure_url });
+              handlePhotoUpload(json.secure_url);
             },
           },
         }}

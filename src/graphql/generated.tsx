@@ -16,6 +16,7 @@ export type Scalars = {
 export type AlbumInput = {
   title: Scalars['String'];
   coverPhoto?: Maybe<Scalars['String']>;
+  photoOrder: Array<Maybe<Scalars['String']>>;
   photos?: Maybe<AlbumPhotosRelation>;
 };
 
@@ -88,6 +89,7 @@ export type PhotoAlbumRelation = {
 
 /** 'Photo' input values */
 export type PhotoInput = {
+  id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
   url: Scalars['String'];
   album?: Maybe<PhotoAlbumRelation>;
@@ -96,6 +98,7 @@ export type PhotoInput = {
 
 export type Album = {
    __typename?: 'Album';
+  photoOrder: Array<Maybe<Scalars['String']>>;
   /** The document's ID. */
   _id: Scalars['ID'];
   coverPhoto?: Maybe<Scalars['String']>;
@@ -127,6 +130,7 @@ export type Photo = {
   url: Scalars['String'];
   /** The document's ID. */
   _id: Scalars['ID'];
+  id: Scalars['ID'];
   album: Album;
   title?: Maybe<Scalars['String']>;
   /** The document's timestamp. */
@@ -146,17 +150,12 @@ export type PhotoPage = {
 
 export type Query = {
    __typename?: 'Query';
-  /** Find a document from the collection of 'Album' by its id. */
-  findAlbumByID?: Maybe<Album>;
   /** Find a document from the collection of 'Photo' by its id. */
   findPhotoByID?: Maybe<Photo>;
-  allAlbums: AlbumPage;
+  /** Find a document from the collection of 'Album' by its id. */
+  findAlbumByID?: Maybe<Album>;
   allPhotos: PhotoPage;
-};
-
-
-export type QueryFindAlbumByIdArgs = {
-  id: Scalars['ID'];
+  allAlbums: AlbumPage;
 };
 
 
@@ -165,13 +164,18 @@ export type QueryFindPhotoByIdArgs = {
 };
 
 
-export type QueryAllAlbumsArgs = {
+export type QueryFindAlbumByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllPhotosArgs = {
   _size?: Maybe<Scalars['Int']>;
   _cursor?: Maybe<Scalars['String']>;
 };
 
 
-export type QueryAllPhotosArgs = {
+export type QueryAllAlbumsArgs = {
   _size?: Maybe<Scalars['Int']>;
   _cursor?: Maybe<Scalars['String']>;
 };
@@ -186,7 +190,7 @@ export type FindAlbumByIdQuery = (
   { __typename?: 'Query' }
   & { findAlbumByID?: Maybe<(
     { __typename?: 'Album' }
-    & Pick<Album, 'title'>
+    & Pick<Album, 'title' | 'coverPhoto'>
     & { photos: (
       { __typename?: 'PhotoPage' }
       & { data: Array<Maybe<(
@@ -194,6 +198,36 @@ export type FindAlbumByIdQuery = (
         & Pick<Photo, '_id' | 'url'>
       )>> }
     ) }
+  )> }
+);
+
+export type DeletePhotoMutationVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type DeletePhotoMutation = (
+  { __typename?: 'Mutation' }
+  & { deletePhoto?: Maybe<(
+    { __typename?: 'Photo' }
+    & Pick<Photo, '_id'>
+  )> }
+);
+
+export type UpdateAlbumMutationVariables = {
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  coverPhoto?: Maybe<Scalars['String']>;
+  photoOrder: Array<Maybe<Scalars['String']>>;
+  photos: Array<PhotoInput>;
+};
+
+
+export type UpdateAlbumMutation = (
+  { __typename?: 'Mutation' }
+  & { updateAlbum?: Maybe<(
+    { __typename?: 'Album' }
+    & Pick<Album, '_id' | 'title'>
   )> }
 );
 
@@ -208,6 +242,22 @@ export type GetAlbumsQuery = (
       { __typename?: 'Album' }
       & Pick<Album, 'title' | '_id'>
     )>> }
+  ) }
+);
+
+export type CreateAlbumMutationVariables = {
+  title: Scalars['String'];
+  coverPhoto?: Maybe<Scalars['String']>;
+  photoOrder: Array<Maybe<Scalars['String']>>;
+  photos: Array<PhotoInput>;
+};
+
+
+export type CreateAlbumMutation = (
+  { __typename?: 'Mutation' }
+  & { createAlbum: (
+    { __typename?: 'Album' }
+    & Pick<Album, '_id' | 'title'>
   ) }
 );
 

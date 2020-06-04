@@ -9,10 +9,12 @@ import ContentEditable, {
   ContentEditableEvent,
 } from '@/components/ContentEditable';
 import { createSlug } from '@/utils';
+import { AlbumDispatch } from '@/hooks';
 
 type Props = {
   album: Pick<Album, 'title' | '_id' | 'coverPhoto'>;
   editable?: boolean;
+  albumDispatch?: AlbumDispatch;
   handleInput?: (title: string) => void;
 };
 
@@ -21,13 +23,17 @@ type Props = {
  *
  * @todo: Add focus style to editable title
  */
-const AlbumCard = ({ album, editable, handleInput }: Props) => {
-  const text = useRef(album.title);
+const AlbumCard = ({ album, editable, albumDispatch }: Props) => {
+  const text = useRef(album.title || 'Add a title');
   const router = useRouter();
 
   function handleChange(e: ContentEditableEvent) {
     text.current = e.target.value;
-    handleInput(e.target.value.trim());
+
+    albumDispatch({
+      type: 'update:title',
+      payload: { title: e.target.value.trim() },
+    });
   }
 
   return (

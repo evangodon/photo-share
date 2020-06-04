@@ -5,30 +5,23 @@ import {
   Layout as LayoutIcon,
   Image as ImageIcon,
 } from 'react-feather';
-import { Photo, Album } from '@/types';
+import { Photo, EditedAlbum } from '@/types';
 import { ImageGrid } from '@/components/layout';
 import { Box, Flex } from 'rebass';
 import ImageUpload from '@/components/ImageUpload';
 import ImageGridEditable from '@/components/ImageGridEditable';
 import { Button, AlbumCard } from '@/components';
+import { AlbumDispatch } from '@/hooks';
 
 type Tab = 'cover' | 'upload' | 'layout';
 
 type Props = {
-  handleTitleChange: (title: string) => void;
-  handlePhotoUpload: (photo: Photo) => void;
-  setPhotos?: (photos: any[]) => void;
-  photos: Photo[];
-  album: Album;
+  handlePhotoUpload: (url: string) => void;
+  album: EditedAlbum;
+  albumDispatch: AlbumDispatch;
 };
 
-const AlbumTabs = ({
-  handleTitleChange,
-  handlePhotoUpload,
-  setPhotos,
-  photos,
-  album,
-}: Props) => {
+const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
   const [tab, setTab] = useState<Tab>('cover');
 
   function handleTabChange(tab: Tab) {
@@ -65,7 +58,7 @@ const AlbumTabs = ({
               <Box maxWidth="50rem" m={[0, 'auto']}>
                 <AlbumCard
                   editable
-                  handleInput={handleTitleChange}
+                  albumDispatch={albumDispatch}
                   album={album}
                 />
               </Box>
@@ -73,9 +66,8 @@ const AlbumTabs = ({
             upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
             layout: (
               <ImageGridEditable
-                photos={photos}
-                setPhotos={setPhotos}
-                editable
+                photos={album.photos.data}
+                albumDispatch={albumDispatch}
               />
             ),
           }[tab]
