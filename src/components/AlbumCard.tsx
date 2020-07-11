@@ -133,6 +133,4 @@ const Header = styled.h2`
   ${headerStyles};
 `;
 
-const Content = styled.div``;
-
 export default AlbumCard;

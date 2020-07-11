@@ -1,22 +1,24 @@
 import { useReducer, Dispatch } from 'react';
-import { EditedAlbum, Photo } from '@/types/index';
-import { nanoid } from 'nanoid';
+import { EditedAlbum, NewPhoto } from '@/types/index';
 
 const initialState: EditedAlbum = {
   _id: '-1',
   title: '',
   coverPhoto: '',
   photoOrder: [],
-  photos: { data: [] },
+  photos: { data: {} },
 };
 
 type Action =
   | { type: 'update:title'; payload: { title: string } }
   | { type: 'update:cover_photo'; payload: { url: string } }
   | { type: 'update:photo_order'; payload: { order: string[] } }
-  | { type: 'create:photo'; payload: { photo: Photo } };
+  | { type: 'create:photo'; payload: { photo: NewPhoto } }
+  | { type: 'delete:photo'; payload: { photoID: string } };
 
-const reducer = (state, action: Action) => {
+type Reducer = (state: EditedAlbum, action: Action) => EditedAlbum;
+
+const reducer: Reducer = (state, action) => {
   switch (action.type) {
     case 'update:title':
       return { ...state, title: action.payload.title };
@@ -30,7 +32,22 @@ const reducer = (state, action: Action) => {
     case 'create:photo':
       return {
         ...state,
-        photos: { data: [...state.photos.data, action.payload.photo] },
+        photos: {
+          data: {
+            ...state.photos.data,
+            [action.payload.photo.id]: action.payload.photo,
+          },
+        },
+        photoOrder: [...state.photoOrder, action.payload.photo.id],
+      };
+    case 'delete:photo':
+      console.log(action.payload);
+      delete state.photos.data[action.payload.photoID];
+      return {
+        ...state,
+        photoOrder: state.photoOrder.filter(
+          (photoID) => photoID !== action.payload.photoID
+        ),
       };
 
     default:

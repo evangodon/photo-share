@@ -1,7 +1,6 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import { kIsNormalizedAlready } from 'got/dist/source/core';
 
 registerPlugin(FilePondPluginImagePreview);
 

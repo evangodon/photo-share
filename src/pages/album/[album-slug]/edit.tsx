@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import { Box, Flex } from 'rebass';
+import { Flex } from 'rebass';
 import { useRouter } from 'next/router';
 import { GetServerSideProps, NextPage } from 'next';
 import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
@@ -8,15 +8,16 @@ import { useMutation } from 'urql';
 import { nanoid } from 'nanoid';
 import Link from 'next/link';
 import { withPageLayout } from '@/components/layout';
-import { Button, AlbumCard } from '@/components';
+import { Button } from '@/components';
 import { H2 } from '@/components/typography';
 import AlbumTabs from '@/pages/album/_components/AlbumTabs';
-import { Photo, Album } from '@/types';
+import { EditedAlbum } from '@/types';
 import { getIdFromSlug } from '@/utils/index';
 import { FindAlbumById } from '@/graphql/queries';
-import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
+import { FindAlbumByIdQuery } from '@/graphql/generated';
 import { faunadb } from '@/lib/faundb';
 import { useAlbumReducer } from '@/hooks';
+import { createPhotoList, createPhotoTable } from '@/utils/photoData';
 
 const EditAlbum = /* GraphQL */ `
   mutation UpdateAlbum(
@@ -56,14 +57,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     throw new Error(errors[0].message);
   }
 
+  const album = {
+    ...data.findAlbumByID,
+    photos: {
+      data: createPhotoTable(data.findAlbumByID.photos.data),
+    },
+  };
+
   return {
     props: {
-      album: data.findAlbumByID,
+      album,
     },
   };
 };
 
-type Props = NextPage & { album: Album };
+type Props = NextPage & { album: EditedAlbum };
 
 /**
  * Page for editing an album
@@ -71,9 +79,6 @@ type Props = NextPage & { album: Album };
  * @todo: handle errors when clicking save
  */
 const Edit = ({ album }: Props) => {
-  const [title, setTitle] = useState(album.title);
-  const [coverPhoto, setCoverPhoto] = useState(album.coverPhoto);
-  const [photos, setPhotos] = useState<Photo[]>(album.photos.data);
   const { album: editedAlbum, albumDispatch } = useAlbumReducer(album);
 
   const [_, editAlbum] = useMutation(EditAlbum);
@@ -82,21 +87,25 @@ const Edit = ({ album }: Props) => {
   useEffect(() => {
     const photos = album.photos.data;
 
-    if (!coverPhoto && photos.length > 0) {
-      setCoverPhoto(photos[0].url);
+    if (!album.coverPhoto && Object.keys(photos).length > 0) {
+      albumDispatch({
+        type: 'update:cover_photo',
+        payload: { url: photos[0].url },
+      });
     }
   }, [album.photos.data]);
 
   function handleSave() {
     const slug = router.query['album-slug'] as string;
     const id = getIdFromSlug(slug);
+    const { title, coverPhoto, photoOrder } = editedAlbum;
 
     const variables = {
       id,
       title,
       coverPhoto,
-      photoOrder: [],
-      photos,
+      photoOrder,
+      photos: createPhotoList(editedAlbum.photos.data),
     };
 
     editAlbum(variables).then((result) => {

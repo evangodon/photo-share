@@ -3,12 +3,12 @@ import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import Link from 'next/link';
 import Image from '@/components/Image';
 import { H1 } from '@/components/typography';
-import { ImageContainer } from '@/components/layout';
-import withPageLayout from '@/components/layout/withPageLayout';
 import { faunadb } from '@/lib/faundb';
+import { ImageContainer, withPageLayout } from '@/components/layout';
+import { FindAlbumById } from '@/graphql/queries';
 import { getTitleFromSlug, getIdFromSlug } from '@/utils';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
-import { FindAlbumById } from '@/graphql/queries';
+import { createPhotoTable } from '../../../utils/photoData';
 
 type Props = NextPage & { album: any };
 
@@ -19,19 +19,19 @@ const AlbumPage = ({ album }: Props) => {
 
   const photos = album.photos.data;
 
+  if (Object.keys(photos).length === 0) {
+    return <span>no photos</span>;
+  }
+
   return (
     <>
       <H1>{header}</H1>
       <ImageContainer>
         <>
-          {photos.map((photo, index) => (
-            <Link href="/photo/photo-slug" key={photo._id}>
+          {album.photoOrder.map((photoID: string) => (
+            <Link href="/photo/photo-slug" key={photoID}>
               <a>
-                <Image
-                  src={
-                    photo.url ?? `https://source.unsplash.com/random?${index}`
-                  }
-                />
+                <Image src={album.photos.data[photoID].url} />
               </a>
             </Link>
           ))}
@@ -57,8 +57,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
     throw new Error(errors[0].message);
   }
 
+  const album = {
+    ...data.findAlbumByID,
+    photos: {
+      data: createPhotoTable(data.findAlbumByID.photos.data),
+    },
+  };
+
   return {
-    props: { album: data.findAlbumByID },
+    props: { album },
   };
 };
 

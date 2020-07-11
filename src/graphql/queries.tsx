@@ -3,8 +3,10 @@ export const FindAlbumById = /* GraphQL */ `
     findAlbumByID(id: $albumID) {
       title
       coverPhoto
+      photoOrder
       photos {
         data {
+          id
           _id
           url
         }

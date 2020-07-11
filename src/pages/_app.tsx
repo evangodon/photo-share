@@ -2,13 +2,12 @@ import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider, StyleSheetManager } from 'styled-components';
-import { GlobalStyles, theme } from '@/css';
 import { createClient, Provider as UrqlProvider } from 'urql';
+import { GlobalStyles, theme } from '@/css';
 
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
 
-// TODO: Update this before pushing to repo
 const client = createClient({
   url: '/api/graphql',
 });

@@ -5,16 +5,14 @@ import {
   Layout as LayoutIcon,
   Image as ImageIcon,
 } from 'react-feather';
-import { Photo, EditedAlbum } from '@/types';
-import { ImageGrid } from '@/components/layout';
-import { Box, Flex } from 'rebass';
+import { EditedAlbum } from '@/types';
+import { Box } from 'rebass';
 import ImageUpload from '@/components/ImageUpload';
 import ImageGridEditable from '@/components/ImageGridEditable';
-import { Button, AlbumCard } from '@/components';
+import { AlbumCard } from '@/components';
 import { AlbumDispatch } from '@/hooks';
 
 type Tab = 'cover' | 'upload' | 'layout';
-
 type Props = {
   handlePhotoUpload: (url: string) => void;
   album: EditedAlbum;
@@ -65,10 +63,7 @@ const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
             ),
             upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
             layout: (
-              <ImageGridEditable
-                photos={album.photos.data}
-                albumDispatch={albumDispatch}
-              />
+              <ImageGridEditable album={album} albumDispatch={albumDispatch} />
             ),
           }[tab]
         }
@@ -97,4 +92,5 @@ const TabItem = styled.button<{ isActive }>`
     margin-right: 0.6rem;
   }
 `;
+
 export default AlbumTabs;

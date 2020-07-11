@@ -1,17 +1,18 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { nanoid } from 'nanoid';
 import styled from 'styled-components';
-import { Box, Flex } from 'rebass';
+import { Flex } from 'rebass';
 import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { useMutation } from 'urql';
-import { withPageLayout, ImageGrid } from '@/components/layout';
+import { withPageLayout } from '@/components/layout';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components';
 import AlbumTabs from './_components/AlbumTabs';
 import { useAlbumReducer } from '@/hooks';
-import { Photo } from '@/types';
+import { CreateAlbumMutation } from '@/graphql/generated';
+import { createPhotoList } from '@/utils/photoData';
 
 const CreateAlbum = /* GraphQL */ `
   mutation CreateAlbum(
@@ -29,7 +30,6 @@ const CreateAlbum = /* GraphQL */ `
       }
     ) {
       _id
-      title
     }
   }
 `;
@@ -44,18 +44,17 @@ const CreateAlbum = /* GraphQL */ `
  * @todo: Persist photos that were just uploaded
  */
 const Create = () => {
-  const [_, createAlbum] = useMutation(CreateAlbum);
+  const [_, createAlbum] = useMutation<CreateAlbumMutation>(CreateAlbum);
   const { album, albumDispatch } = useAlbumReducer();
-  const [coverPhoto, setCoverPhoto] = useState('');
   const router = useRouter();
 
   useEffect(() => {
     const photos = album.photos.data;
 
-    if (!coverPhoto && photos.length > 0) {
+    if (!album.coverPhoto && album.photoOrder.length > 0) {
       albumDispatch({
         type: 'update:cover_photo',
-        payload: { url: photos[0].url },
+        payload: { url: photos[album.photoOrder[0]].url },
       });
     }
   }, [album.photos.data]);
@@ -66,7 +65,7 @@ const Create = () => {
       title,
       coverPhoto,
       photoOrder,
-      photos: album.photos.data,
+      photos: createPhotoList(album.photos.data),
     };
 
     createAlbum(variables).then((result) => {

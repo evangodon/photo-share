@@ -3,43 +3,36 @@ import { Image } from '@/components';
 import { useMutation } from 'urql';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { DeletePhoto } from '@/graphql/queries';
-import { Photo } from '@/types/index';
+import { Photo, EditedAlbum } from '@/types/index';
 import { arrayMove } from '@/utils/arrayMove';
 import Options from '@/components/Options';
 import { AlbumDispatch } from '@/hooks';
 
 const SortablePhoto = SortableElement(({ photo, onDelete }) => (
-  <DraggableImage key={photo._id}>
+  <DraggableImage key={photo.id}>
     <>
-      <Image
-        src={photo.url ?? `https://source.unsplash.com/random`}
-        cursor="grab"
-      />
+      <Image src={photo.url} cursor="grab" />
       <PhotoOptions options={[{ label: 'Delete Photo', onClick: onDelete }]} />
     </>
   </DraggableImage>
 ));
 
-const Gallery = SortableContainer(({ items: photos }) => {
-  const [_, deletePhoto] = useMutation(DeletePhoto);
-
-  return (
-    <ImageContainer>
-      {photos.map((photo, index) => (
-        <SortablePhoto
-          photo={photo}
-          onDelete={() => deletePhoto({ id: photo._id })}
-          index={index}
-          key={photo._id}
-        />
-      ))}
-      <span className="last-row" />
-    </ImageContainer>
-  );
-});
+const Gallery = SortableContainer(({ items: photos, onDeletePhoto }) => (
+  <ImageContainer>
+    {photos.map((photo, index) => (
+      <SortablePhoto
+        photo={photo}
+        onDelete={() => onDeletePhoto(photo)}
+        index={index}
+        key={photo._id}
+      />
+    ))}
+    <span className="last-row" />
+  </ImageContainer>
+));
 
 type Props = {
-  photos: Photo[];
+  album: EditedAlbum;
   albumDispatch: AlbumDispatch;
 };
 
@@ -48,15 +41,32 @@ type Props = {
  *
  * @TODO: handle delete of images that haven't been saved in Fauna
  */
-const ImageGridEditable = ({ photos, albumDispatch }: Props) => {
+const ImageGridEditable = ({ album, albumDispatch }: Props) => {
+  const [_, deletePhoto] = useMutation(DeletePhoto);
+
   function onSortEnd({ oldIndex, newIndex }) {
-    const newOrder = arrayMove(photos, oldIndex, newIndex);
+    const newOrder = arrayMove(album.photoOrder, oldIndex, newIndex);
+
     albumDispatch({ type: 'update:photo_order', payload: { order: newOrder } });
   }
+
+  function handleDeletePhoto({ id, _id }: Photo) {
+    deletePhoto({ id: _id }).then((result) => {
+      albumDispatch({
+        type: 'delete:photo',
+        payload: { photoID: id },
+      });
+    });
+  }
+
+  const photos = album.photoOrder.map((photoID) => album.photos.data[photoID]);
+
+  console.log({ album });
 
   return (
     <Gallery
       items={photos}
+      onDeletePhoto={handleDeletePhoto}
       onSortEnd={onSortEnd}
       helperClass="is-dragged"
       distance={1}
