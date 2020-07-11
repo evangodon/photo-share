@@ -1,4 +1,5 @@
 type Photo {
+  id: ID!
   title: String
   url: String!
   album: Album!
@@ -7,6 +8,7 @@ type Photo {
 type Album {
   title: String!
   coverPhoto: String
+  photoOrder: [String]!
   photos: [Photo!] @relation
 }
 

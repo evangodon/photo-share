@@ -24,6 +24,7 @@
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "imagekit": "^3.0.5",
+    "nanoid": "^3.1.9",
     "next": "^9.4.1",
     "polished": "^3.4.4",
     "react": "^16.13.1",
@@ -48,6 +49,8 @@
     "@types/styled-system": "^5.1.9",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-styled-components": "^1.10.7",
+    "eslint": "^7.3.1",
+    "eslint-plugin-react": "^7.20.0",
     "typescript": "^3.8.2"
   }
 }

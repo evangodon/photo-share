@@ -1,31 +1,35 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { nanoid } from 'nanoid';
 import styled from 'styled-components';
-import { Box, Flex } from 'rebass';
+import { Flex } from 'rebass';
 import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { useMutation } from 'urql';
-import { withPageLayout, ImageGrid } from '@/components/layout';
+import { withPageLayout } from '@/components/layout';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components';
 import AlbumTabs from './_components/AlbumTabs';
-import { Photo } from '@/types';
+import { useAlbumReducer } from '@/hooks';
+import { CreateAlbumMutation } from '@/graphql/generated';
+import { createPhotoList } from '@/utils/photoData';
 
 const CreateAlbum = /* GraphQL */ `
   mutation CreateAlbum(
     $title: String!
     $coverPhoto: String
+    $photoOrder: [String]!
     $photos: [PhotoInput!]!
   ) {
     createAlbum(
       data: {
         title: $title
         coverPhoto: $coverPhoto
+        photoOrder: $photoOrder
         photos: { create: $photos }
       }
     ) {
       _id
-      title
     }
   }
 `;
@@ -40,39 +44,42 @@ const CreateAlbum = /* GraphQL */ `
  * @todo: Persist photos that were just uploaded
  */
 const Create = () => {
-  const [_createAlbumResult, createAlbum] = useMutation(CreateAlbum);
-  const [title, setTitle] = useState('Add a Title');
-  const [coverPhoto, setCoverPhoto] = useState('');
-  const [photos, setPhotos] = useState<any[]>([]);
+  const [_, createAlbum] = useMutation<CreateAlbumMutation>(CreateAlbum);
+  const { album, albumDispatch } = useAlbumReducer();
   const router = useRouter();
 
   useEffect(() => {
-    if (!coverPhoto && photos.length > 0) {
-      setCoverPhoto(photos[0].url);
+    const photos = album.photos.data;
+
+    if (!album.coverPhoto && album.photoOrder.length > 0) {
+      albumDispatch({
+        type: 'update:cover_photo',
+        payload: { url: photos[album.photoOrder[0]].url },
+      });
     }
-  }, [photos]);
+  }, [album.photos.data]);
 
   function handleCreateAlbum() {
-    const variables = { title, coverPhoto, photos };
+    const { title, coverPhoto, photoOrder } = album;
+    const variables = {
+      title,
+      coverPhoto,
+      photoOrder,
+      photos: createPhotoList(album.photos.data),
+    };
 
     createAlbum(variables).then((result) => {
+      if (result.error) {
+        console.error(result.error);
+      }
+
       router.push('/');
     });
   }
 
-  const handlePhotoUpload = (photo: Photo) => {
-    setPhotos((photos) => [...photos, photo]);
-  };
-
-  function handleTitleChange(title: string) {
-    setTitle(title);
-  }
-
-  const album = {
-    _id: '-1',
-    title,
-    coverPhoto,
-    photos: { data: photos },
+  const handlePhotoUpload = (url: string) => {
+    const photo = { url, id: nanoid() };
+    albumDispatch({ type: 'create:photo', payload: { photo } });
   };
 
   return (
@@ -101,8 +108,7 @@ const Create = () => {
         </Flex>
         <AlbumTabs
           handlePhotoUpload={handlePhotoUpload}
-          handleTitleChange={handleTitleChange}
-          photos={photos}
+          albumDispatch={albumDispatch}
           album={album}
         />
       </Container>
