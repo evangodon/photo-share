@@ -10,3 +10,5 @@ out/
 .graphqlconfig.yml
 codegen.yml
 .env
+
+Session.vim
