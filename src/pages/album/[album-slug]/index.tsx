@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import { Flex } from 'rebass/styled-components';
 import Link from 'next/link';
 import Image from '@/components/Image';
 import { H1 } from '@/components/typography';
@@ -9,6 +10,7 @@ import { FindAlbumById } from '@/graphql/queries';
 import { getTitleFromSlug, getIdFromSlug } from '@/utils';
 import { createPhotoTable } from '@/utils/photoData';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
+import { Button } from '@/components';
 
 type Props = NextPage & { album: any };
 
@@ -25,7 +27,12 @@ const AlbumPage = ({ album }: Props) => {
 
   return (
     <>
-      <H1>{header}</H1>
+      <Flex justifyContent="space-between">
+        <H1>{header}</H1>
+        <Button variant="outlined" href={`/album/${slug}/edit`}>
+          <a>Edit Album</a>
+        </Button>
+      </Flex>
       <ImageContainer>
         <>
           {album.photoOrder.map((photoID: string) => (
@@ -46,12 +53,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const slug = context.params['album-slug'] as string;
   const albumID = getIdFromSlug(slug);
 
-  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(
-    FindAlbumById,
-    {
-      variables: { albumID },
-    }
-  );
+  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(FindAlbumById, {
+    variables: { albumID },
+  });
 
   if (errors) {
     throw new Error(errors[0].message);

@@ -46,12 +46,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { url } = context.req;
   const albumID = getIdFromSlug(url.replace('/edit', '').split('/').pop());
 
-  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(
-    FindAlbumById,
-    {
-      variables: { albumID },
-    }
-  );
+  const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(FindAlbumById, {
+    variables: { albumID },
+  });
 
   if (errors) {
     throw new Error(errors[0].message);
@@ -129,19 +126,12 @@ const Edit = ({ album }: Props) => {
 
   return (
     <Container>
-      <Flex
-        mb={50}
-        width="100%"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <Flex mb={50} width="100%" justifyContent="space-between" alignItems="center">
         <Flex width={200} alignItems="center">
-          <Link href="/" passHref>
-            <Button>
-              <ArrowLeftIcon size={15} />
-              Back
-            </Button>
-          </Link>
+          <Button onClick={router.back}>
+            <ArrowLeftIcon size={15} />
+            Back
+          </Button>
         </Flex>
         <H2>Edit album</H2>
         <Flex width={200} justifyContent="flex-end">
