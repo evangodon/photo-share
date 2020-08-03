@@ -8,3 +8,9 @@ export const fadeIn = keyframes`
     opacity: 1;
   }
 `;
+
+export const shimmer = keyframes`
+  100% {
+    transform: translateX(100%);
+  }
+`;

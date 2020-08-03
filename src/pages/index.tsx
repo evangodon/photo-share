@@ -1,6 +1,7 @@
 import { NextPage, GetStaticProps } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { providers } from 'next-auth/client';
 import { Header, AlbumCard } from '@/components';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components';
@@ -11,19 +12,20 @@ import { Plus as PlusIcon } from 'react-feather';
 type Props = NextPage & {
   albums: GetAlbumsHomeQuery['allAlbums']['data'];
   errors: any;
+  authProviders: any;
 };
 
 /**
  * The Home Page
  */
-const IndexPage = ({ albums, errors }: Props) => {
+const IndexPage = ({ albums, errors, authProviders }: Props) => {
   if (errors) {
     return <span>{JSON.stringify(errors)}</span>;
   }
 
   return (
     <>
-      <Header />
+      <Header authProviders={authProviders} />
       <Container>
         <ActionBar>
           <H2>Albums</H2>
@@ -44,7 +46,7 @@ const IndexPage = ({ albums, errors }: Props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const query = /* GraphQL */ `
     query GetAlbumsHome {
       allAlbums {
@@ -59,6 +61,13 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const { data, errors } = await faunadb.query<GetAlbumsHomeQuery>(query);
 
+  let authProviders = {};
+  try {
+    authProviders = await providers(context);
+  } catch (error) {
+    console.error(error);
+  }
+
   if (errors) {
     return {
       props: {
@@ -69,7 +78,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 
   return {
-    props: { albums: data.allAlbums.data, errors: null },
+    props: { albums: data.allAlbums.data, errors: null, authProviders },
   };
 };
 

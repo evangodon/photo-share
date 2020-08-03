@@ -40,6 +40,7 @@ export const colors = {
   primary_dark: '#2979ff',
   secondary: '#2979ff',
   white: '#fff',
+  ...variables,
 };
 
 export const theme: DefaultTheme = {
