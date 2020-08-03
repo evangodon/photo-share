@@ -116,9 +116,8 @@ const headerStyles = css`
   color: #fff;
   text-shadow: 1px 1px 2px #000;
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  left: 2rem;
+  bottom: 2rem;
   min-width: 2rem;
 `;
 

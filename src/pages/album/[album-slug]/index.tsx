@@ -7,8 +7,8 @@ import { faunadb } from '@/lib/faundb';
 import { ImageContainer, withPageLayout } from '@/components/layout';
 import { FindAlbumById } from '@/graphql/queries';
 import { getTitleFromSlug, getIdFromSlug } from '@/utils';
+import { createPhotoTable } from '@/utils/photoData';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
-import { createPhotoTable } from '../../../utils/photoData';
 
 type Props = NextPage & { album: any };
 

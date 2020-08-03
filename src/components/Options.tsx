@@ -26,10 +26,12 @@ const Options = ({ className, options }: Props) => {
   }
 
   return (
-    <Container ref={ref} className={className}>
-      <OptionsButton onClick={handleOpen}>
-        <MoreVerticalIcon color="#fff" />
-      </OptionsButton>
+    <>
+      <Container ref={ref} className={className}>
+        <OptionsButton onClick={handleOpen}>
+          <MoreVerticalIcon color="#fff" />
+        </OptionsButton>
+      </Container>
       {isOpen && (
         <Menu>
           {options.map((option, index) => (
@@ -42,7 +44,7 @@ const Options = ({ className, options }: Props) => {
           ))}
         </Menu>
       )}
-    </Container>
+    </>
   );
 };
 
