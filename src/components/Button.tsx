@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Ripples from 'react-ripples';
+import { space } from '@/css/theme';
 import { transparentize } from 'polished';
 
 type Variant = 'contained' | 'outlined' | 'default';
@@ -29,7 +30,7 @@ const boxShadow = ({ colors }) => ({
   contained: `0 12px 12px -11px ${colors.primary}`,
 });
 
-const StyledButton = styled.button<{ ref: any; variant: Variant }>`
+const StyledButton = styled.button<{ ref: any; variant: Variant; withIcon: boolean }>`
   border: 0;
   padding: 0 2.4rem;
   color: ${(props) => color(props.theme)[props.variant]};
@@ -48,6 +49,9 @@ const StyledButton = styled.button<{ ref: any; variant: Variant }>`
   align-items: center;
   opacity: 1;
   border-radius: 4px;
+  position: relative;
+
+  ${(props) => props.withIcon && 'padding-left: 4rem;'}
 
   &:hover {
     background-color: ${(props) =>
@@ -65,6 +69,12 @@ const StyledRipples = styled(Ripples)<{ variant: Variant }>`
   box-shadow: ${(props) => boxShadow(props.theme)[props.variant]};
 `;
 
+const IconContainer = styled.span`
+  position: absolute;
+  left: ${space[2]};
+  top: 0.4rem;
+`;
+
 type Props = {
   color?: string;
   children: React.ReactNode;
@@ -75,10 +85,11 @@ type Props = {
       | React.MouseEvent<HTMLAnchorElement, MouseEvent>
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
+  icon?: React.ReactNode;
 };
 
 const Button = React.forwardRef(
-  ({ children, color, onClick, href, variant = 'default' }: Props, ref) => {
+  ({ children, color, onClick, href, variant = 'default', icon }: Props, ref) => {
     const linkProps = href ? ({ href, as: 'a' } as const) : {};
 
     return (
@@ -88,7 +99,9 @@ const Button = React.forwardRef(
           {...linkProps}
           variant={variant}
           onClick={onClick}
+          withIcon={Boolean(icon)}
         >
+          {icon && <IconContainer>{icon}</IconContainer>}
           {children}
         </StyledButton>
       </StyledRipples>

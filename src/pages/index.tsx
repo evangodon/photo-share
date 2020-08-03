@@ -30,8 +30,7 @@ const IndexPage = ({ albums, errors, authProviders }: Props) => {
         <ActionBar>
           <H2>Albums</H2>
           <Link href="/album/create" passHref>
-            <Button variant="outlined">
-              <PlusIcon />
+            <Button variant="outlined" icon={<PlusIcon />}>
               New Album
             </Button>
           </Link>
