@@ -33,41 +33,31 @@ const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
           <ImageIcon />
           Cover
         </TabItem>
-        <TabItem
-          isActive={tab === 'upload'}
-          onClick={handleTabChange('upload')}
-        >
+        <TabItem isActive={tab === 'upload'} onClick={handleTabChange('upload')}>
           <UploadIcon />
           Upload
         </TabItem>
-        <TabItem
-          isActive={tab === 'layout'}
-          onClick={handleTabChange('layout')}
-        >
+        <TabItem isActive={tab === 'layout'} onClick={handleTabChange('layout')}>
           <LayoutIcon />
           Layout
         </TabItem>
       </Tabs>
 
-      <Box width="100%" mt="3rem">
-        {
+      {album && (
+        <Box width="100%" mt="3rem">
           {
-            cover: (
-              <Box maxWidth="50rem" m={[0, 'auto']}>
-                <AlbumCard
-                  editable
-                  albumDispatch={albumDispatch}
-                  album={album}
-                />
-              </Box>
-            ),
-            upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
-            layout: (
-              <ImageGridEditable album={album} albumDispatch={albumDispatch} />
-            ),
-          }[tab]
-        }
-      </Box>
+            {
+              cover: (
+                <Box maxWidth="50rem" m={[0, 'auto']}>
+                  <AlbumCard editable albumDispatch={albumDispatch} album={album} />
+                </Box>
+              ),
+              upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
+              layout: <ImageGridEditable album={album} albumDispatch={albumDispatch} />,
+            }[tab]
+          }
+        </Box>
+      )}
     </>
   );
 };
@@ -83,10 +73,8 @@ const TabItem = styled.button<{ isActive }>`
   padding: 1rem 0;
   cursor: pointer;
 
-  color: ${(props) =>
-    props.isActive ? props.theme.colors.primary : 'default'};
-  border-bottom: 2px solid
-    ${(props) => (props.isActive ? 'currentColor' : 'transparent')};
+  color: ${(props) => (props.isActive ? props.theme.colors.primary : 'default')};
+  border-bottom: 2px solid ${(props) => (props.isActive ? 'currentColor' : 'transparent')};
 
   svg {
     margin-right: 0.6rem;
