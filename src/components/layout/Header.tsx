@@ -33,8 +33,8 @@ const Header = ({ authProviders }: Props) => {
         {
           {
             loading: <Thumbnail loading />,
-            loggedIn: <Thumbnail user={session?.user} />,
-            loggedOut: <Button onClick={() => signin('google')}>Login</Button>,
+            ['logged-in']: <Thumbnail user={session?.user} />,
+            ['logged-out']: <Button onClick={() => signin('google')}>Login</Button>,
           }[authStatus]
         }
       </Content>
