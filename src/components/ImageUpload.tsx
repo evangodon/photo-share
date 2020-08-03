@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import { env } from '@/constants';
 
 registerPlugin(FilePondPluginImagePreview);
 
@@ -8,6 +9,9 @@ type Props = {
   handlePhotoUpload: (url: string) => void;
   setFiles?: (files: File[]) => void;
 };
+
+const FOLDER = env.is.prod ? 'prod' : 'dev';
+const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/dnlc9ln3m/upload?folder=${FOLDER}`;
 
 /**
  * @todo: Handle Delete
@@ -25,7 +29,7 @@ const ImageUpload = ({ handlePhotoUpload, setFiles }: Props) => {
           fileItems.forEach((item) => filesRef.current.push(item.file));
         }}
         server={{
-          url: `https://api.cloudinary.com/v1_1/dnlc9ln3m/upload`,
+          url: CLOUDINARY_UPLOAD_URL,
           process: {
             method: 'POST',
             ondata: (formData) => {
