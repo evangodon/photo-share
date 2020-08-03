@@ -4,7 +4,7 @@ import { transformImage } from '@/utils/transformImage';
 
 type Props = {
   src: string;
-  cursor?: 'pointer' | 'grap';
+  cursor?: 'pointer' | 'grab';
 };
 
 /**
