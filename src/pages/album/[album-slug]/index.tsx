@@ -22,7 +22,7 @@ const AlbumPage = ({ album }: Props) => {
   const photos = album.photos.data;
 
   if (Object.keys(photos).length === 0) {
-    return <span>no photos</span>;
+    return <span>No Photos</span>;
   }
 
   return (

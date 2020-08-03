@@ -41,7 +41,6 @@ const reducer: Reducer = (state, action) => {
         photoOrder: [...state.photoOrder, action.payload.photo.id],
       };
     case 'delete:photo':
-      console.log(action.payload);
       delete state.photos.data[action.payload.photoID];
       return {
         ...state,

@@ -21,6 +21,8 @@
     "faunadb": "^2.13.1",
     "filepond": "^4.13.5",
     "filepond-plugin-image-preview": "^4.6.2",
+    "filepond-plugin-image-resize": "^2.0.7",
+    "filepond-plugin-image-transform": "^3.7.4",
     "got": "^11.0.2",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",

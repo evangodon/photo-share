@@ -13,12 +13,7 @@ type Props = {
 const Header = ({ authProviders }: Props) => {
   const [session, loading] = useSession();
 
-  console.log({ session });
-  const authStatus: AuthStatus = loading
-    ? 'loading'
-    : session
-    ? 'loggedIn'
-    : 'loggedOut';
+  const authStatus: AuthStatus = loading ? 'loading' : session ? 'loggedIn' : 'loggedOut';
 
   return (
     <Container>
@@ -33,9 +28,7 @@ const Header = ({ authProviders }: Props) => {
             loading: <Thumbnail loading />,
             loggedIn: <Thumbnail user={session?.user} />,
             loggedOut: (
-              <Button onClick={() => signin(authProviders.google.id)}>
-                Login
-              </Button>
+              <Button onClick={() => signin(authProviders.google.id)}>Login</Button>
             ),
           }[authStatus]
         }

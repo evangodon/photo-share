@@ -4334,6 +4334,16 @@ filepond-plugin-image-preview@^4.6.2:
   resolved "https://registry.yarnpkg.com/filepond-plugin-image-preview/-/filepond-plugin-image-preview-4.6.2.tgz#452c31419d3f41c6476a34762ef5ff2e4170307a"
   integrity sha512-4Tc9cWVM+3iEFDeol+moz/FuWzBxlUbA89snmEyPtFqp6CWf8uyVK0L+vIOf9+bT3DgCEmfDwvQBbjsyu8J7Tg==
 
+filepond-plugin-image-resize@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-resize/-/filepond-plugin-image-resize-2.0.7.tgz#03264e288b1af68bef1ae046882f9712d5ba14c7"
+  integrity sha512-Ea2shQ8DFWyfbgqEuz8tp23F8v+kQLlHXNIDo+C7qxKHbflHoQ8Aol5ZrWLBImLx/J3Kbrzc+SrBem8RZOz9CA==
+
+filepond-plugin-image-transform@^3.7.4:
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/filepond-plugin-image-transform/-/filepond-plugin-image-transform-3.7.4.tgz#8b81bea9ede2c3a40a11c20b39549139b18c9ef1"
+  integrity sha512-4slNgfKW7BrbSPF/ie02miNPttk6Mit1V9phLzup0DPLo9gQGqvaXi/md2291+2EA+yjeyLeJ3JBUVQ/ymPrUg==
+
 filepond@^4.13.5:
   version "4.13.5"
   resolved "https://registry.yarnpkg.com/filepond/-/filepond-4.13.5.tgz#43b7b20fff2ccbb65611ff6fefe992225c549a97"

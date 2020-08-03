@@ -1,9 +1,15 @@
 import { useRef } from 'react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginImageResize from 'filepond-plugin-image-resize';
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import { env } from '@/constants';
 
-registerPlugin(FilePondPluginImagePreview);
+registerPlugin(
+  FilePondPluginImagePreview,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform
+);
 
 type Props = {
   handlePhotoUpload: (url: string) => void;
@@ -14,8 +20,9 @@ const FOLDER = env.is.prod ? 'prod' : 'dev';
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/dnlc9ln3m/upload?folder=${FOLDER}`;
 
 /**
+ * @todo: Find the right width to resize to
+ * @todo: Fix drag and dropping multiple photos
  * @todo: Handle Delete
- * @todo: Resize image before uploading to cloudinary
  */
 const ImageUpload = ({ handlePhotoUpload, setFiles }: Props) => {
   const filesRef = useRef([]);
@@ -25,8 +32,12 @@ const ImageUpload = ({ handlePhotoUpload, setFiles }: Props) => {
       <FilePond
         allowMultiple={true}
         maxFiles={20}
-        onupdatefiles={(fileItems) => {
-          fileItems.forEach((item) => filesRef.current.push(item.file));
+        imageResizeTargetWidth={1200}
+        allowImageTransform
+        imageCropAspectRatio={1}
+        imageTransformAfterCreateBlob={(blob) => {
+          filesRef.current.push(new File([blob], blob.name));
+          return blob;
         }}
         server={{
           url: CLOUDINARY_UPLOAD_URL,

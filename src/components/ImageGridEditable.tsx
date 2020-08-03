@@ -24,7 +24,7 @@ const Gallery = SortableContainer(({ items: photos, onDeletePhoto }) => (
         photo={photo}
         onDelete={() => onDeletePhoto(photo)}
         index={index}
-        key={photo._id}
+        key={photo.id ?? photo._id}
       />
     ))}
     <span className="last-row" />
@@ -60,8 +60,6 @@ const ImageGridEditable = ({ album, albumDispatch }: Props) => {
   }
 
   const photos = album.photoOrder.map((photoID) => album.photos.data[photoID]);
-
-  console.log({ album });
 
   return (
     <Gallery
