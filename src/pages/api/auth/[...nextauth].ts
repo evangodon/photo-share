@@ -6,7 +6,7 @@ import Providers from 'next-auth/providers';
  * https://console.developers.google.com/apis/credentials/oauthclient/750119959072-f3jqre7od0o9dqh4c08g4b1irbgl6thb.apps.googleusercontent.com?project=vim-calendar-282501
  */
 const options = {
-  site: process.env.SITE ?? 'http://localhost:3000',
+  site: process.env.SITE ?? 'http://localhost:3004',
 
   providers: [
     Providers.Google({

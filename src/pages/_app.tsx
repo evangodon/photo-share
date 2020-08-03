@@ -1,6 +1,7 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
+import { Provider } from 'next-auth/client';
 import { ThemeProvider, StyleSheetManager } from 'styled-components';
 import { createClient, Provider as UrqlProvider } from 'urql';
 import { GlobalStyles, theme } from '@/css';
@@ -20,20 +21,18 @@ export default class MyApp extends App {
       <>
         <Head>
           <title>Photo Share</title>
-          <link
-            rel="shortcut icon"
-            type="image/x-icon"
-            href="/static/favicon.ico"
-          />
+          <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
         </Head>
         <StyleSheetManager disableVendorPrefixes>
           <>
-            <UrqlProvider value={client}>
-              <ThemeProvider theme={theme}>
-                <Component {...pageProps} />
-                <GlobalStyles />
-              </ThemeProvider>
-            </UrqlProvider>
+            <Provider session={pageProps.session}>
+              <UrqlProvider value={client}>
+                <ThemeProvider theme={theme}>
+                  <Component {...pageProps} />
+                  <GlobalStyles />
+                </ThemeProvider>
+              </UrqlProvider>
+            </Provider>
           </>
         </StyleSheetManager>
       </>

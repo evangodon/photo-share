@@ -2,6 +2,7 @@ import { NextPage, GetStaticProps } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { providers } from 'next-auth/client';
+import { withPageLayout } from '@/components/layout';
 import { Header, AlbumCard } from '@/components';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components';
@@ -25,7 +26,6 @@ const IndexPage = ({ albums, errors, authProviders }: Props) => {
 
   return (
     <>
-      <Header authProviders={authProviders} />
       <Container>
         <ActionBar>
           <H2>Albums</H2>
@@ -61,13 +61,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const { data, errors } = await faunadb.query<GetAlbumsHomeQuery>(query);
 
-  let authProviders = {};
-  try {
-    authProviders = await providers(context);
-  } catch (error) {
-    console.error(error);
-  }
-
   if (errors) {
     return {
       props: {
@@ -78,7 +71,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 
   return {
-    props: { albums: data.allAlbums.data, errors: null, authProviders },
+    props: { albums: data.allAlbums.data, errors: null },
   };
 };
 
@@ -103,4 +96,4 @@ const ActionBar = styled.div`
   margin-bottom: 3rem;
 `;
 
-export default IndexPage;
+export default withPageLayout(IndexPage);
