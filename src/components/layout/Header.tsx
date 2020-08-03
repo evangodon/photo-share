@@ -4,18 +4,23 @@ import Button from '@/components/Button';
 import { useSession, signin, signout, providers, getProviders } from 'next-auth/client';
 import { Thumbnail } from '@/components/user';
 
-type AuthStatus = 'loading' | 'loggedIn' | 'loggedOut';
+type AuthStatus = 'loading' | 'logged-in' | 'logged-out' | 'error';
 
 type Props = {
   authProviders: any;
 };
 
+/**
+ *
+ * Clean up auth states
+ */
 const Header = ({ authProviders }: Props) => {
   const [session, loading] = useSession();
-
-  const authStatus: AuthStatus = loading ? 'loading' : session ? 'loggedIn' : 'loggedOut';
-
-  console.log({ session });
+  const authStatus: AuthStatus = loading
+    ? 'loading'
+    : session
+    ? 'logged-in'
+    : 'logged-out';
 
   return (
     <Container>

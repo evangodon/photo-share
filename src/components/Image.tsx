@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Img from 'react-cool-img';
 import { transformImage } from '@/utils/transformImage';
 
 type CursorTypes = 'pointer' | 'grab';
@@ -10,11 +11,18 @@ type Props = {
 
 const Image = ({ src, cursor }: Props) => {
   const transformedSrc = transformImage(src, { height: 600 });
+  const placeholderImage = transformImage(src, {
+    blur: 900,
+    height: 600,
+    quality: 'low',
+  });
 
-  return <Container src={transformedSrc} cursor={cursor} />;
+  return (
+    <Container placeholder={placeholderImage} src={transformedSrc} cursor={cursor} />
+  );
 };
 
-const Container = styled.img<{ cursor: CursorTypes }>`
+const Container = styled(Img)<{ cursor: CursorTypes }>`
   min-width: 100%;
   max-width: 100%;
   max-height: 100%;

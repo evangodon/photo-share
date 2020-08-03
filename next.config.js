@@ -1,6 +1,8 @@
+const withPlugins = require('next-compose-plugins');
+const optimizedImages = require('next-optimized-images');
 require('dotenv').config();
 
-module.exports = {
+const nextConfig = {
   webpack: (config) => {
     config.module.rules.push({
       test: /\.(graphql|gql)$/,
@@ -11,3 +13,5 @@ module.exports = {
   },
   env: { FAUNADB_SECRET: process.env.FAUNADB_SECRET },
 };
+
+module.exports = withPlugins([[optimizedImages]], nextConfig);

@@ -1,18 +1,22 @@
-type Parameters = {
+type Options = {
   width: number;
   height: number;
+  blur: number;
+  quality: 'auto' | 'best' | 'low';
 };
 
-const mapToFlag: { [key in keyof Parameters]: string } = {
+const mapToFlag: { [key in keyof Options]: string } = {
   width: 'w_',
   height: 'h_',
+  blur: 'e_blur:',
+  quality: 'q_auto:',
 };
 
 /**
  *
  * @todo: Add height option
  */
-type TransformImage = (src: string, params: Partial<Parameters>) => string;
+type TransformImage = (src: string, options: Partial<Options>) => string;
 
 export const transformImage: TransformImage = (src, options = {}) => {
   const transformations = Object.entries(options)
@@ -23,10 +27,7 @@ export const transformImage: TransformImage = (src, options = {}) => {
 
   const cloudinaryParams = `f_auto,c_scale,${transformations}`;
 
-  const transformedString = src.replace(
-    'upload/',
-    `upload/${cloudinaryParams}/`
-  );
+  const transformedString = src.replace('upload/', `upload/${cloudinaryParams}/`);
 
   return transformedString;
 };

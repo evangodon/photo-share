@@ -6,7 +6,7 @@
   "author": "Evan Godon",
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "dev": "env NEXTAUTH_URL=http://localhost:3004 next -p 3004",
     "build": "next build",
     "test": "jest --watchAll",
     "start": "next start",
@@ -30,8 +30,10 @@
     "nanoid": "^3.1.9",
     "next": "^9.4.1",
     "next-auth": "^3.0.0-beta.18",
+    "next-optimized-images": "^3.0.0-canary.6",
     "polished": "^3.4.4",
     "react": "^16.13.1",
+    "react-cool-img": "^1.2.1",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.4",
     "react-filepond": "^7.0.1",
@@ -55,6 +57,7 @@
     "babel-plugin-styled-components": "^1.10.7",
     "eslint": "^7.3.1",
     "eslint-plugin-react": "^7.20.0",
+    "next-compose-plugins": "^2.2.0",
     "typescript": "^3.8.2"
   }
 }
