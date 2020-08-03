@@ -1,4 +1,4 @@
-import { css, DefaultTheme } from 'styled-components';
+import { css } from 'styled-components';
 
 export const variables = {
   /* Colors */
@@ -43,8 +43,22 @@ export const colors = {
   ...variables,
 };
 
-export const theme: DefaultTheme = {
+export const space = {
+  0: '0',
+  1: '0.4rem',
+  2: '0.8rem',
+  3: '1.2rem',
+  4: '1.6rem',
+  5: '2.4rem',
+  6: '3.2rem',
+  7: '4.8rem',
+  8: '6.4rem',
+  9: '9.6rem',
+};
+
+export const theme = {
   colors,
+  space: Object.values(space),
 };
 
 /* Turn js keys into valid css custom properties */
