@@ -11,3 +11,5 @@ out/
 codegen.yml
 .env
 
+
+.vercel
