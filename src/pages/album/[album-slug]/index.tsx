@@ -30,7 +30,7 @@ const AlbumPage = ({ album }: Props) => {
       <Flex mb={8} justifyContent="space-between">
         <H1>{header}</H1>
         <Button variant="outlined" href={`/album/${slug}/edit`}>
-          <a>Edit Album</a>
+          Edit Album
         </Button>
       </Flex>
       <ImageContainer>

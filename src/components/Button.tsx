@@ -88,6 +88,10 @@ type Props = {
   icon?: React.ReactNode;
 };
 
+/**
+ *
+ * @param href - Turn button into anchor tag
+ */
 const Button = React.forwardRef(
   ({ children, color, onClick, href, variant = 'default', icon }: Props, ref) => {
     const linkProps = href ? ({ href, as: 'a' } as const) : {};
