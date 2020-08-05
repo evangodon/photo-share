@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import {
@@ -25,15 +25,19 @@ const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
   const tabQuery = router.query.tab as Tab;
   const [tab, setTab] = useState<Tab>(tabQuery ?? 'cover');
 
-  function updateUrlParams(param: Tab) {
+  useEffect(() => {
+    const tabQuery = router.query.tab;
+    const tab = Array.isArray(tabQuery) ? tabQuery[0] : tabQuery;
+    if (tab) {
+      setTab(router.query.tab as Tab);
+    }
+  }, [router.query.tab]);
+
+  function updateUrlParams(tab: Tab) {
     return () => {
-      router.push(
-        {
-          pathname: router.asPath.replace(/\?.*/, ''),
-          query: { tab: param },
-        },
-        undefined,
-        { shallow: true }
+      router.replace(
+        { pathname: router.pathname, query: { tab } },
+        router.asPath.replace(/\?.*/, '') + `?tab=${tab}`
       );
     };
   }
@@ -91,7 +95,7 @@ const TabItem = styled.button<{ isActive: boolean }>`
   background-image: ${(props) =>
     props.isActive
       ? `linear-gradient(to right, ${props.theme.colors.primary} 0%, ${props.theme.colors.primary_light} 99%)`
-      : 'transparent'};
+      : 'none'};
 
   svg {
     margin-right: 0.6rem;

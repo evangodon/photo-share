@@ -5,9 +5,7 @@ import Link from 'next/link';
 import { Album } from '@/graphql/generated';
 import Image from '@/components/Image';
 import Options from '@/components/Options';
-import ContentEditable, {
-  ContentEditableEvent,
-} from '@/components/ContentEditable';
+import ContentEditable, { ContentEditableEvent } from '@/components/ContentEditable';
 import { createSlug } from '@/utils';
 import { AlbumDispatch } from '@/hooks';
 
@@ -41,14 +39,10 @@ const AlbumCard = ({ album, editable, albumDispatch }: Props) => {
       {editable ? (
         <AlbumCover>
           <Image src={album.coverPhoto} />
-          <EditableHeader
-            html={text.current}
-            onChange={handleChange}
-            tagName="h2"
-          />
+          <EditableHeader html={text.current} onChange={handleChange} tagName="h2" />
         </AlbumCover>
       ) : (
-        <Link href={`/album/${album.title}-${album._id}`}>
+        <Link href={'/album/[album-slug]'} as={`/album/${album.title}-${album._id}`}>
           <AlbumCoverLink as="a">
             <Image src={album.coverPhoto} />
             <Header>{album.title}</Header>
@@ -56,8 +50,7 @@ const AlbumCard = ({ album, editable, albumDispatch }: Props) => {
               options={[
                 {
                   label: 'Edit Album',
-                  onClick: () =>
-                    router.push(`/album/${createSlug(album)}/edit`),
+                  onClick: () => router.push(`/album/${createSlug(album)}/edit`),
                 },
               ]}
             />
@@ -79,8 +72,7 @@ export const Container = styled.figure`
   min-width: 45.6rem;
   overflow: hidden;
   border-radius: var(--border-radius);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
   &:hover ${AlbumOptions} {
     opacity: 1;
