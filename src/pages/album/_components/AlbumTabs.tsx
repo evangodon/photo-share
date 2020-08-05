@@ -94,7 +94,7 @@ const TabItem = styled.button<{ isActive: boolean }>`
     props.isActive ? props.theme.colors.white : props.theme.colors.primary_dark};
   background-image: ${(props) =>
     props.isActive
-      ? `linear-gradient(to right, ${props.theme.colors.primary} 0%, ${props.theme.colors.primary_light} 99%)`
+      ? `linear-gradient(to right, ${props.theme.colors.primary_dark} 0%, ${props.theme.colors.primary} 99%)`
       : 'none'};
 
   svg {
