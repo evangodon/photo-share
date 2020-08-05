@@ -43,8 +43,11 @@ const EditAlbum = /* GraphQL */ `
 `;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { url } = context.req;
-  const albumID = getIdFromSlug(url.replace('/edit', '').split('/').pop());
+  const albumSlug = Array.isArray(context.params['album-slug'])
+    ? context.params['album-slug'][0]
+    : context.params['album-slug'];
+
+  const albumID = albumSlug.split('-').pop();
 
   const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(FindAlbumById, {
     variables: { albumID },

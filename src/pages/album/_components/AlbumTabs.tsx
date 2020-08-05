@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import {
   Upload as UploadIcon,
@@ -20,24 +21,35 @@ type Props = {
 };
 
 const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
-  const [tab, setTab] = useState<Tab>('cover');
+  const router = useRouter();
+  const tabQuery = router.query.tab as Tab;
+  const [tab, setTab] = useState<Tab>(tabQuery ?? 'cover');
 
-  function handleTabChange(tab: Tab) {
-    return () => setTab(tab);
+  function updateUrlParams(param: Tab) {
+    return () => {
+      router.push(
+        {
+          pathname: router.asPath.replace(/\?.*/, ''),
+          query: { tab: param },
+        },
+        undefined,
+        { shallow: true }
+      );
+    };
   }
 
   return (
     <>
       <Tabs>
-        <TabItem isActive={tab === 'cover'} onClick={handleTabChange('cover')}>
+        <TabItem isActive={tab === 'cover'} onClick={updateUrlParams('cover')}>
           <ImageIcon />
           Cover
         </TabItem>
-        <TabItem isActive={tab === 'upload'} onClick={handleTabChange('upload')}>
+        <TabItem isActive={tab === 'upload'} onClick={updateUrlParams('upload')}>
           <UploadIcon />
           Upload
         </TabItem>
-        <TabItem isActive={tab === 'layout'} onClick={handleTabChange('layout')}>
+        <TabItem isActive={tab === 'layout'} onClick={updateUrlParams('layout')}>
           <LayoutIcon />
           Layout
         </TabItem>
@@ -64,20 +76,29 @@ const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
 
 const Tabs = styled.div`
   margin-top: 3rem;
+  border: 2px solid ${(props) => props.theme.colors.primary};
+  border-radius: 4px;
 `;
 
-const TabItem = styled.button<{ isActive }>`
+const TabItem = styled.button<{ isActive: boolean }>`
   display: inline-flex;
   align-items: center;
-  margin: 0 2rem;
-  padding: 1rem 0;
+  padding: 1rem 2rem;
   cursor: pointer;
 
-  color: ${(props) => (props.isActive ? props.theme.colors.primary : 'default')};
-  border-bottom: 2px solid ${(props) => (props.isActive ? 'currentColor' : 'transparent')};
+  color: ${(props) =>
+    props.isActive ? props.theme.colors.white : props.theme.colors.primary_dark};
+  background-image: ${(props) =>
+    props.isActive
+      ? `linear-gradient(to right, ${props.theme.colors.primary} 0%, ${props.theme.colors.primary_light} 99%)`
+      : 'transparent'};
 
   svg {
     margin-right: 0.6rem;
+  }
+
+  & + & {
+    border-left: 1px solid ${(props) => props.theme.colors.primary};
   }
 `;
 
