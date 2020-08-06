@@ -8,7 +8,7 @@ import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { useMutation } from 'urql';
 import { withPageLayout } from '@/components/layout';
 import { H2 } from '@/components/typography';
-import { Button } from '@/components';
+import { Button } from '@/components/interaction';
 import AlbumTabs from './_components/AlbumTabs';
 import { useAlbumReducer } from '@/hooks';
 import { CreateAlbumMutation } from '@/graphql/generated';
@@ -85,12 +85,7 @@ const Create = () => {
   return (
     <>
       <Container>
-        <Flex
-          mb={50}
-          width="100%"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+        <Flex mb={50} width="100%" justifyContent="space-between" alignItems="center">
           <Flex width={200} alignItems="center">
             <Link href="/" passHref>
               <Button>

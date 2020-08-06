@@ -7,7 +7,7 @@ import { ArrowLeft as ArrowLeftIcon, Save as SaveIcon } from 'react-feather';
 import { useMutation } from 'urql';
 import { nanoid } from 'nanoid';
 import { withPageLayout } from '@/components/layout';
-import { Button } from '@/components';
+import { Button } from '@/components/interaction';
 import { H2 } from '@/components/typography';
 import AlbumTabs from '@/pages/album/_components/AlbumTabs';
 import { EditedAlbum } from '@/types';
@@ -130,8 +130,7 @@ const Edit = ({ album }: Props) => {
     <Container>
       <Flex mb={50} width="100%" justifyContent="space-between" alignItems="center">
         <Flex width={200} alignItems="center">
-          <Button onClick={router.back}>
-            <ArrowLeftIcon size={15} />
+          <Button onClick={router.back} icon={<ArrowLeftIcon size={18} />}>
             Back
           </Button>
         </Flex>

@@ -11,6 +11,7 @@ import { Box } from 'rebass';
 import ImageUpload from '@/components/ImageUpload';
 import ImageGridEditable from '@/components/ImageGridEditable';
 import { AlbumCard } from '@/components';
+import { Tabs, TabItem } from '@/components/interaction';
 import { AlbumDispatch } from '@/hooks';
 
 type Tab = 'cover' | 'upload' | 'layout';
@@ -77,33 +78,5 @@ const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
     </>
   );
 };
-
-const Tabs = styled.div`
-  margin-top: 3rem;
-  border: 2px solid ${(props) => props.theme.colors.primary};
-  border-radius: 4px;
-`;
-
-const TabItem = styled.button<{ isActive: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  padding: 1rem 2rem;
-  cursor: pointer;
-
-  color: ${(props) =>
-    props.isActive ? props.theme.colors.white : props.theme.colors.primary_dark};
-  background-image: ${(props) =>
-    props.isActive
-      ? `linear-gradient(to right, ${props.theme.colors.primary_dark} 0%, ${props.theme.colors.primary} 99%)`
-      : 'none'};
-
-  svg {
-    margin-right: 0.6rem;
-  }
-
-  & + & {
-    border-left: 1px solid ${(props) => props.theme.colors.primary};
-  }
-`;
 
 export default AlbumTabs;

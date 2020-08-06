@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { signout } from 'next-auth/client';
 import { shimmer } from '@/css/animations';
-import Options from '@/components/Options';
+import { Options } from '@/components/interaction';
 
 interface Thumbnail {
   ({ user }: { user: { image: string } }): JSX.Element;

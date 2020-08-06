@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import Button from '@/components/Button';
 import { useSession, signin, signout, providers, getProviders } from 'next-auth/client';
+import { Button } from '@/components/interaction';
 import { Thumbnail } from '@/components/user';
 
 type AuthStatus = 'loading' | 'logged-in' | 'logged-out' | 'error';

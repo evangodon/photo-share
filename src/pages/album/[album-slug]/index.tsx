@@ -11,7 +11,7 @@ import { FindAlbumById } from '@/graphql/queries';
 import { getTitleFromSlug, getIdFromSlug } from '@/utils';
 import { createPhotoTable } from '@/utils/photoData';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
-import { Button } from '@/components';
+import { Button } from '@/components/interaction';
 
 type Props = NextPage & { album: any };
 

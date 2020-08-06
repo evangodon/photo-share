@@ -5,7 +5,7 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { DeletePhoto } from '@/graphql/queries';
 import { Photo, EditedAlbum } from '@/types/index';
 import { arrayMove } from '@/utils/arrayMove';
-import Options from '@/components/Options';
+import { Options } from '@/components/interaction';
 import { AlbumDispatch } from '@/hooks';
 
 const SortablePhoto = SortableElement(({ photo, onDelete }) => (

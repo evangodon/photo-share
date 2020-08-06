@@ -5,7 +5,7 @@ import { providers } from 'next-auth/client';
 import { withPageLayout } from '@/components/layout';
 import { Header, AlbumCard } from '@/components';
 import { H2 } from '@/components/typography';
-import { Button } from '@/components';
+import { Button } from '@/components/interaction';
 import { faunadb } from '@/lib/faundb';
 import { GetAlbumsHomeQuery } from '@/graphql/generated';
 import { FolderPlus as FolderPlusIcon } from 'react-feather';
