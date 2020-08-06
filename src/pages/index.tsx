@@ -8,7 +8,7 @@ import { H2 } from '@/components/typography';
 import { Button } from '@/components';
 import { faunadb } from '@/lib/faundb';
 import { GetAlbumsHomeQuery } from '@/graphql/generated';
-import { Plus as PlusIcon } from 'react-feather';
+import { FolderPlus as FolderPlusIcon } from 'react-feather';
 
 type Props = NextPage & {
   albums: GetAlbumsHomeQuery['allAlbums']['data'];
@@ -30,7 +30,7 @@ const IndexPage = ({ albums, errors, authProviders }: Props) => {
         <ActionBar>
           <H2>Albums</H2>
           <Link href="/album/create" passHref>
-            <Button variant="outlined" icon={<PlusIcon />}>
+            <Button variant="default" icon={<FolderPlusIcon />}>
               New Album
             </Button>
           </Link>

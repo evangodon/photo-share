@@ -23,7 +23,7 @@ const border = ({ colors }) => ({
 });
 
 const bgImage = ({ colors }) => ({
-  contained: `linear-gradient(to right, ${colors.primary} 0%, ${colors.primary_light} 99%)`,
+  contained: `linear-gradient(to right, ${colors.primary_dark} 0%, ${colors.primary} 99%)`,
 });
 
 const boxShadow = ({ colors }) => ({
@@ -72,7 +72,8 @@ const StyledRipples = styled(Ripples)<{ variant: Variant }>`
 const IconContainer = styled.span`
   position: absolute;
   left: ${space[2]};
-  top: 0.4rem;
+  display: flex;
+  align-items: center;
 `;
 
 type Props = {

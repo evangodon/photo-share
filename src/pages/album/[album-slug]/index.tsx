@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import { Flex } from 'rebass/styled-components';
+import { Edit as EditIcon } from 'react-feather';
 import Link from 'next/link';
 import Image from '@/components/Image';
 import { H1 } from '@/components/typography';
@@ -29,7 +30,7 @@ const AlbumPage = ({ album }: Props) => {
     <>
       <Flex mb={8} justifyContent="space-between">
         <H1>{header}</H1>
-        <Button variant="outlined" href={`/album/${slug}/edit`}>
+        <Button href={`/album/${slug}/edit`} icon={<EditIcon />}>
           Edit Album
         </Button>
       </Flex>
