@@ -1,4 +1,13 @@
-import { css } from 'styled-components';
+import { css, DefaultTheme } from 'styled-components';
+
+export const fontSizes = {
+  __fs_xsmall: '1rem',
+  __fs_small: '1.2rem',
+  __fs_medium: '1.4rem',
+  __fs_base: '1.6rem',
+  __fs_large: '2.4rem',
+  __fs_xlarge: '3.6rem',
+};
 
 export const variables = {
   /* Colors */
@@ -21,17 +30,10 @@ export const variables = {
   __grey_800: '#2d3748',
   __grey_900: '#1a202c',
 
-  /* Font-sizes */
-  __fs_xsmall: '1rem',
-  __fs_small: '1.2rem',
-  __fs_medium: '1.4rem',
-  __fs_base: '1.6rem',
-  __fs_large: '2.4rem',
-  __fs_xlarge: '3.6rem',
-
   __border_radius: '5px',
 
   __app_max_width: '144rem',
+  ...fontSizes,
 };
 
 export const colors = {
@@ -56,9 +58,10 @@ export const space = {
   9: '9.6rem',
 };
 
-export const theme = {
+export const theme: DefaultTheme = {
   colors,
   space: Object.values(space),
+  fontSize: fontSizes,
 };
 
 /* Turn js keys into valid css custom properties */

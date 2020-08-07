@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useSession, signin, signout, providers, getProviders } from 'next-auth/client';
+import { useSession, signin } from 'next-auth/client';
+import { H1 } from '@/components/typography';
 import { Button } from '@/components/interaction';
 import { Thumbnail } from '@/components/user';
+import Logo from '@/components/Logo';
+import { space } from '@/css/theme';
 
 type AuthStatus = 'loading' | 'logged-in' | 'logged-out' | 'error';
 
@@ -26,9 +29,10 @@ const Header = ({ authProviders }: Props) => {
     <Container>
       <Content>
         <Link href="/">
-          <a>
+          <LogoContainer>
+            <Logo />
             <H1>Photo Share</H1>
-          </a>
+          </LogoContainer>
         </Link>
         {
           {
@@ -57,8 +61,13 @@ const Content = styled.div`
   justify-content: space-between;
 `;
 
-const H1 = styled.h1`
-  font-size: var(--fs-large);
+const LogoContainer = styled.a`
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: ${space[3]};
+  }
 `;
 
 export default Header;

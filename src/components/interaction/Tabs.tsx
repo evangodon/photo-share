@@ -22,10 +22,6 @@ const Item = styled.button<{ isActive: boolean }>`
   svg {
     margin-right: 0.6rem;
   }
-
-  & + & {
-    border-left: 1px solid ${(props) => props.theme.colors.primary};
-  }
 `;
 
 export const TabItem = ({ children, isActive, ...props }) => (
