@@ -6,7 +6,7 @@ export const fontSizes = {
   __fs_medium: '1.4rem',
   __fs_base: '1.6rem',
   __fs_large: '2.4rem',
-  __fs_xlarge: '3.6rem',
+  __fs_xlarge: '3.2rem',
 };
 
 export const variables = {

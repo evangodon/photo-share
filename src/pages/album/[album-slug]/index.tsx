@@ -4,7 +4,7 @@ import { Flex } from 'rebass/styled-components';
 import { Edit as EditIcon } from 'react-feather';
 import Link from 'next/link';
 import Image from '@/components/Image';
-import { H1 } from '@/components/typography';
+import { H2 } from '@/components/typography';
 import { faunadb } from '@/lib/faundb';
 import { ImageContainer, withPageLayout } from '@/components/layout';
 import { FindAlbumById } from '@/graphql/queries';
@@ -29,7 +29,7 @@ const AlbumPage = ({ album }: Props) => {
   return (
     <>
       <Flex mb={8} justifyContent="space-between">
-        <H1>{header}</H1>
+        <H2>{header}</H2>
         <Button href={`/album/${slug}/edit`} icon={<EditIcon />}>
           Edit Album
         </Button>

@@ -20,9 +20,16 @@ const GlobalStyle = createGlobalStyle`
       font-weight: normal;
       font-style: normal;
   }
+  
+  @font-face {
+      font-family: 'Proxima Soft';
+      src: url('/fonts/proxima-soft-medium.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+  }
 
   body {
-    font-family: 'Open Sans', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,
+    font-family: 'Proxima Soft', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,
       'Lucida Grande', sans-serif;
     font-weight: 400;
     font-size: var(--fs-base);

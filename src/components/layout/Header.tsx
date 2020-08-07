@@ -64,6 +64,7 @@ const Content = styled.div`
 const LogoContainer = styled.a`
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   svg {
     margin-right: ${space[3]};
