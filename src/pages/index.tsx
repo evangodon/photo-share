@@ -1,14 +1,14 @@
 import { NextPage, GetStaticProps } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { providers } from 'next-auth/client';
+import { FolderPlus as FolderPlusIcon } from 'react-feather';
 import { withPageLayout } from '@/components/layout';
 import { Header, AlbumCard } from '@/components';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components/interaction';
 import { faunadb } from '@/lib/faundb';
+import { useAuthContext } from '@/context';
 import { GetAlbumsHomeQuery } from '@/graphql/generated';
-import { FolderPlus as FolderPlusIcon } from 'react-feather';
 
 type Props = NextPage & {
   albums: GetAlbumsHomeQuery['allAlbums']['data'];
@@ -19,7 +19,9 @@ type Props = NextPage & {
 /**
  * The Home Page
  */
-const IndexPage = ({ albums, errors, authProviders }: Props) => {
+const IndexPage = ({ albums, errors }: Props) => {
+  const { user } = useAuthContext();
+
   if (errors) {
     return <span>{JSON.stringify(errors)}</span>;
   }
@@ -29,11 +31,13 @@ const IndexPage = ({ albums, errors, authProviders }: Props) => {
       <Container>
         <ActionBar>
           <H2>Albums</H2>
-          <Link href="/album/create" passHref>
-            <Button variant="default" icon={<FolderPlusIcon />}>
-              New Album
-            </Button>
-          </Link>
+          {user && (
+            <Link href="/album/create" passHref>
+              <Button variant="default" icon={<FolderPlusIcon />}>
+                New Album
+              </Button>
+            </Link>
+          )}
         </ActionBar>
         <Albums>
           {albums.map((album) => (

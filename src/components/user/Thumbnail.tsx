@@ -5,11 +5,11 @@ import { Options } from '@/components/interaction';
 import { User } from '@/types';
 
 interface Thumbnail {
-  ({ user }: { user: User }): JSX.Element;
+  ({ user }: { user: User; signout: () => void }): JSX.Element;
   ({ loading }: { loading: boolean }): JSX.Element;
 }
 
-const Thumbnail: Thumbnail = ({ user, loading }) => {
+const Thumbnail: Thumbnail = ({ user, loading, signout }) => {
   if (loading) {
     return (
       <Container>

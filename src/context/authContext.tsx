@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { signout as nextAuthSignout } from 'next-auth/client';
 import { useSession } from 'next-auth/client';
 import { useMutation, useQuery } from 'urql';
 import { FindUserByEmailQuery, CreateUserMutation } from '@/graphql/generated';
@@ -14,6 +15,7 @@ type User = {
 export const [useAuthContext, Provider] = createContext<{
   user: User;
   loading: boolean;
+  signout: () => void;
 }>();
 
 const FindUserByEmail = /* GraphQL */ `
@@ -77,9 +79,14 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  function signout() {
+    nextAuthSignout();
+    setUser(null);
+  }
+
   return (
     <>
-      <Provider value={{ user, loading }}>{children}</Provider>
+      <Provider value={{ user, signout, loading }}>{children}</Provider>
     </>
   );
 };

@@ -17,7 +17,7 @@ type Props = {};
  * Clean up auth states
  */
 const Header = ({}: Props) => {
-  const { user, loading } = useAuthContext();
+  const { user, loading, signout } = useAuthContext();
   const authStatus: AuthStatus = loading ? 'loading' : user ? 'logged-in' : 'logged-out';
 
   return (
@@ -32,7 +32,7 @@ const Header = ({}: Props) => {
         {
           {
             loading: <Thumbnail loading />,
-            ['logged-in']: <Thumbnail user={user} />,
+            ['logged-in']: <Thumbnail user={user} signout={signout} />,
             ['logged-out']: <Button onClick={() => signin('google')}>Login</Button>,
           }[authStatus]
         }
