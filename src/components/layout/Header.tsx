@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useSession, signin } from 'next-auth/client';
+import { useAuthContext } from '@/context/authContext';
 import { H1 } from '@/components/typography';
 import { Button } from '@/components/interaction';
 import { Thumbnail } from '@/components/user';
@@ -9,21 +10,15 @@ import { space } from '@/css/theme';
 
 type AuthStatus = 'loading' | 'logged-in' | 'logged-out' | 'error';
 
-type Props = {
-  authProviders: any;
-};
+type Props = {};
 
 /**
  *
  * Clean up auth states
  */
-const Header = ({ authProviders }: Props) => {
-  const [session, loading] = useSession();
-  const authStatus: AuthStatus = loading
-    ? 'loading'
-    : session
-    ? 'logged-in'
-    : 'logged-out';
+const Header = ({}: Props) => {
+  const { user, loading } = useAuthContext();
+  const authStatus: AuthStatus = loading ? 'loading' : user ? 'logged-in' : 'logged-out';
 
   return (
     <Container>
@@ -37,7 +32,7 @@ const Header = ({ authProviders }: Props) => {
         {
           {
             loading: <Thumbnail loading />,
-            ['logged-in']: <Thumbnail user={session?.user} />,
+            ['logged-in']: <Thumbnail user={user} />,
             ['logged-out']: <Button onClick={() => signin('google')}>Login</Button>,
           }[authStatus]
         }

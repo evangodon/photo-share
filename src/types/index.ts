@@ -16,3 +16,10 @@ export type EditedAlbum = Pick<
 > & {
   photos: { data: PhotoTable };
 };
+
+export type User = {
+  _id: string;
+  name: string;
+  email: string;
+  image?: string;
+};

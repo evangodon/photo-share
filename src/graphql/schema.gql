@@ -1,8 +1,15 @@
+type User {
+  email: String! @unique(index: "unique_email")
+  name: String!
+  image: String
+}
+
 type Photo {
   id: ID!
   title: String
   url: String!
   album: Album!
+  postedBy: User!
 }
 
 type Album {
@@ -15,4 +22,5 @@ type Album {
 type Query {
   allAlbums: [Album!]
   allPhotos: [Photo!]
+  findUserByEmail(email: String!): [User]! @resolver
 }
