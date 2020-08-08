@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { signout } from 'next-auth/client';
 import { shimmer } from '@/css/animations';
 import { Options } from '@/components/interaction';
+import { User } from '@/types';
 
 interface Thumbnail {
-  ({ user }: { user: { image: string } }): JSX.Element;
+  ({ user }: { user: User }): JSX.Element;
   ({ loading }: { loading: boolean }): JSX.Element;
 }
 
