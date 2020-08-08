@@ -13,17 +13,11 @@ const GlobalStyle = createGlobalStyle`
     ${customProperties}
   } 
 
-  @font-face {
-      font-family: 'Open Sans';
-      src: url('/fonts/opensans-regular.woff2') format('woff2'),
-          url('/fonts/opensans-regular.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-  }
   
   @font-face {
       font-family: 'Proxima Soft';
-      src: url('/fonts/proxima-soft-medium.woff2') format('woff2');
+      src: url('/fonts/proxima-soft-medium.woff2') format('woff2'),
+      url('/fonts/proxima-soft-medium.woff') format('woff');
       font-weight: normal;
       font-style: normal;
   }
