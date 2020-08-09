@@ -3,7 +3,7 @@ import { AppContainer } from '@/components/layout';
 
 const withPageLayout = (PageComponent) => (props) => (
   <>
-    <Header authProviders={props.authProviders} />
+    <Header />
     <AppContainer>
       <PageComponent {...props} />
     </AppContainer>

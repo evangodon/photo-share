@@ -91,7 +91,7 @@ const AlbumCover = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s ease;
   }
 `;
