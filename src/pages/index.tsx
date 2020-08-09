@@ -31,7 +31,7 @@ const IndexPage = ({ albums, errors }: Props) => {
       <Container>
         <ActionBar>
           <H2>Albums</H2>
-          {user && (
+          {user?.isSuperUser && (
             <Link href="/album/create" passHref>
               <Button variant="default" icon={<FolderPlusIcon />}>
                 New Album
@@ -41,7 +41,7 @@ const IndexPage = ({ albums, errors }: Props) => {
         </ActionBar>
         <Albums>
           {albums.map((album) => (
-            <AlbumCard album={album} key={album._id} />
+            <AlbumCard key={album._id} album={album} user={user} />
           ))}
         </Albums>
       </Container>

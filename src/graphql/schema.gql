@@ -1,7 +1,7 @@
 type User {
   email: String! @unique(index: "unique_email")
   name: String!
-  image: String
+  image: String!
 }
 
 type Photo {

@@ -1,16 +1,10 @@
 import { useState, useEffect } from 'react';
 import { signout as nextAuthSignout } from 'next-auth/client';
 import { useSession } from 'next-auth/client';
-import { useMutation, useQuery } from 'urql';
+import { useMutation } from 'urql';
 import { FindUserByEmailQuery, CreateUserMutation } from '@/graphql/generated';
 import { createContext } from './createContext';
-
-type User = {
-  _id: string;
-  email: string;
-  name: string;
-  image?: string;
-};
+import { User } from '@/types/index';
 
 export const [useAuthContext, Provider] = createContext<{
   user: User;
@@ -40,6 +34,8 @@ const CreateUser = /* GraphQL */ `
   }
 `;
 
+const superUsers = ['spiffman92@gmail.com'];
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(false);
@@ -53,6 +49,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, [session]);
 
+  function setUserWithRightData({ _id, email, name, image }: Omit<User, 'isSuperUser'>) {
+    setUser({ _id, email, name, image, isSuperUser: superUsers.includes(email) });
+  }
+
   async function findOrCreateUser(nextAuthUser) {
     setLoading(true);
     try {
@@ -60,8 +60,7 @@ export const AuthProvider = ({ children }) => {
       const user = data.findUserByEmail[0];
 
       if (user) {
-        const { email, image, _id, name } = user;
-        setUser({ _id, email, image, name });
+        setUserWithRightData(user);
       } else {
         const { data } = await createUser({
           email: nextAuthUser.email,
@@ -69,8 +68,8 @@ export const AuthProvider = ({ children }) => {
           name: nextAuthUser.name,
         });
 
-        const { _id, email, image } = data.createUser;
-        setUser({ _id, email, image, name });
+        const user = data.createUser;
+        setUserWithRightData(user);
       }
     } catch (error) {
       console.error(error);

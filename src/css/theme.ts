@@ -1,6 +1,6 @@
 import { css, DefaultTheme } from 'styled-components';
 
-export const fontSizes = {
+export const fontSize = {
   __fs_xsmall: '1rem',
   __fs_small: '1.2rem',
   __fs_medium: '1.4rem',
@@ -17,6 +17,8 @@ export const variables = {
   __color_secondary_light: '#d6bcfa',
   __color_secondary: '#9f7aea',
   __color_secondary_dark: '#6b46c1',
+  __color_red: '#F56565',
+  __color_red_light: '#FFF5F5',
 
   __white: '#ffffff',
   __black: '#000000',
@@ -33,7 +35,7 @@ export const variables = {
   __border_radius: '5px',
 
   __app_max_width: '144rem',
-  ...fontSizes,
+  ...fontSize,
 };
 
 export const colors = {
@@ -43,6 +45,12 @@ export const colors = {
   secondary: '#2979ff',
   white: '#fff',
   ...variables,
+};
+
+export const shadows = {
+  1: '',
+  2: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+  3: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
 };
 
 export const space = {
@@ -61,7 +69,8 @@ export const space = {
 export const theme: DefaultTheme = {
   colors,
   space: Object.values(space),
-  fontSize: fontSizes,
+  fontSize,
+  shadows,
 };
 
 /* Turn js keys into valid css custom properties */

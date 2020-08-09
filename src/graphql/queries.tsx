@@ -25,3 +25,11 @@ export const DeletePhoto = /* GraphQL */ `
     }
   }
 `;
+
+export const DeleteAlbum = /* GraphQL */ `
+  mutation DeleteAlbum($id: ID!) {
+    deleteAlbum(id: $id) {
+      _id
+    }
+  }
+`;
