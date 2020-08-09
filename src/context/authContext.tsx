@@ -7,7 +7,7 @@ import { createContext } from './createContext';
 import { User } from '@/types/index';
 
 export const [useAuthContext, Provider] = createContext<{
-  user: User;
+  user: User | null;
   loading: boolean;
   signout: () => void;
 }>();
@@ -37,7 +37,7 @@ const CreateUser = /* GraphQL */ `
 const superUsers = ['spiffman92@gmail.com'];
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState<User>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [session] = useSession();
   const [_data, findUserByEmail] = useMutation<FindUserByEmailQuery>(FindUserByEmail);

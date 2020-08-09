@@ -11,6 +11,7 @@ import { FindAlbumById } from '@/graphql/queries';
 import { getTitleFromSlug, getIdFromSlug } from '@/utils';
 import { createPhotoDictionary } from '@/utils/photoData';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
+import { useAuthContext } from '@/context';
 import { Button } from '@/components/interaction';
 
 type Props = NextPage & { album: any };
@@ -19,6 +20,7 @@ const AlbumPage = ({ album }: Props) => {
   const router = useRouter();
   const slug = router.query['album-slug'] as string;
   const header = getTitleFromSlug(slug);
+  const { user } = useAuthContext();
 
   const photos = album.photos.data;
 
@@ -30,9 +32,11 @@ const AlbumPage = ({ album }: Props) => {
     <>
       <Flex mb={8} justifyContent="space-between">
         <H2>{header}</H2>
-        <Button href={`/album/${slug}/edit`} icon={<EditIcon />}>
-          Edit Album
-        </Button>
+        {user?.isSuperUser && (
+          <Button href={`/album/${slug}/edit`} icon={<EditIcon />}>
+            Edit Album
+          </Button>
+        )}
       </Flex>
       <ImageContainer>
         <>
