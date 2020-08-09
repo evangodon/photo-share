@@ -9,6 +9,9 @@ export const FindAlbumById = /* GraphQL */ `
           id
           _id
           url
+          postedBy {
+            _id
+          }
         }
       }
     }

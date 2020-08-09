@@ -16,7 +16,8 @@ import { FindAlbumById } from '@/graphql/queries';
 import { FindAlbumByIdQuery } from '@/graphql/generated';
 import { faunadb } from '@/lib/faundb';
 import { useAlbumReducer } from '@/hooks';
-import { createPhotoList, createPhotoTable } from '@/utils/photoData';
+import { useAuthContext } from '@/context';
+import { createPhotoList, createPhotoDictionary } from '@/utils/photoData';
 
 const EditAlbum = /* GraphQL */ `
   mutation UpdateAlbum(
@@ -59,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const album = {
     ...data.findAlbumByID,
     photos: {
-      data: createPhotoTable(data.findAlbumByID.photos.data),
+      data: createPhotoDictionary(data.findAlbumByID.photos.data),
     },
   };
 
@@ -78,6 +79,7 @@ type Props = NextPage & { album: EditedAlbum };
  * @todo: handle errors when clicking save
  */
 const Edit = ({ album }: Props) => {
+  const { user } = useAuthContext();
   const { album: editedAlbum, albumDispatch } = useAlbumReducer(album);
 
   const [_, editAlbum] = useMutation(EditAlbum);
@@ -121,6 +123,7 @@ const Edit = ({ album }: Props) => {
     const photo = {
       url,
       id: nanoid(),
+      postedBy: { connect: user._id },
     };
 
     albumDispatch({ type: 'create:photo', payload: { photo } });

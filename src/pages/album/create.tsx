@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Flex } from 'rebass';
 import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { useMutation } from 'urql';
+import { useAuthContext } from '@/context';
 import { withPageLayout } from '@/components/layout';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components/interaction';
@@ -44,9 +45,10 @@ const CreateAlbum = /* GraphQL */ `
  * @todo: Persist photos that were just uploaded
  */
 const Create = () => {
+  const { user } = useAuthContext();
+  const router = useRouter();
   const [_, createAlbum] = useMutation<CreateAlbumMutation>(CreateAlbum);
   const { album, albumDispatch } = useAlbumReducer();
-  const router = useRouter();
 
   useEffect(() => {
     const photos = album.photos.data;
@@ -78,7 +80,7 @@ const Create = () => {
   }
 
   const handlePhotoUpload = (url: string) => {
-    const photo = { url, id: nanoid() };
+    const photo = { url, id: nanoid(), postedBy: { connect: user._id } };
     albumDispatch({ type: 'create:photo', payload: { photo } });
   };
 

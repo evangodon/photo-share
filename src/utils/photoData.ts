@@ -1,8 +1,8 @@
-import { Photo, PhotoTable } from '@/types';
+import { Photo, PhotoDictionary, User } from '@/types';
 
 type CreatePhotoTable = (photos: Photo[]) => { [photoId: string]: Photo };
 
-export const createPhotoTable: CreatePhotoTable = (photos) => {
+export const createPhotoDictionary: CreatePhotoTable = (photos) => {
   return photos.reduce((acc, photo) => {
     acc[photo.id] = photo;
 
@@ -10,10 +10,17 @@ export const createPhotoTable: CreatePhotoTable = (photos) => {
   }, {});
 };
 
-type CreatePhotoList = (photoTable: PhotoTable) => Omit<Photo, '_id'>[];
+type CreatePhotoList = (photoTable: {
+  [photoID: string]: {
+    id: string;
+    _id?: string;
+    url: string;
+    postedBy?: Pick<User, '_id'>;
+  };
+}) => Omit<Photo, '_id'>[];
 
-export const createPhotoList: CreatePhotoList = (photoTable) => {
-  return Object.keys(photoTable)
-    .map((photoID) => photoTable[photoID])
-    .map((photo) => ({ id: photo.id, url: photo.url }));
+export const createPhotoList: CreatePhotoList = (photoDictionary) => {
+  return Object.keys(photoDictionary)
+    .map((photoID) => photoDictionary[photoID])
+    .map((photo) => ({ id: photo.id, url: photo.url, postedBy: photo.postedBy }));
 };

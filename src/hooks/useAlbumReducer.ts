@@ -8,12 +8,14 @@ const initialState: EditedAlbum = {
   photoOrder: [],
   photos: { data: {} },
 };
-
 type Action =
   | { type: 'update:title'; payload: { title: string } }
   | { type: 'update:cover_photo'; payload: { url: string } }
   | { type: 'update:photo_order'; payload: { order: string[] } }
-  | { type: 'create:photo'; payload: { photo: NewPhoto } }
+  | {
+      type: 'create:photo';
+      payload: { photo: NewPhoto & { postedBy: { connect: string } } };
+    }
   | { type: 'delete:photo'; payload: { photoID: string } };
 
 type Reducer = (state: EditedAlbum, action: Action) => EditedAlbum;

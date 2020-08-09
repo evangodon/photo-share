@@ -9,7 +9,7 @@ type Photo {
   title: String
   url: String!
   album: Album!
-  postedBy: User!
+  postedBy: User! @relation
 }
 
 type Album {

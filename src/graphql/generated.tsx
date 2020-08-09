@@ -287,6 +287,10 @@ export type FindAlbumByIdQuery = (
       & { data: Array<Maybe<(
         { __typename?: 'Photo' }
         & Pick<Photo, 'id' | '_id' | 'url'>
+        & { postedBy: (
+          { __typename?: 'User' }
+          & Pick<User, '_id'>
+        ) }
       )>> }
     ) }
   )> }
