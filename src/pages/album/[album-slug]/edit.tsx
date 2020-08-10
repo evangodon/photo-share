@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid';
 import { withPageLayout } from '@/components/layout';
 import { Button } from '@/components/interaction';
 import { H2 } from '@/components/typography';
-import AlbumTabs from '@/pages/album/_components/AlbumTabs';
+import { AlbumTabs } from '@/components/album';
 import { EditedAlbum } from '@/types';
 import { getIdFromSlug } from '@/utils/index';
 import { FindAlbumById } from '@/graphql/queries';

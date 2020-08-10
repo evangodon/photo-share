@@ -14,8 +14,7 @@ import { AlbumDispatch } from '@/hooks';
 import { H3 } from '@/components/typography';
 import { User } from '@/types/index';
 import {
-  Container,
-  EditableHeader,
+  AnimatedContainer,
   AlbumCover,
   AlbumCoverLink,
   AlbumOptions,
@@ -37,19 +36,9 @@ type Props = {
  *
  * @todo: Add focus style to editable title
  */
-const AlbumCard = ({ album, editable, albumDispatch, user }: Props) => {
-  const text = useRef(album.title || 'Add a title');
+export const AlbumCard = ({ album, editable, albumDispatch, user }: Props) => {
   const router = useRouter();
   const [_data, deleteAlbum] = useMutation(DeleteAlbum);
-
-  function handleChange(e: ContentEditableEvent) {
-    text.current = e.target.value;
-
-    albumDispatch({
-      type: 'update:title',
-      payload: { title: e.target.value.trim() },
-    });
-  }
 
   function handleDeleteAlbum(id: string) {
     return () =>
@@ -62,43 +51,32 @@ const AlbumCard = ({ album, editable, albumDispatch, user }: Props) => {
   }
 
   return (
-    <Container>
-      {editable ? (
-        <AlbumCover>
+    <AnimatedContainer>
+      <Link href={'/album/[album-slug]'} as={`/album/${album.title}-${album._id}`}>
+        <AlbumCoverLink as="a">
           <ImageContainer>
             <Image src={album.coverPhoto} />
           </ImageContainer>
-          <EditableHeader html={text.current} onChange={handleChange} tagName="h2" />
-        </AlbumCover>
-      ) : (
-        <Link href={'/album/[album-slug]'} as={`/album/${album.title}-${album._id}`}>
-          <AlbumCoverLink as="a">
-            <ImageContainer>
-              <Image src={album.coverPhoto} />
-            </ImageContainer>
-            <Flex alignItems="center" p={3}>
-              <H3>{album.title}</H3>
-            </Flex>
-            {user?.isSuperUser && (
-              <AlbumOptions onClick={(e) => e.stopPropagation()}>
-                <Link
-                  href="/album/[album-slug]/edit"
-                  as={`/album/${createSlug(album)}/edit`}
-                >
-                  <Edit>
-                    <EditIcon size={18} />
-                  </Edit>
-                </Link>
-                <Delete onClick={handleDeleteAlbum(album._id)}>
-                  <TrashIcon size={18} />
-                </Delete>
-              </AlbumOptions>
-            )}
-          </AlbumCoverLink>
-        </Link>
-      )}
-    </Container>
+          <Flex alignItems="center" p={3}>
+            <H3>{album.title}</H3>
+          </Flex>
+          {user?.isSuperUser && (
+            <AlbumOptions onClick={(e) => e.stopPropagation()}>
+              <Link
+                href="/album/[album-slug]/edit"
+                as={`/album/${createSlug(album)}/edit`}
+              >
+                <Edit>
+                  <EditIcon size={18} />
+                </Edit>
+              </Link>
+              <Delete onClick={handleDeleteAlbum(album._id)}>
+                <TrashIcon size={18} />
+              </Delete>
+            </AlbumOptions>
+          )}
+        </AlbumCoverLink>
+      </Link>
+    </AnimatedContainer>
   );
 };
-
-export default AlbumCard;

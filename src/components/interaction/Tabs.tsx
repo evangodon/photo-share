@@ -4,6 +4,11 @@ import Ripples from 'react-ripples';
 export const Tabs = styled.div`
   border: 2px solid ${(props) => props.theme.colors.primary};
   border-radius: 4px;
+
+  .react-ripples:nth-child(even) {
+    border-right: 2px solid ${(props) => props.theme.colors.primary};
+    border-left: 2px solid ${(props) => props.theme.colors.primary};
+  }
 `;
 
 const Item = styled.button<{ isActive: boolean }>`

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ContentEditable from '@/components/ContentEditable';
-import { space, shadows } from '@/css/theme';
+import { space, shadows, fontSize, colors } from '@/css/theme';
 
 export const Container = styled.figure`
   position: relative;
@@ -10,9 +10,11 @@ export const Container = styled.figure`
   overflow: hidden;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
-  transition: box-shadow 0.2s ease-in, transform 0.2s ease-in;
   box-shadow: ${shadows[2]};
+`;
 
+export const AnimatedContainer = styled(Container)`
+  transition: box-shadow 0.2s ease-in, transform 0.2s ease-in;
   &:hover {
     box-shadow: ${shadows[3]};
     transform: translateY(-2px);
@@ -75,13 +77,38 @@ export const AlbumCoverLink = styled(AlbumCover)`
   cursor: pointer;
 `;
 
-export const EditableHeader = styled(ContentEditable)`
-  position: absolute;
-  left: 2rem;
-  bottom: 2rem;
-  min-width: 2rem;
+export const CoverImagePlaceholder = styled.div`
+  height: 100%;
+  background-color: ${(props) => props.theme.colors.__grey_200};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${(props) => props.theme.colors.__grey_500};
+`;
 
-  &:focus {
+export const EditableHeader = styled.input`
+  font-weight: 400;
+  border: 0;
+  font-size: ${fontSize.__fs_large};
+
+  outline: 0;
+`;
+
+export const HelpItem = styled.span<{
+  isActive?: boolean;
+  flexDirection?: 'row' | 'column';
+}>`
+  margin: 0 ${space[3]};
+  color: ${(props) => (props.isActive ? colors.__grey_800 : colors.__grey_600)};
+  display: inline-flex;
+  align-items: center;
+  max-width: 20rem;
+  flex-direction: ${(props) => props.flexDirection ?? 'row'};
+  text-align: ${(props) => (props.flexDirection === 'column' ? 'center' : 'left')};
+
+  svg {
+    margin-right: ${space[1]};
+    margin-bottom: ${(props) => (props.flexDirection === 'column' ? space[1] : 0)};
   }
 `;
 
@@ -100,7 +127,11 @@ export const ImageContainer = styled.div`
     transition: background-color 0.2s ease;
   }
 
-  ${Container}:hover &:before {
+  ${Container}:not(${AnimatedContainer}) &:before {
+    background-color: transparent;
+  }
+
+  ${AnimatedContainer}:hover &:before {
     background-color: transparent;
   }
 `;

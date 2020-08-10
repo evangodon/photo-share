@@ -5,23 +5,27 @@ import {
   Upload as UploadIcon,
   Layout as LayoutIcon,
   Image as ImageIcon,
+  Square as SquareIcon,
 } from 'react-feather';
 import { EditedAlbum } from '@/types';
-import { Box } from 'rebass';
+import { space, colors } from '@/css/theme';
+import { Box, Flex } from 'rebass';
 import ImageUpload from '@/components/ImageUpload';
 import ImageGridEditable from '@/components/ImageGridEditable';
-import { AlbumCard } from '@/components';
+import { AlbumCardEditable } from '@/components/album';
 import { Tabs, TabItem } from '@/components/interaction';
 import { AlbumDispatch } from '@/hooks';
+import { HelpItem } from './AlbumCard.styles';
 
 type Tab = 'cover' | 'upload' | 'layout';
 type Props = {
   handlePhotoUpload: (url: string) => void;
   album: EditedAlbum;
   albumDispatch: AlbumDispatch;
+  mode?: 'create' | 'edit';
 };
 
-const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
+export const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch, mode }: Props) => {
   const router = useRouter();
   const tabQuery = router.query.tab as Tab;
   const [tab, setTab] = useState<Tab>(tabQuery ?? 'cover');
@@ -45,6 +49,13 @@ const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
 
   return (
     <>
+      {mode === 'create' && (
+        <Flex mb={4}>
+          <HelpItem isActive={tab === 'cover'}>1. Add a Title</HelpItem>
+          <HelpItem isActive={tab === 'upload'}>2. Upload Images</HelpItem>
+          <HelpItem isActive={tab === 'layout'}>3. Change the Layout</HelpItem>
+        </Flex>
+      )}
       <Tabs>
         <TabItem isActive={tab === 'cover'} onClick={updateUrlParams('cover')}>
           <ImageIcon />
@@ -66,7 +77,7 @@ const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
             {
               cover: (
                 <Box maxWidth="50rem" m={[0, 'auto']}>
-                  <AlbumCard editable albumDispatch={albumDispatch} album={album} />
+                  <AlbumCardEditable albumDispatch={albumDispatch} album={album} />
                 </Box>
               ),
               upload: <ImageUpload handlePhotoUpload={handlePhotoUpload} />,
@@ -78,5 +89,3 @@ const AlbumTabs = ({ handlePhotoUpload, album, albumDispatch }: Props) => {
     </>
   );
 };
-
-export default AlbumTabs;

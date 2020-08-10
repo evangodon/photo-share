@@ -10,7 +10,7 @@ import { useAuthContext } from '@/context';
 import { withPageLayout } from '@/components/layout';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components/interaction';
-import AlbumTabs from './_components/AlbumTabs';
+import { AlbumTabs } from '../../components/album';
 import { useAlbumReducer } from '@/hooks';
 import { CreateAlbumMutation } from '@/graphql/generated';
 import { createPhotoList } from '@/utils/photoData';
@@ -104,6 +104,7 @@ const Create = () => {
           </Flex>
         </Flex>
         <AlbumTabs
+          mode="create"
           handlePhotoUpload={handlePhotoUpload}
           albumDispatch={albumDispatch}
           album={album}
