@@ -31,16 +31,12 @@ const titlePlaceholder = 'Type your title here...';
  *
  */
 export const AlbumCardEditable = ({ album, albumDispatch, user }: Props) => {
-  const router = useRouter();
-
   function handleChange(e: ContentEditableEvent) {
     albumDispatch({
       type: 'update:title',
       payload: { title: e.target.value },
     });
   }
-
-  function handleOnBlur() {}
 
   return (
     <Container>
@@ -62,7 +58,6 @@ export const AlbumCardEditable = ({ album, albumDispatch, user }: Props) => {
             value={album.title}
             placeholder={titlePlaceholder}
             onChange={handleChange}
-            onBlur={handleOnBlur}
           />
         </Flex>
       </AlbumCover>

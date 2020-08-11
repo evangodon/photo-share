@@ -2,17 +2,21 @@ import styled from 'styled-components';
 import { Image } from '@/components';
 import { useMutation } from 'urql';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { Trash2 as TrashIcon } from 'react-feather';
 import { DeletePhoto } from '@/graphql/queries';
 import { Photo, EditedAlbum } from '@/types/index';
 import { arrayMove } from '@/utils/arrayMove';
-import { Options } from '@/components/interaction';
 import { AlbumDispatch } from '@/hooks';
+import { space, colors } from '@/css/theme';
 
-const SortablePhoto = SortableElement(({ photo, onDelete }) => (
+const SortablePhoto = SortableElement(({ photo, deletePhoto }) => (
   <DraggableImage key={photo.id}>
     <>
       <Image src={photo.url} cursor="grab" />
-      <PhotoOptions options={[{ label: 'Delete Photo', onClick: onDelete }]} />
+
+      <PhotoOptions onClick={deletePhoto}>
+        <TrashIcon />
+      </PhotoOptions>
     </>
   </DraggableImage>
 ));
@@ -22,7 +26,7 @@ const Gallery = SortableContainer(({ items: photos, onDeletePhoto }) => (
     {photos.map((photo, index) => (
       <SortablePhoto
         photo={photo}
-        onDelete={() => onDeletePhoto(photo)}
+        deletePhoto={() => onDeletePhoto(photo)}
         index={index}
         key={photo.id ?? photo._id}
       />
@@ -40,6 +44,7 @@ type Props = {
  * Renders photos in a grid which can be reordered.
  *
  * @TODO: handle delete of images that haven't been saved in Fauna
+ * @TODO: when deleting image, need to delete from photo order as well
  */
 const ImageGridEditable = ({ album, albumDispatch }: Props) => {
   const [_, deletePhoto] = useMutation(DeletePhoto);
@@ -59,7 +64,9 @@ const ImageGridEditable = ({ album, albumDispatch }: Props) => {
     });
   }
 
-  const photos = album.photoOrder.map((photoID) => album.photos.data[photoID]);
+  const photos = album.photoOrder
+    .map((photoID) => album.photos.data[photoID])
+    .filter(Boolean);
 
   return (
     <Gallery
@@ -83,10 +90,6 @@ const ImageContainer = styled.div`
   }
 `;
 
-const PhotoOptions = styled(Options)`
-  opacity: 0;
-`;
-
 const DraggableImage = styled.div`
   position: relative;
   height: 40vh;
@@ -95,8 +98,35 @@ const DraggableImage = styled.div`
   flex-grow: 1;
   transition: transform;
 
-  &:hover ${PhotoOptions} {
+  &.is-dragged {
+    border: 2px solid ${colors.primary};
+  }
+`;
+
+const PhotoOptions = styled.span`
+  opacity: 0;
+  position: absolute;
+  top: ${space[3]};
+  right: ${space[3]};
+  background-color: rgba(0, 0, 0, 0.3);
+  color: ${colors.__grey_200};
+  --size: 4.5rem;
+  height: var(--size);
+  width: var(--size);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  ${DraggableImage}:hover & {
     opacity: 1;
+  }
+
+  &:hover {
+    color: ${colors.__color_red};
   }
 `;
 
