@@ -80,7 +80,7 @@ const Create = () => {
   }
 
   const handlePhotoUpload = (url: string) => {
-    const photo = { url, id: nanoid(), postedBy: { connect: user._id } };
+    const photo = { url, id: nanoid(), postedBy: { _id: user._id } };
     albumDispatch({ type: 'create:photo', payload: { photo } });
   };
 
