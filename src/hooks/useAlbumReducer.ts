@@ -14,7 +14,7 @@ type Action =
   | { type: 'update:photo_order'; payload: { order: string[] } }
   | {
       type: 'create:photo';
-      payload: { photo: NewPhoto & { postedBy: { connect: string } } };
+      payload: { photo: NewPhoto & { postedBy: { _id: string } } };
     }
   | { type: 'delete:photo'; payload: { photoID: string } };
 

@@ -101,6 +101,8 @@ const Edit = ({ album }: Props) => {
     const id = getIdFromSlug(slug);
     const { title, coverPhoto, photoOrder } = editedAlbum;
 
+    console.log({ editedAlbum });
+
     const variables = {
       id,
       title,
@@ -123,7 +125,7 @@ const Edit = ({ album }: Props) => {
     const photo = {
       url,
       id: nanoid(),
-      postedBy: { connect: user._id },
+      postedBy: { _id: user._id },
     };
 
     albumDispatch({ type: 'create:photo', payload: { photo } });

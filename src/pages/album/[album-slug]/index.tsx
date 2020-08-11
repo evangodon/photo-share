@@ -40,13 +40,20 @@ const AlbumPage = ({ album }: Props) => {
       </Flex>
       <ImageContainer>
         <>
-          {album.photoOrder.map((photoID: string) => (
-            <Link href="/photo/photo-slug" key={photoID}>
-              <a>
-                <Image src={album.photos.data[photoID].url} />
-              </a>
-            </Link>
-          ))}
+          {album.photoOrder
+            .map((photoID: string) => {
+              const src = album.photos.data[photoID]?.url;
+              return (
+                src && (
+                  <Link href="/photo/photo-slug" key={photoID}>
+                    <a>
+                      <Image src={src} />
+                    </a>
+                  </Link>
+                )
+              );
+            })
+            .filter(Boolean)}
           <a className="last-row" />
         </>
       </ImageContainer>

@@ -19,8 +19,12 @@ type CreatePhotoList = (photoTable: {
   };
 }) => Omit<Photo, '_id'>[];
 
-export const createPhotoList: CreatePhotoList = (photoDictionary) => {
+export const createPhotoList = (photoDictionary) => {
   return Object.keys(photoDictionary)
     .map((photoID) => photoDictionary[photoID])
-    .map((photo) => ({ id: photo.id, url: photo.url, postedBy: photo.postedBy }));
+    .map((photo) => ({
+      id: photo.id,
+      url: photo.url,
+      postedBy: { connect: photo.postedBy._id },
+    }));
 };
