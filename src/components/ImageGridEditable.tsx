@@ -2,31 +2,36 @@ import styled from 'styled-components';
 import { Image } from '@/components';
 import { useMutation } from 'urql';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import { Trash2 as TrashIcon } from 'react-feather';
+import { Trash2 as TrashIcon, Image as ImageIcon } from 'react-feather';
 import { DeletePhoto } from '@/graphql/queries';
 import { Photo, EditedAlbum } from '@/types/index';
 import { arrayMove } from '@/utils/arrayMove';
 import { AlbumDispatch } from '@/hooks';
 import { space, colors } from '@/css/theme';
 
-const SortablePhoto = SortableElement(({ photo, deletePhoto }) => (
+const SortablePhoto = SortableElement(({ photo, deletePhoto, updateCover }) => (
   <DraggableImage key={photo.id}>
     <>
       <Image src={photo.url} cursor="grab" />
+      <CoverIndicator isCover={photo.isCover} onClick={updateCover}>
+        <ImageIcon />
+        Cover
+      </CoverIndicator>
 
-      <PhotoOptions onClick={deletePhoto}>
-        <TrashIcon />
-      </PhotoOptions>
+      <DeleteImage onClick={deletePhoto}>
+        <TrashIcon size={16} />
+      </DeleteImage>
     </>
   </DraggableImage>
 ));
 
-const Gallery = SortableContainer(({ items: photos, onDeletePhoto }) => (
+const Gallery = SortableContainer(({ items: photos, onDeletePhoto, onUpdateCover }) => (
   <ImageContainer>
     {photos.map((photo, index) => (
       <SortablePhoto
         photo={photo}
         deletePhoto={() => onDeletePhoto(photo)}
+        updateCover={() => onUpdateCover(photo.url)}
         index={index}
         key={photo.id ?? photo._id}
       />
@@ -64,14 +69,26 @@ const ImageGridEditable = ({ album, albumDispatch }: Props) => {
     });
   }
 
+  function handleUpdateCover(url: string) {
+    albumDispatch({
+      type: 'update:cover_photo',
+      payload: { url },
+    });
+  }
+
   const photos = album.photoOrder
     .map((photoID) => album.photos.data[photoID])
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((photo) => ({
+      ...photo,
+      isCover: photo?.url === album.coverPhoto,
+    }));
 
   return (
     <Gallery
       items={photos}
       onDeletePhoto={handleDeletePhoto}
+      onUpdateCover={handleUpdateCover}
       onSortEnd={onSortEnd}
       helperClass="is-dragged"
       distance={1}
@@ -103,30 +120,47 @@ const DraggableImage = styled.div`
   }
 `;
 
-const PhotoOptions = styled.span`
+const ImageOptions = styled.span`
   opacity: 0;
   position: absolute;
   top: ${space[3]};
-  right: ${space[3]};
   background-color: rgba(0, 0, 0, 0.3);
-  color: ${colors.__grey_200};
-  --size: 4.5rem;
-  height: var(--size);
-  width: var(--size);
+  border: 1px solid currentColor;
+  border-radius: 4px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
-  border: 1px solid currentColor;
   cursor: pointer;
   transition: opacity 0.2s ease;
 
   ${DraggableImage}:hover & {
     opacity: 1;
   }
+`;
+
+const DeleteImage = styled(ImageOptions)`
+  right: ${space[3]};
+  opacity: 0;
+  color: ${colors.__grey_200};
+  padding: ${space[2]};
 
   &:hover {
     color: ${colors.__color_red};
+  }
+`;
+
+const CoverIndicator = styled(ImageOptions)<{ isCover: boolean }>`
+  left: ${space[3]};
+  color: ${(p) => (p.isCover ? colors.__grey_200 : colors.__grey_300)};
+  padding: ${space[1]} ${space[2]};
+  opacity: ${(p) => (p.isCover ? 1 : 0)};
+
+  svg {
+    margin-right: ${space[1]};
+  }
+
+  &:hover {
+    color: ${colors.__grey_200};
   }
 `;
 

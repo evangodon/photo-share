@@ -60,23 +60,20 @@ export const AlbumCard = ({ album, editable, albumDispatch, user }: Props) => {
           <Flex alignItems="center" p={3}>
             <H3>{album.title}</H3>
           </Flex>
-          {user?.isSuperUser && (
-            <AlbumOptions onClick={(e) => e.stopPropagation()}>
-              <Link
-                href="/album/[album-slug]/edit"
-                as={`/album/${createSlug(album)}/edit`}
-              >
-                <Edit>
-                  <EditIcon size={18} />
-                </Edit>
-              </Link>
-              <Delete onClick={handleDeleteAlbum(album._id)}>
-                <TrashIcon size={18} />
-              </Delete>
-            </AlbumOptions>
-          )}
         </AlbumCoverLink>
       </Link>
+      {user?.isSuperUser && (
+        <AlbumOptions onClick={(e) => e.stopPropagation()}>
+          <Link href="/album/[album-slug]/edit" as={`/album/${createSlug(album)}/edit`}>
+            <Edit>
+              <EditIcon size={18} />
+            </Edit>
+          </Link>
+          <Delete onClick={handleDeleteAlbum(album._id)}>
+            <TrashIcon size={18} />
+          </Delete>
+        </AlbumOptions>
+      )}
     </AnimatedContainer>
   );
 };
