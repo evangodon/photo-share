@@ -10,7 +10,8 @@ import { useAuthContext } from '@/context';
 import { withPageLayout } from '@/components/layout';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components/interaction';
-import { AlbumTabs } from '../../components/album';
+import { AlbumTabs } from '@/components/album';
+import { getPhotoIdFromUrl } from '@/utils/photoData';
 import { useAlbumReducer } from '@/hooks';
 import { CreateAlbumMutation } from '@/graphql/generated';
 
@@ -79,7 +80,8 @@ const Create = () => {
   }
 
   const handlePhotoUpload = (url: string) => {
-    const photo = { url, postedBy: { connect: user._id } };
+    const photoId = getPhotoIdFromUrl(url);
+    const photo = { url, photoId, postedBy: { connect: user._id } };
     albumDispatch({ type: 'create:photo', payload: { photo } });
   };
 

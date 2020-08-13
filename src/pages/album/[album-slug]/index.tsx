@@ -16,6 +16,7 @@ import { Button } from '@/components/interaction';
 
 type Props = NextPage & { album: any };
 
+// TODO: Fix this page
 const AlbumPage = ({ album }: Props) => {
   const router = useRouter();
   const slug = router.query['album-slug'] as string;

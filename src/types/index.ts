@@ -1,6 +1,6 @@
 import { Photo as PhotoType, Album as AlbumType } from '@/graphql/generated';
 
-export type NewPhoto = Pick<PhotoType, 'url'>;
+export type NewPhoto = Pick<PhotoType, 'photoId' | 'url'>;
 export type Photo = Pick<PhotoType, 'photoId' | '_id' | 'url'> & {
   postedBy: Pick<User, '_id'>;
 };

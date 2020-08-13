@@ -39,7 +39,7 @@ const reducer: Reducer = (state, action) => {
       return {
         ...state,
         photos: {
-          data: [...state.photos.data, { ...action.payload.photo, photoId }],
+          data: [...state.photos.data, action.payload.photo],
         },
         photoOrder: [...state.photoOrder, photoId],
       };

@@ -14,12 +14,13 @@ import { EditedAlbum } from '@/types';
 import { getIdFromSlug } from '@/utils/index';
 import { FindAlbumById } from '@/graphql/queries';
 import { FindAlbumByIdQuery } from '@/graphql/generated';
+import { getPhotoIdFromUrl } from '@/utils/photoData';
 import { faunadb } from '@/lib/faundb';
 import { useAlbumReducer } from '@/hooks';
 import { useAuthContext } from '@/context';
 
 const EditAlbum = /* GraphQL */ `
-  mutation UpdateAlbum(
+  mutation PartialUpdateAlbum(
     $id: ID!
     $title: String!
     $coverPhoto: String
@@ -56,16 +57,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     throw new Error(errors[0].message);
   }
 
-  const album = {
-    ...data.findAlbumByID,
-    photos: {
-      data: createPhotoDictionary(data.findAlbumByID.photos.data),
-    },
-  };
-
   return {
     props: {
-      album,
+      album: data.findAlbumByID,
     },
   };
 };
@@ -100,14 +94,12 @@ const Edit = ({ album }: Props) => {
     const id = getIdFromSlug(slug);
     const { title, coverPhoto, photoOrder, photos } = editedAlbum;
 
-    console.log({ editedAlbum });
-
     const variables = {
       id,
       title,
       coverPhoto,
       photoOrder,
-      photos: photos.data,
+      photos: photos.data.filter((photo) => Boolean(!photo._id)),
     };
 
     editAlbum(variables).then((result) => {
@@ -121,11 +113,8 @@ const Edit = ({ album }: Props) => {
   }
 
   const handlePhotoUpload = (url: string) => {
-    const photo = {
-      url,
-      postedBy: { _id: user._id },
-    };
-
+    const photoId = getPhotoIdFromUrl(url);
+    const photo = { url, photoId, postedBy: { connect: user._id } };
     albumDispatch({ type: 'create:photo', payload: { photo } });
   };
 

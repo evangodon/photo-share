@@ -12,6 +12,7 @@ import 'filepond/dist/filepond.min.css';
 
 const client = createClient({
   url: '/api/graphql',
+  fetchOptions: () => ({ headers: { 'X-Schema-Preview': 'partial-update-mutation' } }),
 });
 
 export default class MyApp extends App {
