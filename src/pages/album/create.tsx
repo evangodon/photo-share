@@ -13,7 +13,6 @@ import { Button } from '@/components/interaction';
 import { AlbumTabs } from '../../components/album';
 import { useAlbumReducer } from '@/hooks';
 import { CreateAlbumMutation } from '@/graphql/generated';
-import { createPhotoList } from '@/utils/photoData';
 
 const CreateAlbum = /* GraphQL */ `
   mutation CreateAlbum(
@@ -53,21 +52,21 @@ const Create = () => {
   useEffect(() => {
     const photos = album.photos.data;
 
-    if (!album.coverPhoto && album.photoOrder.length > 0) {
+    if (!album.coverPhoto && photos.length > 0) {
       albumDispatch({
         type: 'update:cover_photo',
-        payload: { url: photos[album.photoOrder[0]].url },
+        payload: { url: photos[0].url },
       });
     }
   }, [album.photos.data]);
 
   function handleCreateAlbum() {
-    const { title, coverPhoto, photoOrder } = album;
+    const { title, coverPhoto, photoOrder, photos } = album;
     const variables = {
       title,
       coverPhoto,
       photoOrder,
-      photos: createPhotoList(album.photos.data),
+      photos: photos.data,
     };
 
     createAlbum(variables).then((result) => {
@@ -80,7 +79,7 @@ const Create = () => {
   }
 
   const handlePhotoUpload = (url: string) => {
-    const photo = { url, id: nanoid(), postedBy: { _id: user._id } };
+    const photo = { url, postedBy: { connect: user._id } };
     albumDispatch({ type: 'create:photo', payload: { photo } });
   };
 

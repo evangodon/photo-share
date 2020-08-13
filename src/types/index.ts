@@ -1,7 +1,7 @@
 import { Photo as PhotoType, Album as AlbumType } from '@/graphql/generated';
 
-export type NewPhoto = Pick<PhotoType, 'id' | 'url'>;
-export type Photo = Pick<PhotoType, 'id' | '_id' | 'url'> & {
+export type NewPhoto = Pick<PhotoType, 'url'>;
+export type Photo = Pick<PhotoType, 'photoId' | '_id' | 'url'> & {
   postedBy: Pick<User, '_id'>;
 };
 
@@ -16,7 +16,7 @@ export type EditedAlbum = Pick<
   AlbumType,
   '_id' | 'title' | 'coverPhoto' | 'photoOrder'
 > & {
-  photos: { data: PhotoDictionary | { [photoID: string]: NewPhoto } };
+  photos: { data: PhotoType[] | NewPhoto[] };
 };
 
 export type User = {

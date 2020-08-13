@@ -5,7 +5,7 @@ type User {
 }
 
 type Photo {
-  id: ID!
+  photoId: ID!
   title: String
   url: String!
   album: Album!

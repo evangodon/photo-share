@@ -28,3 +28,7 @@ export const createPhotoList = (photoDictionary) => {
       postedBy: { connect: photo.postedBy._id },
     }));
 };
+
+export const getPhotoIdFromUrl = (url: string) => {
+  return url.split('/').pop().replace(/\.jpg/, '');
+};

@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const { data } = await findUserByEmail({ email: nextAuthUser.email });
-      const user = data.findUserByEmail[0];
+      const user = data?.findUserByEmail[0];
 
       if (user) {
         setUserWithRightData(user);

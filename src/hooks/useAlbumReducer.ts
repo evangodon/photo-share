@@ -1,12 +1,13 @@
 import { useReducer, Dispatch } from 'react';
 import { EditedAlbum, NewPhoto } from '@/types/index';
+import { getPhotoIdFromUrl } from '@/utils/photoData';
 
 const initialState: EditedAlbum = {
   _id: '-1',
   title: '',
   coverPhoto: '',
   photoOrder: [],
-  photos: { data: {} },
+  photos: { data: [] },
 };
 type Action =
   | { type: 'update:title'; payload: { title: string } }
@@ -14,7 +15,9 @@ type Action =
   | { type: 'update:photo_order'; payload: { order: string[] } }
   | {
       type: 'create:photo';
-      payload: { photo: NewPhoto & { postedBy: { _id: string } } };
+      payload: {
+        photo: NewPhoto & { postedBy: { connect: string } };
+      };
     }
   | { type: 'delete:photo'; payload: { photoID: string } };
 
@@ -32,15 +35,13 @@ const reducer: Reducer = (state, action) => {
       return { ...state, photoOrder: action.payload.order };
 
     case 'create:photo':
+      const photoId = getPhotoIdFromUrl(action.payload.photo.url);
       return {
         ...state,
         photos: {
-          data: {
-            ...state.photos.data,
-            [action.payload.photo.id]: action.payload.photo,
-          },
+          data: [...state.photos.data, { ...action.payload.photo, photoId }],
         },
-        photoOrder: [...state.photoOrder, action.payload.photo.id],
+        photoOrder: [...state.photoOrder, photoId],
       };
     case 'delete:photo':
       delete state.photos.data[action.payload.photoID];

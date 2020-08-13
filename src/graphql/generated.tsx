@@ -111,7 +111,7 @@ export type PhotoAlbumRelation = {
 
 /** 'Photo' input values */
 export type PhotoInput = {
-  id: Scalars['ID'];
+  photoId: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
   url: Scalars['String'];
   album?: Maybe<PhotoAlbumRelation>;
@@ -131,7 +131,7 @@ export type PhotoPostedByRelation = {
 export type UserInput = {
   email: Scalars['String'];
   name: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
+  image: Scalars['String'];
 };
 
 export type Album = {
@@ -169,9 +169,9 @@ export type Photo = {
   url: Scalars['String'];
   /** The document's ID. */
   _id: Scalars['ID'];
-  id: Scalars['ID'];
   album: Album;
   title?: Maybe<Scalars['String']>;
+  photoId: Scalars['ID'];
   /** The document's timestamp. */
   _ts: Scalars['Long'];
 };
@@ -236,7 +236,7 @@ export type User = {
    __typename?: 'User';
   name: Scalars['String'];
   email: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
+  image: Scalars['String'];
   /** The document's ID. */
   _id: Scalars['ID'];
   /** The document's timestamp. */
@@ -286,7 +286,7 @@ export type FindAlbumByIdQuery = (
       { __typename?: 'PhotoPage' }
       & { data: Array<Maybe<(
         { __typename?: 'Photo' }
-        & Pick<Photo, 'id' | '_id' | 'url'>
+        & Pick<Photo, 'photoId' | '_id' | 'url'>
         & { postedBy: (
           { __typename?: 'User' }
           & Pick<User, '_id'>
@@ -306,6 +306,19 @@ export type DeletePhotoMutation = (
   & { deletePhoto?: Maybe<(
     { __typename?: 'Photo' }
     & Pick<Photo, '_id'>
+  )> }
+);
+
+export type DeleteAlbumMutationVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type DeleteAlbumMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteAlbum?: Maybe<(
+    { __typename?: 'Album' }
+    & Pick<Album, '_id'>
   )> }
 );
 

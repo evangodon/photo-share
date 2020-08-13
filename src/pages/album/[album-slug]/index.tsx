@@ -22,6 +22,8 @@ const AlbumPage = ({ album }: Props) => {
   const header = getTitleFromSlug(slug);
   const { user } = useAuthContext();
 
+  console.log({ album });
+
   const photos = album.photos.data;
 
   if (Object.keys(photos).length === 0) {
@@ -73,15 +75,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     throw new Error(errors[0].message);
   }
 
-  const album = {
-    ...data.findAlbumByID,
-    photos: {
-      data: createPhotoDictionary(data.findAlbumByID.photos.data),
-    },
-  };
-
   return {
-    props: { album },
+    props: { album: data.findAlbumByID },
   };
 };
 

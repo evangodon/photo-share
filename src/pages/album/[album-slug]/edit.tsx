@@ -17,7 +17,6 @@ import { FindAlbumByIdQuery } from '@/graphql/generated';
 import { faunadb } from '@/lib/faundb';
 import { useAlbumReducer } from '@/hooks';
 import { useAuthContext } from '@/context';
-import { createPhotoList, createPhotoDictionary } from '@/utils/photoData';
 
 const EditAlbum = /* GraphQL */ `
   mutation UpdateAlbum(
@@ -99,7 +98,7 @@ const Edit = ({ album }: Props) => {
   function handleSave() {
     const slug = router.query['album-slug'] as string;
     const id = getIdFromSlug(slug);
-    const { title, coverPhoto, photoOrder } = editedAlbum;
+    const { title, coverPhoto, photoOrder, photos } = editedAlbum;
 
     console.log({ editedAlbum });
 
@@ -108,7 +107,7 @@ const Edit = ({ album }: Props) => {
       title,
       coverPhoto,
       photoOrder,
-      photos: createPhotoList(editedAlbum.photos.data),
+      photos: photos.data,
     };
 
     editAlbum(variables).then((result) => {
@@ -124,7 +123,6 @@ const Edit = ({ album }: Props) => {
   const handlePhotoUpload = (url: string) => {
     const photo = {
       url,
-      id: nanoid(),
       postedBy: { _id: user._id },
     };
 

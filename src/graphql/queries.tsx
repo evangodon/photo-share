@@ -6,7 +6,7 @@ export const FindAlbumById = /* GraphQL */ `
       photoOrder
       photos {
         data {
-          id
+          photoId
           _id
           url
           postedBy {
