@@ -16,7 +16,6 @@ import { Button } from '@/components/interaction';
 
 type Props = NextPage & { album: any };
 
-// TODO: Fix this page
 const AlbumPage = ({ album }: Props) => {
   const router = useRouter();
   const slug = router.query['album-slug'] as string;
@@ -44,11 +43,12 @@ const AlbumPage = ({ album }: Props) => {
       <ImageContainer>
         <>
           {album.photoOrder
-            .map((photoID: string) => {
-              const src = album.photos.data[photoID]?.url;
+            .map((photoId: string) => {
+              const photo = album.photos.data.find((photo) => photo.photoId === photoId);
+              const { url: src } = photo;
               return (
                 src && (
-                  <Link href="/photo/photo-slug" key={photoID}>
+                  <Link href="/photo/photo-slug" key={photoId}>
                     <a>
                       <Image src={src} />
                     </a>

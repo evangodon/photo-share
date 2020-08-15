@@ -38,6 +38,7 @@ export const AlbumOptions = styled.span`
   border-top: var(--border);
   border-top-right-radius: var(--border-radius);
   overflow: hidden;
+  cursor: pointer;
 
   ${Container}:hover & {
     opacity: 1;

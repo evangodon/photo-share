@@ -15,7 +15,7 @@ const SortablePhoto = SortableElement(({ photo, deletePhoto, updateCover }) => (
       <Image src={photo.url} cursor="grab" />
       <CoverIndicator isCover={photo.isCover} onClick={updateCover}>
         <ImageIcon />
-        Cover
+        {photo.isCover ? 'Cover' : 'Set Cover'}
       </CoverIndicator>
 
       <DeleteImage onClick={deletePhoto}>
@@ -77,7 +77,7 @@ const ImageGridEditable = ({ album, albumDispatch }: Props) => {
   }
 
   const photos = album.photoOrder
-    .map((photoID) => album.photos.data[photoID])
+    .map((photoId) => album.photos.data.find((photo) => photo.photoId === photoId))
     .filter(Boolean)
     .map((photo) => ({
       ...photo,
@@ -124,7 +124,7 @@ const ImageOptions = styled.span`
   opacity: 0;
   position: absolute;
   top: ${space[3]};
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: ${colors.white};
   border: 1px solid currentColor;
   border-radius: 4px;
   display: inline-flex;
@@ -141,17 +141,18 @@ const ImageOptions = styled.span`
 const DeleteImage = styled(ImageOptions)`
   right: ${space[3]};
   opacity: 0;
-  color: ${colors.__grey_200};
+  color: ${colors.__grey_600};
   padding: ${space[2]};
 
   &:hover {
     color: ${colors.__color_red};
+    background-color: ${colors.__color_red_light};
   }
 `;
 
 const CoverIndicator = styled(ImageOptions)<{ isCover: boolean }>`
   left: ${space[3]};
-  color: ${(p) => (p.isCover ? colors.__grey_200 : colors.__grey_300)};
+  color: ${(p) => (p.isCover ? colors.__grey_700 : colors.__grey_600)};
   padding: ${space[1]} ${space[2]};
   opacity: ${(p) => (p.isCover ? 1 : 0)};
 
@@ -160,7 +161,7 @@ const CoverIndicator = styled(ImageOptions)<{ isCover: boolean }>`
   }
 
   &:hover {
-    color: ${colors.__grey_200};
+    color: ${colors.__grey_700};
   }
 `;
 
