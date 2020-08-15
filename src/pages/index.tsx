@@ -3,7 +3,6 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { FolderPlus as FolderPlusIcon } from 'react-feather';
 import { withPageLayout } from '@/components/layout';
-import { Header } from '@/components';
 import { AlbumCard } from '@/components/album';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components/interaction';
@@ -26,6 +25,8 @@ const IndexPage = ({ albums, errors }: Props) => {
   if (errors) {
     return <span>{JSON.stringify(errors)}</span>;
   }
+
+  console.log({ albums });
 
   return (
     <>

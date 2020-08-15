@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { nanoid } from 'nanoid';
 import styled from 'styled-components';
 import { Flex } from 'rebass';
 import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
@@ -12,7 +11,7 @@ import { H2 } from '@/components/typography';
 import { Button } from '@/components/interaction';
 import { AlbumTabs } from '@/components/album';
 import { getPhotoIdFromUrl } from '@/utils/photoData';
-import { useAlbumReducer } from '@/hooks';
+import { useAlbumReducer, useToast } from '@/hooks';
 import { CreateAlbumMutation } from '@/graphql/generated';
 
 const CreateAlbum = /* GraphQL */ `
@@ -49,6 +48,7 @@ const Create = () => {
   const router = useRouter();
   const [_, createAlbum] = useMutation<CreateAlbumMutation>(CreateAlbum);
   const { album, albumDispatch } = useAlbumReducer();
+  const toast = useToast();
 
   useEffect(() => {
     const photos = album.photos.data;
@@ -75,6 +75,7 @@ const Create = () => {
         console.error(result.error);
       }
 
+      toast('Your new album has been created! 🎉');
       router.push('/');
     });
   }

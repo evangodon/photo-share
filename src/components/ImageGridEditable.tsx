@@ -8,6 +8,7 @@ import { Photo, EditedAlbum } from '@/types/index';
 import { arrayMove } from '@/utils/arrayMove';
 import { AlbumDispatch } from '@/hooks';
 import { space, colors } from '@/css/theme';
+import { useToast } from '../hooks/useToast';
 
 const SortablePhoto = SortableElement(({ photo, deletePhoto, updateCover }) => (
   <DraggableImage key={photo.id}>
@@ -53,6 +54,7 @@ type Props = {
  */
 const ImageGridEditable = ({ album, albumDispatch }: Props) => {
   const [_, deletePhoto] = useMutation(DeletePhoto);
+  const toast = useToast();
 
   function onSortEnd({ oldIndex, newIndex }) {
     const newOrder = arrayMove(album.photoOrder, oldIndex, newIndex);
@@ -60,12 +62,13 @@ const ImageGridEditable = ({ album, albumDispatch }: Props) => {
     albumDispatch({ type: 'update:photo_order', payload: { order: newOrder } });
   }
 
-  function handleDeletePhoto({ id, _id }: Photo) {
-    deletePhoto({ id: _id }).then((result) => {
+  function handleDeletePhoto({ _id, photoId }: Photo) {
+    deletePhoto({ id: _id }).then(() => {
       albumDispatch({
         type: 'delete:photo',
-        payload: { photoID: id },
+        payload: { photoId },
       });
+      toast('Photo Deleted. 🗑️');
     });
   }
 

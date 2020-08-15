@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps, NextPage } from 'next';
 import { ArrowLeft as ArrowLeftIcon, Save as SaveIcon } from 'react-feather';
 import { useMutation } from 'urql';
-import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
 import { withPageLayout } from '@/components/layout';
 import { Button } from '@/components/interaction';
 import { H2 } from '@/components/typography';
@@ -107,6 +107,8 @@ const Edit = ({ album }: Props) => {
         console.error(result.error);
         return;
       }
+
+      toast('Album Updated!');
 
       router.push('/');
     });

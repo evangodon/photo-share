@@ -19,7 +19,7 @@ type Action =
         photo: NewPhoto & { postedBy: { connect: string } };
       };
     }
-  | { type: 'delete:photo'; payload: { photoID: string } };
+  | { type: 'delete:photo'; payload: { photoId: string } };
 
 type Reducer = (state: EditedAlbum, action: Action) => EditedAlbum;
 
@@ -44,11 +44,11 @@ const reducer: Reducer = (state, action) => {
         photoOrder: [...state.photoOrder, photoId],
       };
     case 'delete:photo':
-      delete state.photos.data[action.payload.photoID];
+      delete state.photos.data[action.payload.photoId];
       return {
         ...state,
         photoOrder: state.photoOrder.filter(
-          (photoID) => photoID !== action.payload.photoID
+          (photoId) => photoId !== action.payload.photoId
         ),
       };
 

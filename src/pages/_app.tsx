@@ -3,12 +3,14 @@ import App from 'next/app';
 import Head from 'next/head';
 import { Provider as NextAuthProvider } from 'next-auth/client';
 import { ThemeProvider, StyleSheetManager } from 'styled-components';
+import { ToastContainer } from '@/components/notifications';
 import { createClient, Provider as UrqlProvider } from 'urql';
 import { GlobalStyles, theme } from '@/css';
 import { AuthProvider } from '@/context/authContext';
 
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const client = createClient({
   url: '/api/graphql',
@@ -33,6 +35,7 @@ export default class MyApp extends App {
                   <ThemeProvider theme={theme}>
                     <Component {...pageProps} />
                     <GlobalStyles />
+                    <ToastContainer />
                   </ThemeProvider>
                 </AuthProvider>
               </NextAuthProvider>
