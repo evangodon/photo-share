@@ -273,7 +273,7 @@ export type CreateUserMutation = (
 );
 
 export type FindAlbumByIdQueryVariables = {
-  albumID: Scalars['ID'];
+  albumId: Scalars['ID'];
 };
 
 
@@ -292,6 +292,26 @@ export type FindAlbumByIdQuery = (
           & Pick<User, '_id'>
         ) }
       )>> }
+    ) }
+  )> }
+);
+
+export type FindPhotoByIdQueryVariables = {
+  photoId: Scalars['ID'];
+};
+
+
+export type FindPhotoByIdQuery = (
+  { __typename?: 'Query' }
+  & { findPhotoByID?: Maybe<(
+    { __typename?: 'Photo' }
+    & Pick<Photo, 'url'>
+    & { postedBy: (
+      { __typename?: 'User' }
+      & Pick<User, '_id'>
+    ), album: (
+      { __typename?: 'Album' }
+      & Pick<Album, '_id'>
     ) }
   )> }
 );
@@ -322,23 +342,6 @@ export type DeleteAlbumMutation = (
   )> }
 );
 
-export type UpdateAlbumMutationVariables = {
-  id: Scalars['ID'];
-  title: Scalars['String'];
-  coverPhoto?: Maybe<Scalars['String']>;
-  photoOrder: Array<Maybe<Scalars['String']>>;
-  photos: Array<PhotoInput>;
-};
-
-
-export type UpdateAlbumMutation = (
-  { __typename?: 'Mutation' }
-  & { updateAlbum?: Maybe<(
-    { __typename?: 'Album' }
-    & Pick<Album, '_id' | 'title'>
-  )> }
-);
-
 export type GetAlbumsQueryVariables = {};
 
 
@@ -351,6 +354,23 @@ export type GetAlbumsQuery = (
       & Pick<Album, 'title' | '_id'>
     )>> }
   ) }
+);
+
+export type PartialUpdateAlbumMutationVariables = {
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  coverPhoto?: Maybe<Scalars['String']>;
+  photoOrder: Array<Maybe<Scalars['String']>>;
+  photos: Array<PhotoInput>;
+};
+
+
+export type PartialUpdateAlbumMutation = (
+  { __typename?: 'Mutation' }
+  & { updateAlbum?: Maybe<(
+    { __typename?: 'Album' }
+    & Pick<Album, '_id' | 'title'>
+  )> }
 );
 
 export type CreateAlbumMutationVariables = {

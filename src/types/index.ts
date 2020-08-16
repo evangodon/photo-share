@@ -14,7 +14,7 @@ export type EditedAlbum = Pick<
   AlbumType,
   '_id' | 'title' | 'coverPhoto' | 'photoOrder'
 > & {
-  photos: { data: PhotoType[] | NewPhoto[] };
+  photos: { data: (Photo | NewPhoto)[] };
 };
 
 export type User = {

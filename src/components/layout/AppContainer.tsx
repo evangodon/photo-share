@@ -10,7 +10,7 @@ const AppContainer = ({ children }: Props) => {
 };
 
 const Container = styled.div`
-  max-width: 144rem;
+  max-width: var(--app-max-width);
   margin: 0 auto 3rem auto;
 `;
 

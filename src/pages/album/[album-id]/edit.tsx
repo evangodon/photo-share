@@ -95,6 +95,7 @@ const Edit = ({ album }: Props) => {
       title,
       coverPhoto,
       photoOrder,
+      // @ts-ignore
       photos: photos.data.filter((photo) => Boolean(!photo._id)),
     };
 

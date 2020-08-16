@@ -5,6 +5,10 @@ import { transformImage } from '@/utils/transformImage';
 type Props = {
   src: string;
   cursor?: 'pointer' | 'grab';
+  options: {
+    height?: number;
+    width?: number;
+  };
 };
 
 /**
@@ -13,8 +17,11 @@ type Props = {
  *
  * @todo: Optimize for mobile
  */
-const Image = ({ src, cursor }: Props) => {
-  const transformedSrc = transformImage(src, { height: 600 });
+const Image = ({ src, cursor, options = { height: 600 } }: Props) => {
+  const transformedSrc = transformImage(src, {
+    height: options.height,
+    width: options.width,
+  });
   const placeholderImage = transformImage(src, {
     blur: 900,
     height: 600,

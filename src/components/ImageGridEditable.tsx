@@ -13,7 +13,7 @@ import { useToast } from '../hooks/useToast';
 const SortablePhoto = SortableElement(({ photo, deletePhoto, updateCover }) => (
   <DraggableImage key={photo.id}>
     <>
-      <Image src={photo.url} cursor="grab" />
+      <Image src={photo.url} cursor="grab" options={{ height: 600 }} />
       <CoverIndicator isCover={photo.isCover} onClick={updateCover}>
         <ImageIcon />
         {photo.isCover ? 'Cover' : 'Set Cover'}

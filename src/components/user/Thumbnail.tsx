@@ -35,7 +35,7 @@ const Thumbnail: Thumbnail = ({ user, loading, signout }) => {
   );
 };
 
-const size = '5rem';
+const size = '4rem';
 
 const Container = styled.div`
   height: ${size};

@@ -43,7 +43,7 @@ export const AlbumCardEditable = ({ album, albumDispatch, user }: Props) => {
       <AlbumCover>
         <ImageContainer>
           {album.coverPhoto ? (
-            <Image src={album.coverPhoto} />
+            <Image src={album.coverPhoto} options={{ height: 300 }} />
           ) : (
             <CoverImagePlaceholder>
               <HelpItem flexDirection="column">

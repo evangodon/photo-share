@@ -18,6 +18,20 @@ export const FindAlbumById = /* GraphQL */ `
   }
 `;
 
+export const FindPhotoById = /* GraphQL */ `
+  query FindPhotoByID($photoId: ID!) {
+    findPhotoByID(id: $photoId) {
+      url
+      postedBy {
+        _id
+      }
+      album {
+        _id
+      }
+    }
+  }
+`;
+
 export const DeletePhoto = /* GraphQL */ `
   mutation DeletePhoto($id: ID!) {
     deletePhoto(id: $id) {

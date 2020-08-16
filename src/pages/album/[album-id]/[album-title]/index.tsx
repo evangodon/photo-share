@@ -33,7 +33,7 @@ const AlbumPage = ({ album }: Props) => {
         <H2>{header}</H2>
         {user?.isSuperUser && (
           <Button
-            href={`/album/[album-slug]/edit`}
+            href={`/album/[album-id]/edit`}
             as={`/album/${albumId}/edit`}
             icon={<EditIcon />}
           >
@@ -49,9 +49,9 @@ const AlbumPage = ({ album }: Props) => {
               const { url: src } = photo;
               return (
                 src && (
-                  <Link href="/photo/[photo-slug]" as={`/photo/${photoId}`} key={photoId}>
+                  <Link href="/photo/[photo-id]" as={`/photo/${photo._id}`} key={photoId}>
                     <a>
-                      <Image cursor="pointer" src={src} />
+                      <Image cursor="pointer" src={src} options={{ height: 600 }} />
                     </a>
                   </Link>
                 )

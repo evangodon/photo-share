@@ -21,7 +21,10 @@ const ImageGrid = ({ photos, setPhotos, editable }: Props) => {
         {photos.map((photo) => (
           <Link href="/photo/[photo-slug]" as={`/photo/${photo._id}`} key={photo._id}>
             <a>
-              <Image src={photo.url ?? `https://source.unsplash.com/random`} />
+              <Image
+                src={photo.url ?? `https://source.unsplash.com/random`}
+                options={{ height: 600 }}
+              />
             </a>
           </Link>
         ))}
