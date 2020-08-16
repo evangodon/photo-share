@@ -5,8 +5,6 @@ export type Photo = Pick<PhotoType, 'photoId' | '_id' | 'url'> & {
   postedBy: Pick<User, '_id'>;
 };
 
-export type PhotoDictionary = { [photoID: string]: Photo };
-
 export type Album = Pick<
   AlbumType,
   '_id' | 'title' | 'coverPhoto' | 'photoOrder' | 'photos'

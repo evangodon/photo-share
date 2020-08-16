@@ -1,6 +1,6 @@
 export const FindAlbumById = /* GraphQL */ `
-  query FindAlbumByID($albumID: ID!) {
-    findAlbumByID(id: $albumID) {
+  query FindAlbumByID($albumId: ID!) {
+    findAlbumByID(id: $albumId) {
       title
       coverPhoto
       photoOrder

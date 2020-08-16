@@ -13,6 +13,7 @@ import { createSlug } from '@/utils';
 import { AlbumDispatch } from '@/hooks';
 import { H3 } from '@/components/typography';
 import { User } from '@/types/index';
+import { useToast } from '@/hooks/useToast';
 import {
   AnimatedContainer,
   AlbumCover,
@@ -37,8 +38,8 @@ type Props = {
  * @todo: Add focus style to editable title
  */
 export const AlbumCard = ({ album, editable, albumDispatch, user }: Props) => {
-  const router = useRouter();
   const [_data, deleteAlbum] = useMutation(DeleteAlbum);
+  const toast = useToast();
 
   function handleDeleteAlbum(id: string) {
     return () =>
@@ -46,13 +47,14 @@ export const AlbumCard = ({ album, editable, albumDispatch, user }: Props) => {
         .then((result) => {
           console.log(result);
           // Delete from state
+          toast('Album successfully deleted. 🗑️ ');
         })
         .catch((error) => console.error(error));
   }
 
   return (
     <AnimatedContainer>
-      <Link href={'/album/[album-slug]'} as={`/album/${album.title}-${album._id}`}>
+      <Link href={'/album/[album-id]/[album-title]'} as={`/album/${createSlug(album)}`}>
         <AlbumCoverLink as="a">
           <ImageContainer>
             <Image src={album.coverPhoto} />

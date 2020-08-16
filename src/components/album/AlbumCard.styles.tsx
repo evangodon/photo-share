@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ContentEditable from '@/components/ContentEditable';
 import { space, shadows, fontSize, colors } from '@/css/theme';
 
 export const Container = styled.figure`

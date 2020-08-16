@@ -4,24 +4,22 @@ import { Flex } from 'rebass/styled-components';
 import { Edit as EditIcon } from 'react-feather';
 import Link from 'next/link';
 import Image from '@/components/Image';
+import { Button } from '@/components/interactive';
 import { H2 } from '@/components/typography';
 import { faunadb } from '@/lib/faundb';
 import { ImageContainer, withPageLayout } from '@/components/layout';
 import { FindAlbumById } from '@/graphql/queries';
-import { getTitleFromSlug, getIdFromSlug } from '@/utils';
+import { makeUrlFriendly } from '@/utils';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
 import { useAuthContext } from '@/context';
-import { Button } from '@/components/interactive';
 
 type Props = NextPage & { album: any };
 
 const AlbumPage = ({ album }: Props) => {
   const router = useRouter();
-  const slug = router.query['album-slug'] as string;
-  const header = getTitleFromSlug(slug);
+  const albumId = router.query['album-id'] as string;
+  const header = router.query['album-title'] as string;
   const { user } = useAuthContext();
-
-  console.log({ album });
 
   const photos = album.photos.data;
 
@@ -36,7 +34,7 @@ const AlbumPage = ({ album }: Props) => {
         {user?.isSuperUser && (
           <Button
             href={`/album/[album-slug]/edit`}
-            as={`/album/${slug}/edit`}
+            as={`/album/${albumId}/edit`}
             icon={<EditIcon />}
           >
             Edit Album
@@ -51,9 +49,9 @@ const AlbumPage = ({ album }: Props) => {
               const { url: src } = photo;
               return (
                 src && (
-                  <Link href="/photo/photo-slug" key={photoId}>
+                  <Link href="/photo/[photo-slug]" as={`/photo/${photoId}`} key={photoId}>
                     <a>
-                      <Image src={src} />
+                      <Image cursor="pointer" src={src} />
                     </a>
                   </Link>
                 )
@@ -68,11 +66,10 @@ const AlbumPage = ({ album }: Props) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const slug = context.params['album-slug'] as string;
-  const albumID = getIdFromSlug(slug);
+  const albumId = context.params['album-id'] as string;
 
   const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(FindAlbumById, {
-    variables: { albumID },
+    variables: { albumId },
   });
 
   if (errors) {
@@ -99,7 +96,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const { data, errors } = await faunadb.query<GetAlbumsQuery>(query);
 
   const paths = data.allAlbums.data.map((album) => ({
-    params: { ['album-slug']: `${album.title}-${album._id}` },
+    params: { ['album-id']: album._id, ['album-title']: makeUrlFriendly(album.title) },
   }));
 
   return {

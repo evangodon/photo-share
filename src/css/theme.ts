@@ -64,7 +64,7 @@ export const space = {
   7: '4.8rem',
   8: '6.4rem',
   9: '9.6rem',
-};
+} as const;
 
 export const theme: DefaultTheme = {
   colors,

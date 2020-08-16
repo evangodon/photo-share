@@ -26,8 +26,6 @@ const IndexPage = ({ albums, errors }: Props) => {
     return <span>{JSON.stringify(errors)}</span>;
   }
 
-  console.log({ albums });
-
   return (
     <>
       <Container>
