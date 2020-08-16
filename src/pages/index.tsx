@@ -5,7 +5,7 @@ import { FolderPlus as FolderPlusIcon } from 'react-feather';
 import { withPageLayout } from '@/components/layout';
 import { AlbumCard } from '@/components/album';
 import { H2 } from '@/components/typography';
-import { Button } from '@/components/interaction';
+import { Button } from '@/components/interactive';
 import { faunadb } from '@/lib/faundb';
 import { useAuthContext } from '@/context';
 import { GetAlbumsHomeQuery } from '@/graphql/generated';

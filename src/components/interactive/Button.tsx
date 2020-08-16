@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 import Ripples from 'react-ripples';
 import { space } from '@/css/theme';
 import { transparentize } from 'polished';
@@ -80,6 +81,7 @@ type Props = {
   color?: string;
   children: React.ReactNode;
   href?: string;
+  as?: string;
   variant?: Variant;
   onClick?: (
     event:
@@ -91,24 +93,27 @@ type Props = {
 
 /**
  *
- * @param href - Turn button into anchor tag
+ * @param href - Turn button into next Link component
  */
 const Button = React.forwardRef(
-  ({ children, color, onClick, href, variant = 'default', icon }: Props, ref) => {
-    const linkProps = href ? ({ href, as: 'a' } as const) : {};
+  ({ children, color, onClick, href, as, variant = 'default', icon }: Props, ref) => {
+    const sharedProps = { ref, variant, withIcon: Boolean(icon) };
 
     return (
       <StyledRipples variant={variant}>
-        <StyledButton
-          ref={ref}
-          {...linkProps}
-          variant={variant}
-          onClick={onClick}
-          withIcon={Boolean(icon)}
-        >
-          {icon && <IconContainer>{icon}</IconContainer>}
-          {children}
-        </StyledButton>
+        {href ? (
+          <Link href={href} as={as}>
+            <StyledButton {...sharedProps}>
+              {icon && <IconContainer>{icon}</IconContainer>}
+              {children}
+            </StyledButton>
+          </Link>
+        ) : (
+          <StyledButton {...sharedProps} onClick={onClick}>
+            {icon && <IconContainer>{icon}</IconContainer>}
+            {children}
+          </StyledButton>
+        )}
       </StyledRipples>
     );
   }

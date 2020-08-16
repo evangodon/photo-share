@@ -7,7 +7,7 @@ import { ArrowLeft as ArrowLeftIcon, Save as SaveIcon } from 'react-feather';
 import { useMutation } from 'urql';
 import { toast } from 'react-toastify';
 import { withPageLayout } from '@/components/layout';
-import { Button } from '@/components/interaction';
+import { Button } from '@/components/interactive';
 import { H2 } from '@/components/typography';
 import { AlbumTabs } from '@/components/album';
 import { EditedAlbum } from '@/types';

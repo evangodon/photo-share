@@ -8,7 +8,7 @@ import { useMutation } from 'urql';
 import { useAuthContext } from '@/context';
 import { withPageLayout } from '@/components/layout';
 import { H2 } from '@/components/typography';
-import { Button } from '@/components/interaction';
+import { Button } from '@/components/interactive';
 import { AlbumTabs } from '@/components/album';
 import { getPhotoIdFromUrl } from '@/utils/photoData';
 import { useAlbumReducer, useToast } from '@/hooks';

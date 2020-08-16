@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useSession, signin } from 'next-auth/client';
 import { useAuthContext } from '@/context/authContext';
 import { H1 } from '@/components/typography';
-import { Button } from '@/components/interaction';
+import { Button } from '@/components/interactive';
 import { Thumbnail } from '@/components/user';
 import Logo from '@/components/Logo';
 import { space } from '@/css/theme';

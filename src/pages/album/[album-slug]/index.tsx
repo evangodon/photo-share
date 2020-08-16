@@ -9,10 +9,9 @@ import { faunadb } from '@/lib/faundb';
 import { ImageContainer, withPageLayout } from '@/components/layout';
 import { FindAlbumById } from '@/graphql/queries';
 import { getTitleFromSlug, getIdFromSlug } from '@/utils';
-import { createPhotoDictionary } from '@/utils/photoData';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
 import { useAuthContext } from '@/context';
-import { Button } from '@/components/interaction';
+import { Button } from '@/components/interactive';
 
 type Props = NextPage & { album: any };
 
@@ -35,7 +34,11 @@ const AlbumPage = ({ album }: Props) => {
       <Flex mb={8} justifyContent="space-between">
         <H2>{header}</H2>
         {user?.isSuperUser && (
-          <Button href={`/album/${slug}/edit`} icon={<EditIcon />}>
+          <Button
+            href={`/album/[album-slug]/edit`}
+            as={`/album/${slug}/edit`}
+            icon={<EditIcon />}
+          >
             Edit Album
           </Button>
         )}

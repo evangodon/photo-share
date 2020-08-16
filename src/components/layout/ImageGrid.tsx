@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { Image } from '@/components';
 import { Flex } from 'rebass';
-import { Options } from '@/components/interaction';
+import { Options } from '@/components/interactive';
 
 type Props = {
   photos: any[];

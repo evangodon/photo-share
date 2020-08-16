@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
 import {
   Upload as UploadIcon,
   Layout as LayoutIcon,
@@ -13,7 +12,7 @@ import { Box, Flex } from 'rebass';
 import ImageUpload from '@/components/ImageUpload';
 import ImageGridEditable from '@/components/ImageGridEditable';
 import { AlbumCardEditable } from '@/components/album';
-import { Tabs, TabItem } from '@/components/interaction';
+import { Tabs, TabItem } from '@/components/interactive';
 import { AlbumDispatch } from '@/hooks';
 import { HelpItem } from './AlbumCard.styles';
 
