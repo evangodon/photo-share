@@ -66,7 +66,7 @@ export const AlbumCard = ({ album, editable, albumDispatch, user }: Props) => {
       </Link>
       {user?.isSuperUser && (
         <AlbumOptions onClick={(e) => e.stopPropagation()}>
-          <Link href="/album/[album-slug]/edit" as={`/album/${createSlug(album)}/edit`}>
+          <Link href="/album/[album-id]/edit" as={`/album/album._id}/edit`}>
             <Edit>
               <EditIcon size={18} />
             </Edit>

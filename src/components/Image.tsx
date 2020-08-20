@@ -9,6 +9,7 @@ type Props = {
     height?: number;
     width?: number;
   };
+  className?: string;
 };
 
 /**
@@ -17,7 +18,7 @@ type Props = {
  *
  * @todo: Optimize for mobile
  */
-const Image = ({ src, cursor, options = { height: 600 } }: Props) => {
+const Image = ({ src, cursor, options = { height: 600 }, className }: Props) => {
   const transformedSrc = transformImage(src, {
     height: options.height,
     width: options.width,
@@ -29,7 +30,12 @@ const Image = ({ src, cursor, options = { height: 600 } }: Props) => {
   });
 
   return (
-    <Container placeholder={placeholderImage} src={transformedSrc} cursor={cursor} />
+    <Container
+      placeholder={placeholderImage}
+      src={transformedSrc}
+      className={className}
+      cursor={cursor}
+    />
   );
 };
 

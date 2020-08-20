@@ -20,7 +20,7 @@ type TransformImage = (src: string, options: Partial<Options>) => string;
 
 export const transformImage: TransformImage = (src, options = {}) => {
   const transformations = Object.entries(options)
-    .map(([key, value]) => (value ? mapToFlag[key + value] : null))
+    .map(([key, value]) => (value ? mapToFlag[key] + value : null))
     .filter(Boolean)
     .join();
 
