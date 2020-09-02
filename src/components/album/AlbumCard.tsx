@@ -1,6 +1,3 @@
-import { useRef } from 'react';
-import { useRouter } from 'next/router';
-import styled, { css } from 'styled-components';
 import { Edit as EditIcon, Trash2 as TrashIcon } from 'react-feather';
 import Link from 'next/link';
 import { Flex } from 'rebass';
@@ -8,7 +5,6 @@ import { useMutation } from 'urql';
 import { Album } from '@/graphql/generated';
 import { DeleteAlbum } from '@/graphql/queries';
 import Image from '@/components/Image';
-import ContentEditable, { ContentEditableEvent } from '@/components/ContentEditable';
 import { createSlug } from '@/utils';
 import { AlbumDispatch } from '@/hooks';
 import { H3 } from '@/components/typography';

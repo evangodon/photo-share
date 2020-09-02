@@ -1,22 +1,42 @@
-import styled from 'styled-components';
-import withPageLayout from '@/components/layout/withPageLayout';
 import { GetStaticPaths, InferGetStaticPropsType } from 'next';
+import styled from 'styled-components';
+import Link from 'next/link';
+import { ChevronRight, ChevronLeft } from 'react-feather';
 import { faunadb } from '@/lib/faundb';
 import { FindPhotoById } from '@/graphql/queries';
 import { FindPhotoByIdQuery } from '@/graphql/generated';
 import { Image } from '@/components';
+import { useAlbumPhotosOrder } from '@/hooks/useAlbumPhotosOrder';
+
+const iconSize = 48;
 
 const PhotoPage = ({ photo }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  console.log(photo);
-  if (!photo) {
+  const { prevPhotoId, currentPhoto, nextPhotoId } = useAlbumPhotosOrder(photo);
+
+  if (!currentPhoto) {
     return <span>Loading image...</span>;
   }
 
-  // TODO: Need to query for the album and find out which photos are the next and previous
   return (
-    <ImageContainer>
-      <Image src={photo.url} options={{ width: 1200 }} />
-    </ImageContainer>
+    <Container>
+      <ChevronContainer disabled={!Boolean(prevPhotoId)}>
+        <Link href={'/photo/[photo-id]'} as={`/photo/${prevPhotoId}`} shallow>
+          <a>
+            <ChevronLeft size={iconSize} cursor="pointer" />
+          </a>
+        </Link>
+      </ChevronContainer>
+      <ImageContainer>
+        <Image src={currentPhoto.url} options={{ height: 900 }} />
+      </ImageContainer>
+      <ChevronContainer disabled={!Boolean(nextPhotoId)}>
+        <Link href={'/photo/[photo-id]'} as={`/photo/${nextPhotoId}`} shallow>
+          <a>
+            <ChevronRight size={iconSize} cursor="pointer" />
+          </a>
+        </Link>
+      </ChevronContainer>
+    </Container>
   );
 };
 
@@ -40,6 +60,15 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: true,
 });
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+`;
+
 const ImageContainer = styled.div`
   margin: 0 auto;
   max-width: 120rem;
@@ -47,6 +76,12 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
 `;
 
-export default withPageLayout(PhotoPage);
+const ChevronContainer = styled.div<{ disabled: boolean }>`
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+`;
+
+export default PhotoPage;

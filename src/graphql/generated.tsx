@@ -296,6 +296,26 @@ export type FindAlbumByIdQuery = (
   )> }
 );
 
+export type FindAlbumPhotosQueryVariables = {
+  albumId: Scalars['ID'];
+};
+
+
+export type FindAlbumPhotosQuery = (
+  { __typename?: 'Query' }
+  & { findAlbumByID?: Maybe<(
+    { __typename?: 'Album' }
+    & Pick<Album, 'photoOrder'>
+    & { photos: (
+      { __typename?: 'PhotoPage' }
+      & { data: Array<Maybe<(
+        { __typename?: 'Photo' }
+        & Pick<Photo, 'photoId' | '_id' | 'url'>
+      )>> }
+    ) }
+  )> }
+);
+
 export type FindPhotoByIdQueryVariables = {
   photoId: Scalars['ID'];
 };

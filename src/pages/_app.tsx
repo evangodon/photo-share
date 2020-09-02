@@ -7,6 +7,8 @@ import { ToastContainer } from '@/components/notifications';
 import { createClient, Provider as UrqlProvider } from 'urql';
 import { GlobalStyles, theme } from '@/css';
 import { AuthProvider } from '@/context/authContext';
+import Header from '@/components/layout/Header';
+import { AppContainer } from '@/components/layout';
 
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond/dist/filepond.min.css';
@@ -33,7 +35,10 @@ export default class MyApp extends App {
               <NextAuthProvider session={pageProps.session}>
                 <AuthProvider>
                   <ThemeProvider theme={theme}>
-                    <Component {...pageProps} />
+                    <Header />
+                    <AppContainer>
+                      <Component {...pageProps} />
+                    </AppContainer>
                     <GlobalStyles />
                     <ToastContainer />
                   </ThemeProvider>
