@@ -296,6 +296,26 @@ export type FindAlbumByIdQuery = (
   )> }
 );
 
+export type FindAlbumPhotosQueryVariables = {
+  albumId: Scalars['ID'];
+};
+
+
+export type FindAlbumPhotosQuery = (
+  { __typename?: 'Query' }
+  & { findAlbumByID?: Maybe<(
+    { __typename?: 'Album' }
+    & Pick<Album, 'photoOrder'>
+    & { photos: (
+      { __typename?: 'PhotoPage' }
+      & { data: Array<Maybe<(
+        { __typename?: 'Photo' }
+        & Pick<Photo, 'photoId' | '_id' | 'url'>
+      )>> }
+    ) }
+  )> }
+);
+
 export type FindPhotoByIdQueryVariables = {
   photoId: Scalars['ID'];
 };
@@ -305,13 +325,13 @@ export type FindPhotoByIdQuery = (
   { __typename?: 'Query' }
   & { findPhotoByID?: Maybe<(
     { __typename?: 'Photo' }
-    & Pick<Photo, 'url'>
+    & Pick<Photo, '_id' | 'url'>
     & { postedBy: (
       { __typename?: 'User' }
       & Pick<User, '_id'>
     ), album: (
       { __typename?: 'Album' }
-      & Pick<Album, '_id'>
+      & Pick<Album, '_id' | 'title'>
     ) }
   )> }
 );

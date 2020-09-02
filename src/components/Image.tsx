@@ -46,7 +46,6 @@ const Container = styled(Img)<{ cursor: Props['cursor'] }>`
   min-height: 100%;
   object-fit: cover;
   vertical-align: bottom;
-  max-width: 45rem;
   cursor: ${(props) => props.cursor ?? 'default'};
 `;
 

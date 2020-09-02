@@ -2,7 +2,6 @@ import { NextPage, GetStaticProps } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { FolderPlus as FolderPlusIcon } from 'react-feather';
-import { withPageLayout } from '@/components/layout';
 import { AlbumCard } from '@/components/album';
 import { H2 } from '@/components/typography';
 import { Button } from '@/components/interactive';
@@ -33,7 +32,7 @@ const IndexPage = ({ albums, errors }: Props) => {
           <H2>Albums</H2>
           {user?.isSuperUser && (
             <Link href="/album/create" passHref>
-              <Button variant="default" icon={<FolderPlusIcon />}>
+              <Button variant="default" icon={FolderPlusIcon}>
                 New Album
               </Button>
             </Link>
@@ -99,4 +98,4 @@ const ActionBar = styled.div`
   margin-bottom: 3rem;
 `;
 
-export default withPageLayout(IndexPage);
+export default IndexPage;

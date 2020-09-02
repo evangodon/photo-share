@@ -6,11 +6,9 @@ import { Options } from '@/components/interactive';
 
 type Props = {
   photos: any[];
-  setPhotos?: any;
-  editable?: boolean;
 };
 
-const ImageGrid = ({ photos, setPhotos, editable }: Props) => {
+const ImageGrid = ({ photos }: Props) => {
   if (photos.length === 0) {
     return <Flex justifyContent="center">No photos yet!</Flex>;
   }

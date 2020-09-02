@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import { Flex } from 'rebass';
 import { useRouter } from 'next/router';
 import { GetServerSideProps, NextPage } from 'next';
-import { ArrowLeft as ArrowLeftIcon, Save as SaveIcon } from 'react-feather';
+import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
 import { useMutation } from 'urql';
 import { toast } from 'react-toastify';
-import { withPageLayout } from '@/components/layout';
 import { Button } from '@/components/interactive';
 import { H2 } from '@/components/typography';
 import { AlbumTabs } from '@/components/album';
@@ -121,7 +120,7 @@ const Edit = ({ album }: Props) => {
     <Container>
       <Flex mb={50} width="100%" justifyContent="space-between" alignItems="center">
         <Flex width={200} alignItems="center">
-          <Button onClick={router.back} icon={<ArrowLeftIcon size={18} />}>
+          <Button onClick={router.back} icon={ArrowLeftIcon}>
             Back
           </Button>
         </Flex>
@@ -148,4 +147,4 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default withPageLayout(Edit);
+export default Edit;
