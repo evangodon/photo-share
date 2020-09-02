@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     if (session?.user) {
       findOrCreateUser(session.user);
     }
-  }, [session]);
+  }, [session?.user?.email]);
 
   function setUserWithRightData({ _id, email, name, image }: Omit<User, 'isSuperUser'>) {
     setUser({ _id, email, name, image, isSuperUser: superUsers.includes(email) });
@@ -83,9 +83,5 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   }
 
-  return (
-    <>
-      <Provider value={{ user, signout, loading }}>{children}</Provider>
-    </>
-  );
+  return <Provider value={{ user, signout, loading }}>{children}</Provider>;
 };

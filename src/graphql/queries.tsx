@@ -18,6 +18,21 @@ export const FindAlbumById = /* GraphQL */ `
   }
 `;
 
+export const FindAlbumPhotos = /* GraphQL */ `
+  query FindAlbumPhotos($albumId: ID!) {
+    findAlbumByID(id: $albumId) {
+      photoOrder
+      photos {
+        data {
+          photoId
+          _id
+          url
+        }
+      }
+    }
+  }
+`;
+
 export const FindPhotoById = /* GraphQL */ `
   query FindPhotoByID($photoId: ID!) {
     findPhotoByID(id: $photoId) {
@@ -27,6 +42,7 @@ export const FindPhotoById = /* GraphQL */ `
       }
       album {
         _id
+        title
       }
     }
   }

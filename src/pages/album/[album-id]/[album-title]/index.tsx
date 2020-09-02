@@ -35,7 +35,7 @@ const AlbumPage = ({ album }: Props) => {
           <Button
             href={`/album/[album-id]/edit`}
             as={`/album/${albumId}/edit`}
-            icon={<EditIcon />}
+            icon={EditIcon}
           >
             Edit Album
           </Button>
@@ -105,4 +105,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default withPageLayout(AlbumPage);
+export default AlbumPage;
