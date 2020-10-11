@@ -40,7 +40,12 @@ const PhotoPage = ({ photo }: PageProps) => {
       </Top>
       <Content>
         <ChevronContainer disabled={!Boolean(prevPhotoId)}>
-          <Link href={'/photo/[photo-id]'} as={`/photo/${prevPhotoId}`} shallow>
+          <Link
+            href={'/photo/[photo-id]'}
+            as={`/photo/${prevPhotoId}`}
+            shallow
+            prefetch={Boolean(prevPhotoId)}
+          >
             <a>
               <ChevronLeft size={iconSize} cursor="pointer" />
             </a>
@@ -50,7 +55,12 @@ const PhotoPage = ({ photo }: PageProps) => {
           <Image src={currentPhoto.url} options={{ height: 700 }} />
         </ImageContainer>
         <ChevronContainer disabled={!Boolean(nextPhotoId)}>
-          <Link href={'/photo/[photo-id]'} as={`/photo/${nextPhotoId}`} shallow>
+          <Link
+            href={'/photo/[photo-id]'}
+            as={`/photo/${nextPhotoId}`}
+            shallow
+            prefetch={Boolean(prevPhotoId)}
+          >
             <a>
               <ChevronRight size={iconSize} cursor="pointer" />
             </a>
@@ -113,7 +123,6 @@ const ImageContainer = styled.div`
 `;
 
 const ChevronContainer = styled.div<{ disabled: boolean }>`
-  background-color: #fff;
   border-radius: var(--border-radius);
   user-select: none;
 
