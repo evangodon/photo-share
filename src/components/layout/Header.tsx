@@ -44,7 +44,6 @@ const Header = ({}: Props) => {
 const Container = styled.header`
   min-height: 8rem;
   padding: 1.8rem;
-  margin-bottom: 6rem;
   position: relative;
   border-bottom: 1px solid var(--grey-300);
 `;

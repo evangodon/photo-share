@@ -90,7 +90,7 @@ export const EditableHeader = styled.input`
   font-weight: 400;
   border: 0;
   font-size: ${fontSize.__fs_large};
-
+  width: 100%;
   outline: 0;
 `;
 

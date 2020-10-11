@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Ripples from 'react-ripples';
 import { transparentize } from 'polished';
+import { space } from '@/css/theme';
 
 type Variant = 'contained' | 'outlined' | 'default';
 
@@ -32,7 +33,7 @@ const boxShadow = ({ colors }) => ({
 
 const StyledButton = styled.button<{ ref: any; variant: Variant; withIcon: boolean }>`
   border: 0;
-  padding: 0 2.4rem;
+  padding: 0 ${space[3]};
   color: ${(props) => color(props.theme)[props.variant]};
   background-color: ${(props) => backgroundColor(props.theme)[props.variant]};
   border: ${(props) => border(props.theme)[props.variant]};
@@ -88,6 +89,7 @@ type Props = {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   icon?: React.ComponentType<any>;
+  className?: string;
 };
 
 /**
@@ -96,7 +98,16 @@ type Props = {
  */
 const Button = React.forwardRef(
   (
-    { children, color, onClick, href, as, variant = 'default', icon: Icon }: Props,
+    {
+      children,
+      color,
+      onClick,
+      href,
+      as,
+      variant = 'default',
+      icon: Icon,
+      className,
+    }: Props,
     ref
   ) => {
     const sharedProps = { ref, variant, withIcon: Boolean(Icon) };
@@ -105,7 +116,7 @@ const Button = React.forwardRef(
       <StyledRipples variant={variant}>
         {href ? (
           <Link href={href} as={as}>
-            <StyledButton {...sharedProps}>
+            <StyledButton {...sharedProps} className={className}>
               {Icon && (
                 <IconContainer>
                   <Icon size="18" />
@@ -115,7 +126,7 @@ const Button = React.forwardRef(
             </StyledButton>
           </Link>
         ) : (
-          <StyledButton {...sharedProps} onClick={onClick}>
+          <StyledButton {...sharedProps} onClick={onClick} className={className}>
             {Icon && (
               <IconContainer>
                 <Icon size="18" />

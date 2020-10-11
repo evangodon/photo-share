@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import { Flex } from 'rebass/styled-components';
-import { Edit as EditIcon } from 'react-feather';
+import { Edit as EditIcon, ChevronLeft } from 'react-feather';
 import Link from 'next/link';
 import Image from '@/components/Image';
 import { Button } from '@/components/interactive';
@@ -11,6 +12,7 @@ import { ImageContainer, withPageLayout } from '@/components/layout';
 import { FindAlbumById } from '@/graphql/queries';
 import { makeUrlFriendly } from '@/utils';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
+import { space } from '@/css/theme';
 import { useAuthContext } from '@/context';
 
 type Props = NextPage & { album: any };
@@ -29,7 +31,11 @@ const AlbumPage = ({ album }: Props) => {
 
   return (
     <>
-      <Flex mb={8} justifyContent="space-between">
+      <BackButton href="/">
+        <ChevronLeft />
+        Home
+      </BackButton>
+      <Flex mt={6} mb={5} justifyContent="space-between">
         <H2>{header}</H2>
         {user?.isSuperUser && (
           <Button
@@ -104,5 +110,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: false,
   };
 };
+
+const BackButton = styled(Button)``;
 
 export default AlbumPage;

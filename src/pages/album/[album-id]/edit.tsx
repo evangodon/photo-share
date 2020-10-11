@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Flex } from 'rebass';
 import { useRouter } from 'next/router';
 import { GetServerSideProps, NextPage } from 'next';
-import { ArrowLeft as ArrowLeftIcon } from 'react-feather';
+import { ChevronLeft } from 'react-feather';
 import { useMutation } from 'urql';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/interactive';
@@ -85,8 +85,7 @@ const Edit = ({ album }: Props) => {
   }, [album.photos.data]);
 
   function handleSave() {
-    const slug = router.query['album-slug'] as string;
-    const id = getIdFromSlug(slug);
+    const id = router.query['album-id'] as string;
     const { title, coverPhoto, photoOrder, photos } = editedAlbum;
 
     const variables = {
@@ -120,7 +119,7 @@ const Edit = ({ album }: Props) => {
     <Container>
       <Flex mb={50} width="100%" justifyContent="space-between" alignItems="center">
         <Flex width={200} alignItems="center">
-          <Button onClick={router.back} icon={ArrowLeftIcon}>
+          <Button onClick={router.back} icon={ChevronLeft}>
             Back
           </Button>
         </Flex>

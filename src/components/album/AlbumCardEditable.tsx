@@ -25,6 +25,7 @@ type Props = {
 };
 
 const titlePlaceholder = 'Type your title here...';
+const TITLE_MAX_LENGTH = 30;
 
 /**
  * Shows an album cover and title
@@ -58,6 +59,7 @@ export const AlbumCardEditable = ({ album, albumDispatch, user }: Props) => {
             value={album.title}
             placeholder={titlePlaceholder}
             onChange={handleChange}
+            maxLength={TITLE_MAX_LENGTH}
           />
         </Flex>
       </AlbumCover>

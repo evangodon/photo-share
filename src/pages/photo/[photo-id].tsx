@@ -69,7 +69,7 @@ const PhotoPage = ({ photo }: PageProps) => {
       </Content>
       <Bottom>
         {photoOrder.map((photo) => (
-          <Circle active={photo._id === currentPhoto._id} />
+          <Circle active={photo._id === currentPhoto._id} key={photo._id} />
         ))}
       </Bottom>
     </Container>
