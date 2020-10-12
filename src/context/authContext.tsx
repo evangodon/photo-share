@@ -68,6 +68,7 @@ export const AuthProvider = ({ children }) => {
           name: nextAuthUser.name,
         });
 
+        console.log({ data });
         const user = data.createUser;
         setUserWithRightData(user);
       }

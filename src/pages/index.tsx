@@ -1,4 +1,4 @@
-import { NextPage, GetStaticProps } from 'next';
+import { NextPage, GetStaticProps, GetServerSideProps } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { FolderPlus as FolderPlusIcon } from 'react-feather';
@@ -48,7 +48,7 @@ const IndexPage = ({ albums, errors }: Props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const query = /* GraphQL */ `
     query GetAlbumsHome {
       allAlbums {

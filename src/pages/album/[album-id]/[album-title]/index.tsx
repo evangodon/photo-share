@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import { NextPage, GetServerSideProps } from 'next';
 import { Flex } from 'rebass/styled-components';
 import { Edit as EditIcon, ChevronLeft } from 'react-feather';
 import Link from 'next/link';
@@ -69,7 +69,7 @@ const AlbumPage = ({ album }: Props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const albumId = context.params['album-id'] as string;
 
   const { data, errors } = await faunadb.query<FindAlbumByIdQuery>(FindAlbumById, {
@@ -82,30 +82,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: { album: data.findAlbumByID },
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const query = /* GraphQL */ `
-    query GetAlbums {
-      allAlbums {
-        data {
-          title
-          _id
-        }
-      }
-    }
-  `;
-
-  const { data, errors } = await faunadb.query<GetAlbumsQuery>(query);
-
-  const paths = data.allAlbums.data.map((album) => ({
-    params: { ['album-id']: album._id, ['album-title']: makeUrlFriendly(album.title) },
-  }));
-
-  return {
-    paths,
-    fallback: false,
   };
 };
 
