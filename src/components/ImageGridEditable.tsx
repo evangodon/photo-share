@@ -16,7 +16,7 @@ const SortablePhoto = SortableElement(({ photo, deletePhoto, updateCover }) => (
       <Image src={photo.url} cursor="grab" options={{ height: 600 }} />
       <CoverIndicator isCover={photo.isCover} onClick={updateCover}>
         <ImageIcon />
-        {photo.isCover ? 'Cover' : 'Set Cover'}
+        {photo.isCover ? '' : <span className="cover-text">Set Cover</span>}
       </CoverIndicator>
 
       <DeleteImage onClick={deletePhoto}>
@@ -155,16 +155,16 @@ const DeleteImage = styled(ImageOptions)`
 
 const CoverIndicator = styled(ImageOptions)<{ isCover: boolean }>`
   left: ${space[3]};
-  color: ${(p) => (p.isCover ? colors.__grey_700 : colors.__grey_600)};
-  padding: ${space[1]} ${space[2]};
+  color: ${(p) => (p.isCover ? colors.__grey_600 : colors.__grey_600)};
+  padding: ${space[1]} ${space[1]};
   opacity: ${(p) => (p.isCover ? 1 : 0)};
-
-  svg {
-    margin-right: ${space[1]};
-  }
 
   &:hover {
     color: ${colors.__grey_700};
+  }
+
+  .cover-text {
+    margin-left: ${space[1]};
   }
 `;
 

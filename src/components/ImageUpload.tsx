@@ -16,13 +16,15 @@ type Props = {
   setFiles?: (files: File[]) => void;
 };
 
-const FOLDER = env.is.prod ? 'prod' : 'dev';
-const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/dnlc9ln3m/upload?folder=${FOLDER}`;
+const CLOUDINARY_FOLDER = env.is.prod ? 'prod' : 'dev';
+const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/dnlc9ln3m/upload?folder=${CLOUDINARY_FOLDER}`;
+const IMAGE_TARGET_WIDTH = 2400;
 
 /**
  * @todo: Find the right width to resize to
  * @todo: Fix drag and dropping multiple photos
  * @todo: Handle Delete
+ * @todo: Add a upload status indicator (e.g. Uploaded 1/6)
  */
 const ImageUpload = ({ handlePhotoUpload, setFiles }: Props) => {
   const filesRef = useRef([]);
@@ -32,7 +34,7 @@ const ImageUpload = ({ handlePhotoUpload, setFiles }: Props) => {
       <FilePond
         allowMultiple={true}
         maxFiles={20}
-        imageResizeTargetWidth={1200}
+        imageResizeTargetWidth={IMAGE_TARGET_WIDTH}
         allowImageTransform
         imageCropAspectRatio={1}
         imageTransformAfterCreateBlob={(blob) => {

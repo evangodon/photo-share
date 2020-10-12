@@ -112,27 +112,28 @@ const Button = React.forwardRef(
   ) => {
     const sharedProps = { ref, variant, withIcon: Boolean(Icon) };
 
+    const ButtonContent = (
+      <>
+        {Icon && (
+          <IconContainer>
+            <Icon size="18" />
+          </IconContainer>
+        )}
+        {children}
+      </>
+    );
+
     return (
       <StyledRipples variant={variant}>
         {href ? (
           <Link href={href} as={as}>
             <StyledButton {...sharedProps} className={className}>
-              {Icon && (
-                <IconContainer>
-                  <Icon size="18" />
-                </IconContainer>
-              )}
-              {children}
+              {ButtonContent}
             </StyledButton>
           </Link>
         ) : (
           <StyledButton {...sharedProps} onClick={onClick} className={className}>
-            {Icon && (
-              <IconContainer>
-                <Icon size="18" />
-              </IconContainer>
-            )}
-            {children}
+            {ButtonContent}
           </StyledButton>
         )}
       </StyledRipples>

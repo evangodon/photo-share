@@ -6,7 +6,7 @@ import { colors } from '@/css/theme';
  */
 export const ToastContainer = () => (
   <>
-    <ToastifyContainer transition={Slide} />
+    <ToastifyContainer transition={Slide} hideProgressBar />
     <style global jsx>{`
       .Toastify__toast {
         color: ${colors.__grey_800};

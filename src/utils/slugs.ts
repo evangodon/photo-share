@@ -8,6 +8,8 @@ export const getIdFromSlug = (slug: string) => {
 
 export const makeUrlFriendly = (str: string) => str.replace(/\s/g, '-').toLowerCase();
 
+export const makeUserFriendly = (str: string) => str.replace(/-/g, ' ');
+
 export const createSlug = (entity: { _id: string; title: string }) => {
   const { _id, title } = entity;
 

@@ -123,4 +123,4 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-export default withPageLayout(Create);
+export default Create;

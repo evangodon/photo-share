@@ -8,11 +8,10 @@ import Image from '@/components/Image';
 import { Button } from '@/components/interactive';
 import { H2 } from '@/components/typography';
 import { faunadb } from '@/lib/faundb';
-import { ImageContainer, withPageLayout } from '@/components/layout';
+import { ImageContainer } from '@/components/layout';
 import { FindAlbumById } from '@/graphql/queries';
 import { makeUrlFriendly } from '@/utils';
 import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
-import { space } from '@/css/theme';
 import { useAuthContext } from '@/context';
 
 type Props = NextPage & { album: any };
@@ -20,7 +19,6 @@ type Props = NextPage & { album: any };
 const AlbumPage = ({ album }: Props) => {
   const router = useRouter();
   const albumId = router.query['album-id'] as string;
-  const header = router.query['album-title'] as string;
   const { user } = useAuthContext();
 
   const photos = album.photos.data;
@@ -36,7 +34,7 @@ const AlbumPage = ({ album }: Props) => {
         Home
       </BackButton>
       <Flex mt={6} mb={5} justifyContent="space-between">
-        <H2>{header}</H2>
+        <H2>{album.title}</H2>
         {user?.isSuperUser && (
           <Button
             href={`/album/[album-id]/edit`}
