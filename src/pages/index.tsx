@@ -1,4 +1,4 @@
-import { NextPage, GetStaticProps, GetServerSideProps } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { FolderPlus as FolderPlusIcon } from 'react-feather';
@@ -9,16 +9,12 @@ import { faunadb } from '@/lib/faundb';
 import { useAuthContext } from '@/context';
 import { GetAlbumsHomeQuery } from '@/graphql/generated';
 
-type Props = NextPage & {
-  albums: GetAlbumsHomeQuery['allAlbums']['data'];
-  errors: any;
-  authProviders: any;
-};
+type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 /**
  * The Home Page
  */
-const IndexPage = ({ albums, errors }: Props) => {
+const IndexPage = ({ albums, errors }: PageProps) => {
   const { user } = useAuthContext();
 
   if (errors) {

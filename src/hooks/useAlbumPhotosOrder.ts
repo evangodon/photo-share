@@ -34,9 +34,9 @@ export const useAlbumPhotosOrder = (photo: Photo) => {
   useEffect(() => {
     if (result.data) {
       const { photoOrder, photos } = result.data.findAlbumByID;
-      const order = photoOrder.map((photoId) =>
-        photos.data.find((photo) => photo.photoId === photoId)
-      );
+      const order = photoOrder
+        .map((photoId) => photos.data.find((photo) => photo.photoId === photoId))
+        .filter(Boolean);
 
       setPhotoOrder(order);
       const currentIndex = order.findIndex((photo) => photo._id === photoId);

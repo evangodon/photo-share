@@ -54,15 +54,20 @@ const AlbumPage = ({ album }: Props) => {
           {album.photoOrder
             .map((photoId: string) => {
               const photo = album.photos.data.find((photo) => photo.photoId === photoId);
+              // temporary fix
+              if (photo == null) {
+                return null;
+              }
               const { url: src } = photo;
+              if (src == null) {
+                return null;
+              }
               return (
-                src && (
-                  <Link href="/photo/[photo-id]" as={`/photo/${photo._id}`} key={photoId}>
-                    <a>
-                      <Image cursor="pointer" src={src} options={{ height: 600 }} />
-                    </a>
-                  </Link>
-                )
+                <Link href="/photo/[photo-id]" as={`/photo/${photo._id}`} key={photoId}>
+                  <a>
+                    <Image cursor="pointer" src={src} options={{ height: 600 }} />
+                  </a>
+                </Link>
               );
             })
             .filter(Boolean)}
