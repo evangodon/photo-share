@@ -26,7 +26,6 @@ const ImageGrid = ({ photos }: Props) => {
             </a>
           </Link>
         ))}
-        <span className="last-row" />
       </>
     </ImageContainer>
   );
@@ -52,19 +51,6 @@ const ImageContainer = styled.div`
 
 const PhotoOptions = styled(Options)`
   opacity: 0;
-`;
-
-const DraggableImage = styled.div`
-  position: relative;
-  height: 40vh;
-  display: inline-flex;
-  margin: 2px;
-  flex-grow: 1;
-  transition: transform;
-
-  &:hover ${PhotoOptions} {
-    opacity: 1;
-  }
 `;
 
 export default ImageGrid;

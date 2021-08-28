@@ -10,8 +10,7 @@ import { H2 } from '@/components/typography';
 import { faunadb } from '@/lib/faundb';
 import { ImageContainer } from '@/components/layout';
 import { FindAlbumById } from '@/graphql/queries';
-import { makeUrlFriendly } from '@/utils';
-import { FindAlbumByIdQuery, GetAlbumsQuery } from '@/graphql/generated';
+import { FindAlbumByIdQuery } from '@/graphql/generated';
 import { useAuthContext } from '@/context';
 
 type Props = NextPage & { album: any };
@@ -71,7 +70,6 @@ const AlbumPage = ({ album }: Props) => {
               );
             })
             .filter(Boolean)}
-          <a className="last-row" />
         </>
       </ImageContainer>
     </>
