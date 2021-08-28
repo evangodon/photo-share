@@ -22,6 +22,7 @@ const Image = ({ src, cursor, options = { height: 600 }, className }: Props) => 
   const transformedSrc = transformImage(src, {
     height: options.height,
     width: options.width,
+    quality: 'best',
   });
   const placeholderImage = transformImage(src, {
     blur: 900,
