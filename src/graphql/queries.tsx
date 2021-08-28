@@ -4,7 +4,7 @@ export const FindAlbumById = /* GraphQL */ `
       title
       coverPhoto
       photoOrder
-      photos {
+      photos(_size: 80) {
         data {
           photoId
           _id
@@ -22,7 +22,7 @@ export const FindAlbumPhotos = /* GraphQL */ `
   query FindAlbumPhotos($albumId: ID!) {
     findAlbumByID(id: $albumId) {
       photoOrder
-      photos {
+      photos(_size: 80) {
         data {
           photoId
           _id
