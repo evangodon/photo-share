@@ -34,7 +34,7 @@ const CreateUser = /* GraphQL */ `
   }
 `;
 
-const superUsers = ['spiffman92@gmail.com'];
+const superUsers = ['spiffman92@gmail.com', 'tracygenereux@gmail.com'];
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
