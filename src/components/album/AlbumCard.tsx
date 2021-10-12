@@ -53,7 +53,7 @@ export const AlbumCard = ({ album, editable, albumDispatch, user }: Props) => {
       <Link href={'/album/[album-id]/[album-title]'} as={`/album/${createSlug(album)}`}>
         <AlbumCoverLink as="a">
           <ImageContainer>
-            <Image src={album.coverPhoto} options={{ height: 300 }} />
+            <Image src={album.coverPhoto} options={{ height: 700 }} />
           </ImageContainer>
           <Flex alignItems="center" p={3}>
             <H3>{album.title}</H3>
