@@ -30,9 +30,8 @@ export type AlbumPhotosRelation = {
   disconnect?: Maybe<Array<Maybe<Scalars['ID']>>>;
 };
 
-
 export type Mutation = {
-   __typename?: 'Mutation';
+  __typename?: 'Mutation';
   /** Update an existing document in the collection of 'User' */
   updateUser?: Maybe<User>;
   /** Create a new document in the collection of 'User' */
@@ -53,49 +52,40 @@ export type Mutation = {
   createPhoto: Photo;
 };
 
-
 export type MutationUpdateUserArgs = {
   id: Scalars['ID'];
   data: UserInput;
 };
 
-
 export type MutationCreateUserArgs = {
   data: UserInput;
 };
 
-
 export type MutationDeletePhotoArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationUpdateAlbumArgs = {
   id: Scalars['ID'];
   data: AlbumInput;
 };
 
-
 export type MutationCreateAlbumArgs = {
   data: AlbumInput;
 };
 
-
 export type MutationDeleteAlbumArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationUpdatePhotoArgs = {
   id: Scalars['ID'];
   data: PhotoInput;
 };
 
-
 export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationCreatePhotoArgs = {
   data: PhotoInput;
@@ -126,7 +116,6 @@ export type PhotoPostedByRelation = {
   connect?: Maybe<Scalars['ID']>;
 };
 
-
 /** 'User' input values */
 export type UserInput = {
   email: Scalars['String'];
@@ -135,7 +124,7 @@ export type UserInput = {
 };
 
 export type Album = {
-   __typename?: 'Album';
+  __typename?: 'Album';
   photoOrder: Array<Maybe<Scalars['String']>>;
   /** The document's ID. */
   _id: Scalars['ID'];
@@ -146,7 +135,6 @@ export type Album = {
   _ts: Scalars['Long'];
 };
 
-
 export type AlbumPhotosArgs = {
   _size?: Maybe<Scalars['Int']>;
   _cursor?: Maybe<Scalars['String']>;
@@ -154,7 +142,7 @@ export type AlbumPhotosArgs = {
 
 /** The pagination object for elements of type 'Album'. */
 export type AlbumPage = {
-   __typename?: 'AlbumPage';
+  __typename?: 'AlbumPage';
   /** The elements of type 'Album' in this page. */
   data: Array<Maybe<Album>>;
   /** A cursor for elements coming after the current page. */
@@ -164,7 +152,7 @@ export type AlbumPage = {
 };
 
 export type Photo = {
-   __typename?: 'Photo';
+  __typename?: 'Photo';
   postedBy: User;
   url: Scalars['String'];
   /** The document's ID. */
@@ -178,7 +166,7 @@ export type Photo = {
 
 /** The pagination object for elements of type 'Photo'. */
 export type PhotoPage = {
-   __typename?: 'PhotoPage';
+  __typename?: 'PhotoPage';
   /** The elements of type 'Photo' in this page. */
   data: Array<Maybe<Photo>>;
   /** A cursor for elements coming after the current page. */
@@ -188,7 +176,7 @@ export type PhotoPage = {
 };
 
 export type Query = {
-   __typename?: 'Query';
+  __typename?: 'Query';
   /** Find a document from the collection of 'Photo' by its id. */
   findPhotoByID?: Maybe<Photo>;
   findUserByEmail: Array<Maybe<User>>;
@@ -200,32 +188,26 @@ export type Query = {
   allPhotos: PhotoPage;
 };
 
-
 export type QueryFindPhotoByIdArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryFindUserByEmailArgs = {
   email: Scalars['String'];
 };
-
 
 export type QueryAllAlbumsArgs = {
   _size?: Maybe<Scalars['Int']>;
   _cursor?: Maybe<Scalars['String']>;
 };
 
-
 export type QueryFindAlbumByIdArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryFindUserByIdArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryAllPhotosArgs = {
   _size?: Maybe<Scalars['Int']>;
@@ -233,29 +215,31 @@ export type QueryAllPhotosArgs = {
 };
 
 export type User = {
-   __typename?: 'User';
+  __typename?: 'User';
   name: Scalars['String'];
   email: Scalars['String'];
   image: Scalars['String'];
+  isSuperUser: Scalars['Boolean'];
   /** The document's ID. */
   _id: Scalars['ID'];
   /** The document's timestamp. */
   _ts: Scalars['Long'];
 };
 
-
 export type FindUserByEmailQueryVariables = {
   email: Scalars['String'];
 };
 
-
-export type FindUserByEmailQuery = (
-  { __typename?: 'Query' }
-  & { findUserByEmail: Array<Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, '_id' | 'email' | 'name' | 'image'>
-  )>> }
-);
+export type FindUserByEmailQuery = { __typename?: 'Query' } & {
+  findUserByEmail: Array<
+    Maybe<
+      { __typename?: 'User' } & Pick<
+        User,
+        '_id' | 'email' | 'name' | 'image' | 'isSuperUser'
+      >
+    >
+  >;
+};
 
 export type CreateUserMutationVariables = {
   email: Scalars['String'];
@@ -263,118 +247,85 @@ export type CreateUserMutationVariables = {
   name: Scalars['String'];
 };
 
-
-export type CreateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { createUser: (
-    { __typename?: 'User' }
-    & Pick<User, '_id' | 'email' | 'name' | 'image'>
-  ) }
-);
+export type CreateUserMutation = { __typename?: 'Mutation' } & {
+  createUser: { __typename?: 'User' } & Pick<
+    User,
+    '_id' | 'email' | 'name' | 'image' | 'isSuperUser'
+  >;
+};
 
 export type FindAlbumByIdQueryVariables = {
   albumId: Scalars['ID'];
 };
 
-
-export type FindAlbumByIdQuery = (
-  { __typename?: 'Query' }
-  & { findAlbumByID?: Maybe<(
-    { __typename?: 'Album' }
-    & Pick<Album, 'title' | 'coverPhoto' | 'photoOrder'>
-    & { photos: (
-      { __typename?: 'PhotoPage' }
-      & { data: Array<Maybe<(
-        { __typename?: 'Photo' }
-        & Pick<Photo, 'photoId' | '_id' | 'url'>
-        & { postedBy: (
-          { __typename?: 'User' }
-          & Pick<User, '_id'>
-        ) }
-      )>> }
-    ) }
-  )> }
-);
+export type FindAlbumByIdQuery = { __typename?: 'Query' } & {
+  findAlbumByID?: Maybe<
+    { __typename?: 'Album' } & Pick<Album, 'title' | 'coverPhoto' | 'photoOrder'> & {
+        photos: { __typename?: 'PhotoPage' } & {
+          data: Array<
+            Maybe<
+              { __typename?: 'Photo' } & Pick<Photo, 'photoId' | '_id' | 'url'> & {
+                  postedBy: { __typename?: 'User' } & Pick<User, '_id'>;
+                }
+            >
+          >;
+        };
+      }
+  >;
+};
 
 export type FindAlbumPhotosQueryVariables = {
   albumId: Scalars['ID'];
 };
 
-
-export type FindAlbumPhotosQuery = (
-  { __typename?: 'Query' }
-  & { findAlbumByID?: Maybe<(
-    { __typename?: 'Album' }
-    & Pick<Album, 'photoOrder'>
-    & { photos: (
-      { __typename?: 'PhotoPage' }
-      & { data: Array<Maybe<(
-        { __typename?: 'Photo' }
-        & Pick<Photo, 'photoId' | '_id' | 'url'>
-      )>> }
-    ) }
-  )> }
-);
+export type FindAlbumPhotosQuery = { __typename?: 'Query' } & {
+  findAlbumByID?: Maybe<
+    { __typename?: 'Album' } & Pick<Album, 'photoOrder'> & {
+        photos: { __typename?: 'PhotoPage' } & {
+          data: Array<
+            Maybe<{ __typename?: 'Photo' } & Pick<Photo, 'photoId' | '_id' | 'url'>>
+          >;
+        };
+      }
+  >;
+};
 
 export type FindPhotoByIdQueryVariables = {
   photoId: Scalars['ID'];
 };
 
-
-export type FindPhotoByIdQuery = (
-  { __typename?: 'Query' }
-  & { findPhotoByID?: Maybe<(
-    { __typename?: 'Photo' }
-    & Pick<Photo, '_id' | 'url'>
-    & { postedBy: (
-      { __typename?: 'User' }
-      & Pick<User, '_id'>
-    ), album: (
-      { __typename?: 'Album' }
-      & Pick<Album, '_id' | 'title'>
-    ) }
-  )> }
-);
+export type FindPhotoByIdQuery = { __typename?: 'Query' } & {
+  findPhotoByID?: Maybe<
+    { __typename?: 'Photo' } & Pick<Photo, '_id' | 'url'> & {
+        postedBy: { __typename?: 'User' } & Pick<User, '_id'>;
+        album: { __typename?: 'Album' } & Pick<Album, '_id' | 'title'>;
+      }
+  >;
+};
 
 export type DeletePhotoMutationVariables = {
   id: Scalars['ID'];
 };
 
-
-export type DeletePhotoMutation = (
-  { __typename?: 'Mutation' }
-  & { deletePhoto?: Maybe<(
-    { __typename?: 'Photo' }
-    & Pick<Photo, '_id'>
-  )> }
-);
+export type DeletePhotoMutation = { __typename?: 'Mutation' } & {
+  deletePhoto?: Maybe<{ __typename?: 'Photo' } & Pick<Photo, '_id'>>;
+};
 
 export type DeleteAlbumMutationVariables = {
   id: Scalars['ID'];
 };
 
-
-export type DeleteAlbumMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteAlbum?: Maybe<(
-    { __typename?: 'Album' }
-    & Pick<Album, '_id'>
-  )> }
-);
+export type DeleteAlbumMutation = { __typename?: 'Mutation' } & {
+  deleteAlbum?: Maybe<{ __typename?: 'Album' } & Pick<Album, '_id'>>;
+};
 
 export type GetAlbumsQueryVariables = {};
 
-
-export type GetAlbumsQuery = (
-  { __typename?: 'Query' }
-  & { allAlbums: (
-    { __typename?: 'AlbumPage' }
-    & { data: Array<Maybe<(
-      { __typename?: 'Album' }
-      & Pick<Album, 'title' | '_id'>
-    )>> }
-  ) }
-);
+export type GetAlbumsQuery = { __typename?: 'Query' } & {
+  allAlbums: { __typename?: 'AlbumPage' } & {
+    data: Array<Maybe<{ __typename?: 'Album' } & Pick<Album, 'title' | '_id'>>>;
+  };
+};
 
 export type PartialUpdateAlbumMutationVariables = {
   id: Scalars['ID'];
@@ -384,14 +335,9 @@ export type PartialUpdateAlbumMutationVariables = {
   photos: Array<PhotoInput>;
 };
 
-
-export type PartialUpdateAlbumMutation = (
-  { __typename?: 'Mutation' }
-  & { updateAlbum?: Maybe<(
-    { __typename?: 'Album' }
-    & Pick<Album, '_id' | 'title'>
-  )> }
-);
+export type PartialUpdateAlbumMutation = { __typename?: 'Mutation' } & {
+  updateAlbum?: Maybe<{ __typename?: 'Album' } & Pick<Album, '_id' | 'title'>>;
+};
 
 export type CreateAlbumMutationVariables = {
   title: Scalars['String'];
@@ -400,25 +346,16 @@ export type CreateAlbumMutationVariables = {
   photos: Array<PhotoInput>;
 };
 
-
-export type CreateAlbumMutation = (
-  { __typename?: 'Mutation' }
-  & { createAlbum: (
-    { __typename?: 'Album' }
-    & Pick<Album, '_id'>
-  ) }
-);
+export type CreateAlbumMutation = { __typename?: 'Mutation' } & {
+  createAlbum: { __typename?: 'Album' } & Pick<Album, '_id'>;
+};
 
 export type GetAlbumsHomeQueryVariables = {};
 
-
-export type GetAlbumsHomeQuery = (
-  { __typename?: 'Query' }
-  & { allAlbums: (
-    { __typename?: 'AlbumPage' }
-    & { data: Array<Maybe<(
-      { __typename?: 'Album' }
-      & Pick<Album, 'title' | 'coverPhoto' | '_id'>
-    )>> }
-  ) }
-);
+export type GetAlbumsHomeQuery = { __typename?: 'Query' } & {
+  allAlbums: { __typename?: 'AlbumPage' } & {
+    data: Array<
+      Maybe<{ __typename?: 'Album' } & Pick<Album, 'title' | 'coverPhoto' | '_id'>>
+    >;
+  };
+};

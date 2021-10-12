@@ -65,9 +65,9 @@ export const AuthProvider = ({ children }) => {
           email: nextAuthUser.email,
           image: nextAuthUser.image,
           name: nextAuthUser.name,
+          isSuperUser: false,
         });
 
-        console.log({ data });
         const user = data.createUser;
         setUserWithRightData(user);
       }
