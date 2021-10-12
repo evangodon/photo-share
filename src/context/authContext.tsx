@@ -19,6 +19,7 @@ const FindUserByEmail = /* GraphQL */ `
       email
       name
       image
+      isSuperUser
     }
   }
 `;
@@ -34,8 +35,6 @@ const CreateUser = /* GraphQL */ `
   }
 `;
 
-const superUsers = ['spiffman92@gmail.com', 'tracygenereux@gmail.com'];
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
@@ -49,8 +48,8 @@ export const AuthProvider = ({ children }) => {
     }
   }, [session?.user?.email]);
 
-  function setUserWithRightData({ _id, email, name, image }: Omit<User, 'isSuperUser'>) {
-    setUser({ _id, email, name, image, isSuperUser: superUsers.includes(email) });
+  function setUserWithRightData({ _id, email, name, image, isSuperUser }: User) {
+    setUser({ _id, email, name, image, isSuperUser });
   }
 
   async function findOrCreateUser(nextAuthUser) {
