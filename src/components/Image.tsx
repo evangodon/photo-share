@@ -42,7 +42,7 @@ const Image = ({ src, cursor, options = { height: 600 }, className }: Props) => 
 
 const Container = styled(Img)<{ cursor: Props['cursor'] }>`
   min-width: 100%;
-  max-width: 100%;
+  max-width: 50rem;
   max-height: 100%;
   min-height: 100%;
   object-fit: cover;

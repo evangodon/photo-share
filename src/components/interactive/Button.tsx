@@ -33,7 +33,7 @@ const boxShadow = ({ colors }) => ({
 
 const StyledButton = styled.button<{ ref: any; variant: Variant; withIcon: boolean }>`
   border: 0;
-  padding: 0 ${space[3]};
+  padding: 0 ${space[5]};
   color: ${(props) => color(props.theme)[props.variant]};
   background-color: ${(props) => backgroundColor(props.theme)[props.variant]};
   border: ${(props) => border(props.theme)[props.variant]};
